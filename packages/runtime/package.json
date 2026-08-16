@@ -1,0 +1,27 @@
+{
+  "name": "@dopejs/canvas-runtime",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Controlled runtime message protocol, epochs, quotas, and capability-guarded host bridge for dope-canvas.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run src",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@dopejs/canvas-artifact": "workspace:*",
+    "@dopejs/canvas-protocol": "workspace:*",
+    "@dopejs/canvas-security": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
