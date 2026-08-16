@@ -1,8 +1,30 @@
 # dope-canvas delivery plan
 
-> Status: pre-development draft v0.1  
+> Status: v0.2 — backend-independent engine contracts implemented and tested  
 > Basis: [`design.md`](design.md)  
 > Scheduling: dependency order and evidence gates; no staffing or calendar estimate
+
+## 0. Implementation status (2026-08-16)
+
+The backend-independent deliverables of M1–M4 are implemented as tested workspace packages.
+Milestone **gates are not exited**: every gate that requires real-browser evidence (M0 probes on
+target Chromium builds, frame-time/memory measurements on reference hardware) still needs a
+browser/device run, and the two owner-controlled P0 items remain open.
+
+| Package                         | Implements                                                                                              | Evidence                                              |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| `@dopejs/canvas-spatial`        | naive oracle, grid index (M1)                                                                           | differential + property tests, seeded replayable PRNG |
+| `@dopejs/canvas-core`           | camera/rebase, Scene Store transactions, lifecycle, visibility sets, budgets, metrics, input trace (M1) | unit + property tests incl. fault rollback            |
+| `@dopejs/canvas-artifact`       | revisions, versioned interaction tree, canonical serialization, hibernation records (M2/M3)             | deterministic round-trip tests                        |
+| `@dopejs/canvas-security`       | static-profile sanitizer, URL policy, quotas, capabilities (W5)                                         | hostile-input corpus tests                            |
+| `@dopejs/canvas-runtime`        | versioned message protocol, epochs, rate limits, capability bridge (M4)                                 | fault/flood/stale-epoch tests                         |
+| `@dopejs/canvas-renderer`       | retained picture contract, reference compositor, LOD, texture budget (M1/M2)                            | leak-detection + churn soak tests                     |
+| `@dopejs/canvas-editor`         | nested transform/clip/paint-order hit testing, selection, event paths (M3)                              | oracle-differential tests                             |
+| `@dopejs/canvas-platform-probe` | capability detection, evidence manifest with simulation guard (M0 harness)                              | fail-closed detection tests                           |
+
+Remaining blocked work: real-browser M0 probe runs and measurements; license selection and
+CODEOWNERS/branch protection by repository owners; absolute performance/memory gate numbers, which
+by design cannot be fixed before M0 evidence exists.
 
 ## 1. Delivery principles
 

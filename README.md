@@ -49,9 +49,23 @@ All JavaScript/TypeScript workspace packages, including private applications, us
 
 ## Package status
 
-`@dopejs/canvas-protocol` contains only pre-release vocabulary used to keep probes and documents
-consistent. Its version is intentionally `0.0.0`, it is private, and it is not a stable public
-contract.
+All packages are private, versioned `0.0.0`, and none is a stable public contract yet.
+
+| Package                         | Responsibility                                                    |
+| ------------------------------- | ----------------------------------------------------------------- |
+| `@dopejs/canvas-protocol`       | shared pre-release vocabulary                                     |
+| `@dopejs/canvas-spatial`        | spatial indexes plus the naive differential oracle                |
+| `@dopejs/canvas-core`           | camera, Scene Store transactions, lifecycle, visibility, budgets  |
+| `@dopejs/canvas-artifact`       | revisions, interaction tree, canonical serialization              |
+| `@dopejs/canvas-security`       | sanitizer, URL policy, quotas, capabilities                       |
+| `@dopejs/canvas-runtime`        | runtime message protocol, epochs, capability-guarded host bridge  |
+| `@dopejs/canvas-renderer`       | retained pictures, reference compositor, LOD, texture budget      |
+| `@dopejs/canvas-editor`         | internal hit testing, selection model, virtual event paths        |
+| `@dopejs/canvas-platform-probe` | M0 capability probes and evidence manifests (private application) |
+
+Implementation status against the delivery plan is tracked in [the plan](docs/plan.md).
+Browser-evidence gates (M0) are not exited; support for the experimental HTML-in-Canvas APIs remains
+a capability, not a claim.
 
 ## License
 

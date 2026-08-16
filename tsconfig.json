@@ -3,7 +3,31 @@
   "files": [],
   "references": [
     {
+      "path": "./apps/platform-probe"
+    },
+    {
+      "path": "./packages/artifact"
+    },
+    {
+      "path": "./packages/core"
+    },
+    {
+      "path": "./packages/editor"
+    },
+    {
       "path": "./packages/protocol"
+    },
+    {
+      "path": "./packages/renderer"
+    },
+    {
+      "path": "./packages/runtime"
+    },
+    {
+      "path": "./packages/security"
+    },
+    {
+      "path": "./packages/spatial"
     }
   ]
 }

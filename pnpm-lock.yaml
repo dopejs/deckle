@@ -30,7 +30,125 @@ importers:
         specifier: ^4.0.18
         version: 4.1.10(vite@8.2.1)
 
+  apps/platform-probe:
+    dependencies:
+      '@dopejs/canvas-artifact':
+        specifier: workspace:*
+        version: link:../../packages/artifact
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.1.10(vite@8.2.1)
+
+  packages/artifact:
+    dependencies:
+      '@dopejs/canvas-protocol':
+        specifier: workspace:*
+        version: link:../protocol
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.1.10(vite@8.2.1)
+
+  packages/core:
+    dependencies:
+      '@dopejs/canvas-protocol':
+        specifier: workspace:*
+        version: link:../protocol
+      '@dopejs/canvas-spatial':
+        specifier: workspace:*
+        version: link:../spatial
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.1.10(vite@8.2.1)
+
+  packages/editor:
+    dependencies:
+      '@dopejs/canvas-artifact':
+        specifier: workspace:*
+        version: link:../artifact
+      '@dopejs/canvas-protocol':
+        specifier: workspace:*
+        version: link:../protocol
+      '@dopejs/canvas-spatial':
+        specifier: workspace:*
+        version: link:../spatial
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.1.10(vite@8.2.1)
+
   packages/protocol:
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.1.10(vite@8.2.1)
+
+  packages/renderer:
+    dependencies:
+      '@dopejs/canvas-core':
+        specifier: workspace:*
+        version: link:../core
+      '@dopejs/canvas-protocol':
+        specifier: workspace:*
+        version: link:../protocol
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.1.10(vite@8.2.1)
+
+  packages/runtime:
+    dependencies:
+      '@dopejs/canvas-artifact':
+        specifier: workspace:*
+        version: link:../artifact
+      '@dopejs/canvas-protocol':
+        specifier: workspace:*
+        version: link:../protocol
+      '@dopejs/canvas-security':
+        specifier: workspace:*
+        version: link:../security
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.1.10(vite@8.2.1)
+
+  packages/security:
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.1.10(vite@8.2.1)
+
+  packages/spatial:
+    dependencies:
+      '@dopejs/canvas-protocol':
+        specifier: workspace:*
+        version: link:../protocol
     devDependencies:
       typescript:
         specifier: ^5.9.3
