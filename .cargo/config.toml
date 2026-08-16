@@ -1,0 +1,7 @@
+[build]
+# Rust is not part of the pre-development baseline yet. If it is introduced, keep artifacts in a
+# repository-owned location so the runner and size gate can find and remove them deterministically.
+target-dir = "../.cache/cargo-target"
+
+[env]
+CARGO_INCREMENTAL = "0"

@@ -1,0 +1,35 @@
+{
+  "name": "dope-canvas-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Infinite canvas runtime for AI-generated Web artifacts.",
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm docs:check && pnpm packages:check && pnpm rust:artifacts:check",
+    "docs:check": "node scripts/check-doc-links.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings=0",
+    "packages:check": "node scripts/check-package-names.mjs",
+    "rust:artifacts:check": "node scripts/check-rust-artifacts.mjs",
+    "rust:check": "node scripts/run-rust.mjs check",
+    "rust:clippy": "node scripts/run-rust.mjs clippy --workspace --all-targets -- -D warnings",
+    "rust:test": "node scripts/run-rust.mjs test --workspace",
+    "test": "vitest run",
+    "typecheck": "pnpm -r --if-present typecheck"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.8.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0",
+    "vitest": "^4.0.18"
+  }
+}
