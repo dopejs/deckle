@@ -7,6 +7,18 @@ updates:
     groups:
       development-tooling:
         dependency-type: development
+    ignore:
+      # typescript-eslint 8.x supports neither TypeScript 7 nor ESLint 10.
+      # Drop these ignores once typescript-eslint ships support
+      # (https://github.com/typescript-eslint/typescript-eslint/issues/10940).
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      - dependency-name: eslint
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: globals
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
