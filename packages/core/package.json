@@ -1,0 +1,26 @@
+{
+  "name": "@dopejs/canvas-core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Scene store, camera, lifecycle orchestration, visibility sets, and resource budgets for dope-canvas.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run src",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@dopejs/canvas-protocol": "workspace:*",
+    "@dopejs/canvas-spatial": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
