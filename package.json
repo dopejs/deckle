@@ -24,11 +24,11 @@
     "typecheck": "pnpm -r --if-present typecheck"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "eslint": "^9.39.1",
-    "globals": "^16.5.0",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1",
+    "globals": "^17.11.0",
     "prettier": "^3.8.2",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "typescript-eslint": "^8.54.0",
     "vitest": "^4.0.18"
   }
