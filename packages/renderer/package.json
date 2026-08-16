@@ -1,0 +1,26 @@
+{
+  "name": "@dopejs/canvas-renderer",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Backend-neutral retained picture contract, reference compositor, LOD policy, and texture budget for dope-canvas.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run src",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@dopejs/canvas-core": "workspace:*",
+    "@dopejs/canvas-protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
