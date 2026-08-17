@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/canvas-runtime",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Controlled runtime message protocol, epochs, quotas, and capability-guarded host bridge for dope-canvas.",
   "type": "module",

@@ -52,7 +52,8 @@ All JavaScript/TypeScript workspace packages, including private applications, us
 
 ## Package status
 
-All packages are private, versioned `0.0.0`, and none is a stable public contract yet.
+All packages are private and versioned `0.1.0`; none is a stable public contract yet, and none is
+published to a registry — npm publication waits on the owners' license selection.
 
 | Package                         | Responsibility                                                    |
 | ------------------------------- | ----------------------------------------------------------------- |

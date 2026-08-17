@@ -1,6 +1,6 @@
 {
   "name": "dope-canvas-workspace",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Infinite canvas runtime for AI-generated Web artifacts.",
   "type": "module",
