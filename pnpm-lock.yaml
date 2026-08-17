@@ -86,6 +86,25 @@ importers:
         specifier: ^4.0.18
         version: 4.1.10(@types/node@22.20.1)(vite@8.2.1(@types/node@22.20.1)(esbuild@0.28.2))
 
+  apps/website:
+    dependencies:
+      '@dopejs/canvas-core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@dopejs/canvas-protocol':
+        specifier: workspace:*
+        version: link:../../packages/protocol
+      '@dopejs/canvas-spatial':
+        specifier: workspace:*
+        version: link:../../packages/spatial
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^8.2.1
+        version: 8.2.1(@types/node@22.20.1)(esbuild@0.28.2)
+
   packages/artifact:
     dependencies:
       '@dopejs/canvas-protocol':

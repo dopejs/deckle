@@ -1,0 +1,21 @@
+{
+  "name": "@dopejs/canvas-website",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Project website for dope-canvas, deployed to GitHub Pages with the Storybook playground as a sub-route.",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@dopejs/canvas-core": "workspace:*",
+    "@dopejs/canvas-protocol": "workspace:*",
+    "@dopejs/canvas-spatial": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^8.2.1"
+  }
+}

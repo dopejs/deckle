@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>dope-canvas — infinite canvas runtime for AI-generated web artifacts</title>
+    <meta
+      name="description"
+      content="An artifact compositor and lifecycle runtime: hundreds of generated pages on one canvas, with Figma-like internal selection over cached paint."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <main>
+      <section class="hero">
+        <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+        <div class="hero__scrim" aria-hidden="true"></div>
+        <div class="hero__inner">
+          <div class="artifact-card">
+            <span class="artifact-card__handle artifact-card__handle--nw" aria-hidden="true"></span>
+            <span class="artifact-card__handle artifact-card__handle--ne" aria-hidden="true"></span>
+            <span class="artifact-card__handle artifact-card__handle--sw" aria-hidden="true"></span>
+            <span class="artifact-card__handle artifact-card__handle--se" aria-hidden="true"></span>
+            <p class="artifact-card__frame-label" id="hero-coord">camera (400, 300) · zoom 0.90</p>
+            <h1>An infinite canvas runtime for AI&#8209;generated web artifacts.</h1>
+            <p class="hero__lede">
+              Keeping hundreds of generated pages alive as iframes doesn't scale. Flattening them to
+              images loses selection and events. dope-canvas keeps the space in between: cached
+              paint you can still reach into.
+            </p>
+            <p
+              class="hero__equation"
+              role="img"
+              aria-label="Artifact equals source plus durable state plus interaction tree plus paint cache plus optional live runtime"
+            >
+              <span class="eq-term eq-term--kw">Artifact</span> =
+              <span class="eq-term" style="--chip: 210">source</span> +
+              <span class="eq-term" style="--chip: 150">durable state</span> +
+              <span class="eq-term" style="--chip: 30">interaction tree</span> +
+              <span class="eq-term" style="--chip: 275">paint cache</span> +
+              <span class="eq-term eq-term--opt" style="--chip: 0">optional live runtime</span>
+            </p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="playground/">Open the playground</a>
+              <a
+                class="button button--ghost"
+                href="https://github.com/dopejs/dope-canvas/blob/main/docs/design.md"
+                target="_blank"
+                rel="noreferrer"
+                >Read the technical design</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="lifecycle-title">
+        <p class="eyebrow">Lifecycle</p>
+        <h2 id="lifecycle-title">Resources follow the viewport, not the document count</h2>
+        <p class="section__lede">
+          Every artifact moves through an explicit state machine. Live DOM, runtimes, and GPU
+          textures are budgeted resources granted by visibility and interaction — never ambient.
+        </p>
+        <div
+          class="lifecycle"
+          role="img"
+          aria-label="cold to parsed to snapshot, snapshot to and from live, live to hibernated, any state to failed"
+        >
+          <span class="lifecycle__state">cold</span>
+          <span class="lifecycle__arrow">→</span>
+          <span class="lifecycle__state">parsed</span>
+          <span class="lifecycle__arrow">→</span>
+          <span class="lifecycle__state lifecycle__state--paint">snapshot</span>
+          <span class="lifecycle__arrow">⇄</span>
+          <span class="lifecycle__state lifecycle__state--live">live</span>
+          <span class="lifecycle__arrow">→</span>
+          <span class="lifecycle__state">hibernated</span>
+          <span class="lifecycle__note">any → failed, typed and recoverable</span>
+        </div>
+        <ul class="facts">
+          <li>
+            <strong>Transitions are transactions.</strong> Allocation happens before publication; a
+            fault leaves the previous committed scene usable.
+          </li>
+          <li>
+            <strong>Snapshots stay selectable.</strong> A texture is one revision of paint output —
+            the interaction tree keeps internal hit testing alive without live DOM.
+          </li>
+          <li>
+            <strong>Stale runtimes can't write.</strong> Revision and epoch checks reject late
+            messages from replaced runtimes before they touch the store.
+          </li>
+        </ul>
+      </section>
+
+      <section class="section" aria-labelledby="packages-title">
+        <p class="eyebrow">Packages</p>
+        <h2 id="packages-title">Backend-independent contracts, tested against oracles</h2>
+        <p class="section__lede">
+          Optimized implementations ship next to naive reference implementations and are
+          differentially tested against them — the oracle stays available as a rollback path.
+        </p>
+        <div class="package-grid" id="package-grid"></div>
+      </section>
+
+      <section class="section section--status" aria-labelledby="status-title">
+        <p class="eyebrow">Status</p>
+        <h2 id="status-title">Honest scope</h2>
+        <p class="section__lede">
+          The engine contracts are implemented and tested. The browser-evidence gates are not
+          exited: support for the experimental HTML-in-Canvas APIs is a
+          <em>capability we detect</em>, not a claim we make. No open-source license has been
+          selected yet.
+        </p>
+        <div class="hero__actions">
+          <a
+            class="button button--ghost"
+            href="https://github.com/dopejs/dope-canvas/blob/main/docs/plan.md"
+            target="_blank"
+            rel="noreferrer"
+            >Delivery plan and gates</a
+          >
+          <a
+            class="button button--ghost"
+            href="https://github.com/dopejs/dope-canvas/blob/main/docs/security.md"
+            target="_blank"
+            rel="noreferrer"
+            >Security model</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        dope-canvas · pre-release ·
+        <a href="https://github.com/dopejs/dope-canvas" target="_blank" rel="noreferrer">GitHub</a>
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

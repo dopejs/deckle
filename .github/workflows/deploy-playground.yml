@@ -1,4 +1,4 @@
-name: Deploy Playground
+name: Deploy Site
 
 on:
   push:
@@ -34,12 +34,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build website
+        run: pnpm --filter @dopejs/canvas-website build
+
       - name: Build Storybook playground
         run: pnpm --filter @dopejs/canvas-playground build
 
+      - name: Assemble site with Storybook under /storybook/
+        run: cp -R apps/playground/dist apps/website/dist/storybook
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/playground/dist
+          path: apps/website/dist
 
   deploy:
     needs: build

@@ -26,6 +26,9 @@ selection, event routing, activation, and revision-safe restoration.
 
 ## Start here
 
+- [Project website](https://dopejs.github.io/dope-canvas/)
+- [Interactive playground](https://dopejs.github.io/dope-canvas/playground/)
+
 - [Technical design](docs/design.md)
 - [Delivery plan](docs/plan.md)
 - [Security model](docs/security.md)
