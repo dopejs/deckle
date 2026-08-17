@@ -1,0 +1,30 @@
+{
+  "name": "@dopejs/canvas-playground",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Interactive Storybook playground for the dope-canvas engine packages. Demo code only; not a production API.",
+  "type": "module",
+  "scripts": {
+    "build": "storybook build -o dist",
+    "dev": "storybook dev -p 6006",
+    "test": "vitest run src",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@dopejs/canvas-artifact": "workspace:*",
+    "@dopejs/canvas-core": "workspace:*",
+    "@dopejs/canvas-editor": "workspace:*",
+    "@dopejs/canvas-protocol": "workspace:*",
+    "@dopejs/canvas-renderer": "workspace:*",
+    "@dopejs/canvas-security": "workspace:*",
+    "@dopejs/canvas-spatial": "workspace:*"
+  },
+  "devDependencies": {
+    "@storybook/html-vite": "^10.5.8",
+    "@types/node": "^22.20.1",
+    "storybook": "^10.5.8",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.1",
+    "vitest": "^4.0.18"
+  }
+}
