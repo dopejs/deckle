@@ -85,9 +85,7 @@ export function mountHeroCanvas(canvas: HTMLCanvasElement, coordReadout: HTMLEle
     draw();
   });
 
-  const reducedMotion =
-    globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
-  if (reducedMotion) return;
+  if (globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   let last = performance.now();
   const tick = (now: number): void => {
