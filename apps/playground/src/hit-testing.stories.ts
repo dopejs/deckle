@@ -16,6 +16,7 @@ import {
   resolveClick,
   type EditorSelection,
 } from "@dopejs/canvas-editor";
+import { createHiDpiCanvas } from "./hidpi.js";
 
 export default {
   title: "Hit Testing",
@@ -84,10 +85,8 @@ function flatten(tree: InteractionTree): FlatNode[] {
 export const Nested_Selection = (): HTMLElement => {
   const root = document.createElement("div");
   root.style.cssText = "font: 12px system-ui; position: relative;";
-  const canvas = document.createElement("canvas");
-  canvas.width = 720;
-  canvas.height = 460;
-  canvas.style.cssText = "border: 1px solid #ccc; border-radius: 6px;";
+  const { canvas, context, clear } = createHiDpiCanvas(720, 460);
+  canvas.style.cssText += "border: 1px solid #ccc; border-radius: 6px;";
   canvas.tabIndex = 0;
   const hud = document.createElement("div");
   hud.style.cssText = "margin-top: 6px; white-space: pre; color: #333;";
@@ -100,14 +99,11 @@ export const Nested_Selection = (): HTMLElement => {
   let selection: EditorSelection = NO_SELECTION;
   let lastProbe = "none yet";
 
-  const context = canvas.getContext("2d");
-  if (!context) throw new Error("Canvas2D context unavailable");
-
   const offsetX = 30;
   const offsetY = 30;
 
   const draw = (): void => {
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    clear();
     context.save();
     context.translate(offsetX, offsetY);
     for (const { node, world } of flat) {

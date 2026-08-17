@@ -9,6 +9,7 @@ import {
   type Camera,
 } from "@dopejs/canvas-core";
 import { selectLod } from "@dopejs/canvas-renderer";
+import { createHiDpiCanvas } from "./hidpi.js";
 import { artifactFillStyle, artifactStrokeStyle, buildDemoScene } from "./scene-demo.js";
 
 export default {
@@ -24,10 +25,8 @@ export const Pan_Zoom_Select = (): HTMLElement => {
   const root = document.createElement("div");
   root.style.cssText = "font: 12px system-ui; position: relative;";
 
-  const canvas = document.createElement("canvas");
-  canvas.width = 960;
-  canvas.height = 600;
-  canvas.style.cssText = "border: 1px solid #ccc; border-radius: 6px; cursor: grab;";
+  const { canvas, context, cssWidth, cssHeight, clear } = createHiDpiCanvas(960, 600);
+  canvas.style.cssText += "border: 1px solid #ccc; border-radius: 6px; cursor: grab;";
   const hud = document.createElement("div");
   hud.style.cssText =
     "position: absolute; top: 8px; left: 8px; background: rgba(255,255,255,.9); " +
@@ -41,19 +40,16 @@ export const Pan_Zoom_Select = (): HTMLElement => {
   let camera: Camera = createCamera({
     x: anchor.frame.x,
     y: anchor.frame.y,
-    zoom: 0.35,
-    viewportWidth: canvas.width,
-    viewportHeight: canvas.height,
+    zoom: 0.8,
+    viewportWidth: cssWidth,
+    viewportHeight: cssHeight,
   });
   let selectedId: string | null = null;
-
-  const context = canvas.getContext("2d");
-  if (!context) throw new Error("Canvas2D context unavailable");
 
   const draw = (): void => {
     const start = performance.now();
     const sets = tracker.compute(store, camera);
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    clear();
 
     const drawable = [...sets.visible]
       .map((id) => artifacts.get(id))
