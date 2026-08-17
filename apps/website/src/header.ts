@@ -6,7 +6,7 @@
  */
 export interface HeaderOptions {
   readonly root: string;
-  readonly active: "overview" | "playground";
+  readonly active: "overview" | "usage" | "design" | "playground";
 }
 
 export function renderHeader(target: HTMLElement, options: HeaderOptions): void {
@@ -32,8 +32,9 @@ export function renderHeader(target: HTMLElement, options: HeaderOptions): void 
       </a>
       <nav class="site-nav" aria-label="Site">
         ${link(root, "Overview", "overview")}
+        ${link(`${root}docs/usage/`, "Usage", "usage")}
+        ${link(`${root}docs/design/`, "Design", "design")}
         ${link(`${root}playground/`, "Playground", "playground")}
-        ${link("https://github.com/dopejs/dope-canvas/blob/main/docs/design.md", "Design doc", "design", true)}
         ${link("https://github.com/dopejs/dope-canvas", "GitHub", "github", true)}
       </nav>
     </header>
