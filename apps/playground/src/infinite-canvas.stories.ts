@@ -17,9 +17,10 @@ export default {
 };
 
 /**
- * 500 logical artifacts in seeded clusters. Drag to pan, wheel to zoom at the
- * cursor, click to select. The HUD shows visibility sets, the active LOD
- * band, and frame time — camera-only movement never rebuilds content.
+ * 500 logical artifacts in seeded clusters. Drag or two-finger scroll to pan,
+ * pinch or ⌘/Ctrl+scroll to zoom at the cursor, click to select. The HUD
+ * shows visibility sets, the active LOD band, and frame time — camera-only
+ * movement never rebuilds content.
  */
 export const Pan_Zoom_Select = (): HTMLElement => {
   const root = document.createElement("div");
@@ -121,12 +122,27 @@ export const Pan_Zoom_Select = (): HTMLElement => {
     selectedId = top ? top.id : null;
     draw();
   });
+  // Browser-native wheel semantics (matches Figma/Miro):
+  // - plain wheel / two-finger scroll pans by the event delta, so trackpad
+  //   momentum decays naturally instead of stacking fixed zoom steps;
+  // - pinch (macOS reports it as ctrlKey+wheel) or ⌘/Ctrl+wheel zooms, with
+  //   the factor proportional to deltaY for smooth, per-pixel zooming.
+  const normalizeDelta = (event: WheelEvent, delta: number): number => {
+    if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) return delta * 16;
+    if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return delta * cssHeight;
+    return delta;
+  };
   canvas.addEventListener(
     "wheel",
     (event) => {
       event.preventDefault();
-      const factor = event.deltaY < 0 ? 1.12 : 1 / 1.12;
-      camera = zoomCameraAt(camera, { x: event.offsetX, y: event.offsetY }, factor);
+      const deltaY = normalizeDelta(event, event.deltaY);
+      if (event.ctrlKey || event.metaKey) {
+        const factor = Math.exp(-Math.max(-64, Math.min(64, deltaY)) * 0.01);
+        camera = zoomCameraAt(camera, { x: event.offsetX, y: event.offsetY }, factor);
+      } else {
+        camera = panCamera(camera, normalizeDelta(event, event.deltaX), deltaY);
+      }
       draw();
     },
     { passive: false },
