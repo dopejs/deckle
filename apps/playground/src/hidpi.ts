@@ -9,7 +9,7 @@ export interface HiDpiCanvas {
   readonly cssWidth: number;
   readonly cssHeight: number;
   /** Reset the transform to the DPR scale and clear the full surface. */
-  clear(): void;
+  readonly clear: () => void;
 }
 
 export function createHiDpiCanvas(cssWidth: number, cssHeight: number): HiDpiCanvas {
@@ -27,7 +27,7 @@ export function createHiDpiCanvas(cssWidth: number, cssHeight: number): HiDpiCan
     context,
     cssWidth,
     cssHeight,
-    clear() {
+    clear: () => {
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
       context.clearRect(0, 0, cssWidth, cssHeight);
     },
