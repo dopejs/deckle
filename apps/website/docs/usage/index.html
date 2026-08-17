@@ -1,13 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Usage — dope-canvas</title>
+    <title data-i18n="meta.usage.title">Usage — dope-canvas</title>
     <meta
       name="description"
+      data-i18n-content="meta.usage.description"
       content="How to use the dope-canvas engine packages: scene transactions, camera, visibility sets, sanitizer, hit testing, and texture budgets."
     />
+    <script type="application/json" id="i18n-data">
+      { "locale": "en", "root": "../../", "page": "docs/usage/" }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,7 +23,8 @@
   <body class="page--doc">
     <div id="header"></div>
     <main class="doc">
-      <article class="doc__article" id="doc"></article>
+      <p class="doc__notice" id="doc-notice" hidden></p>
+      <article class="doc__article" id="doc" lang="en" dir="ltr"></article>
     </main>
     <script type="module" src="/src/usage-page.ts"></script>
   </body>

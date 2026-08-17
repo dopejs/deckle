@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Website is localized into 11 languages (English, 简体中文, 繁體中文, Español, Français, Deutsch,
+  Русский, עברית, العربية, 日本語, 한국어). Each locale is a real static route (`/ja/`,
+  `/ar/docs/usage/`, …) generated at build time with the correct `lang`/`dir`, translated copy,
+  `hreflang` alternates, and a header language switcher. Right-to-left locales get logical-property
+  layout; state diagrams stay left-to-right because their labels are English identifiers. The
+  technical documents remain English with a localized notice.
+
 ## v0.1.0 — 2026-08-17
 
 First tagged pre-release. Packages remain private (not published to npm) until the repository owners

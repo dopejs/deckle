@@ -1,13 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>dope-canvas — infinite canvas runtime for AI-generated web artifacts</title>
+    <title data-i18n="meta.home.title">
+      dope-canvas — infinite canvas runtime for AI-generated web artifacts
+    </title>
     <meta
       name="description"
+      data-i18n-content="meta.home.description"
       content="An artifact compositor and lifecycle runtime: hundreds of generated pages on one canvas, with Figma-like internal selection over cached paint."
     />
+    <script type="application/json" id="i18n-data">
+      { "locale": "en", "root": "./", "page": "" }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,44 +35,71 @@
             <span class="artifact-card__handle artifact-card__handle--ne" aria-hidden="true"></span>
             <span class="artifact-card__handle artifact-card__handle--sw" aria-hidden="true"></span>
             <span class="artifact-card__handle artifact-card__handle--se" aria-hidden="true"></span>
-            <p class="artifact-card__frame-label" id="hero-coord">camera (400, 300) · zoom 0.90</p>
-            <h1>An infinite canvas runtime for AI&#8209;generated web artifacts.</h1>
-            <p class="hero__lede">
+            <p class="artifact-card__frame-label" id="hero-coord" dir="ltr">
+              camera (400, 300) · zoom 0.90
+            </p>
+            <h1 data-i18n="hero.title">
+              An infinite canvas runtime for AI&#8209;generated web artifacts.
+            </h1>
+            <p class="hero__lede" data-i18n="hero.lede">
               Keeping hundreds of generated pages alive as iframes doesn't scale. Flattening them to
               images loses selection and events. dope-canvas keeps the space in between: cached
               paint you can still reach into.
             </p>
+            <!-- The equation's operands are translated prose, so it follows the
+                 page direction; the lifecycle strip below keeps dir="ltr"
+                 because its states are English identifiers joined by arrows. -->
             <p
               class="hero__equation"
               role="img"
+              data-i18n-label="hero.eq.aria"
               aria-label="Artifact equals source plus durable state plus interaction tree plus paint cache plus optional live runtime"
             >
-              <span class="eq-term eq-term--kw">Artifact</span> =
-              <span class="eq-term" style="--chip: 210">source</span> +
-              <span class="eq-term" style="--chip: 150">durable state</span> +
-              <span class="eq-term" style="--chip: 30">interaction tree</span> +
-              <span class="eq-term" style="--chip: 275">paint cache</span> +
-              <span class="eq-term eq-term--opt" style="--chip: 0">optional live runtime</span>
+              <span class="eq-term eq-term--kw" data-i18n="hero.eq.artifact">Artifact</span> =
+              <span class="eq-term" style="--chip: 210" data-i18n="hero.eq.source">source</span> +
+              <span class="eq-term" style="--chip: 150" data-i18n="hero.eq.state"
+                >durable state</span
+              >
+              +
+              <span class="eq-term" style="--chip: 30" data-i18n="hero.eq.tree"
+                >interaction tree</span
+              >
+              +
+              <span class="eq-term" style="--chip: 275" data-i18n="hero.eq.paint">paint cache</span>
+              +
+              <span class="eq-term eq-term--opt" style="--chip: 0" data-i18n="hero.eq.runtime"
+                >optional live runtime</span
+              >
             </p>
             <div class="hero__actions">
-              <a class="button button--primary" href="playground/">Open the playground</a>
-              <a class="button button--ghost" href="docs/usage/">Get started</a>
-              <a class="button button--ghost" href="docs/design/">Read the technical design</a>
+              <a class="button button--primary" href="playground/" data-i18n="hero.cta.playground"
+                >Open the playground</a
+              >
+              <a class="button button--ghost" href="docs/usage/" data-i18n="hero.cta.start"
+                >Get started</a
+              >
+              <a class="button button--ghost" href="docs/design/" data-i18n="hero.cta.design"
+                >Read the technical design</a
+              >
             </div>
           </div>
         </div>
       </section>
 
       <section class="section" aria-labelledby="lifecycle-title">
-        <p class="eyebrow">Lifecycle</p>
-        <h2 id="lifecycle-title">Resources follow the viewport, not the document count</h2>
-        <p class="section__lede">
+        <p class="eyebrow" data-i18n="lifecycle.eyebrow">Lifecycle</p>
+        <h2 id="lifecycle-title" data-i18n="lifecycle.title">
+          Resources follow the viewport, not the document count
+        </h2>
+        <p class="section__lede" data-i18n="lifecycle.lede">
           Every artifact moves through an explicit state machine. Live DOM, runtimes, and GPU
           textures are budgeted resources granted by visibility and interaction — never ambient.
         </p>
         <div
           class="lifecycle"
+          dir="ltr"
           role="img"
+          data-i18n-label="lifecycle.aria"
           aria-label="cold to parsed to snapshot, snapshot to and from live, live to hibernated, any state to failed"
         >
           <span class="lifecycle__state">cold</span>
@@ -78,38 +111,104 @@
           <span class="lifecycle__state lifecycle__state--live">live</span>
           <span class="lifecycle__arrow">→</span>
           <span class="lifecycle__state">hibernated</span>
-          <span class="lifecycle__note">any → failed, typed and recoverable</span>
+          <span class="lifecycle__note" dir="auto" data-i18n="lifecycle.note"
+            >any → failed, typed and recoverable</span
+          >
         </div>
         <ul class="facts">
           <li>
-            <strong>Transitions are transactions.</strong> Allocation happens before publication; a
-            fault leaves the previous committed scene usable.
+            <strong data-i18n="lifecycle.fact1.title">Transitions are transactions.</strong>
+            <span data-i18n="lifecycle.fact1.body"
+              >Allocation happens before publication; a fault leaves the previous committed scene
+              usable.</span
+            >
           </li>
           <li>
-            <strong>Snapshots stay selectable.</strong> A texture is one revision of paint output —
-            the interaction tree keeps internal hit testing alive without live DOM.
+            <strong data-i18n="lifecycle.fact2.title">Snapshots stay selectable.</strong>
+            <span data-i18n="lifecycle.fact2.body"
+              >A texture is one revision of paint output — the interaction tree keeps internal hit
+              testing alive without live DOM.</span
+            >
           </li>
           <li>
-            <strong>Stale runtimes can't write.</strong> Revision and epoch checks reject late
-            messages from replaced runtimes before they touch the store.
+            <strong data-i18n="lifecycle.fact3.title">Stale runtimes can't write.</strong>
+            <span data-i18n="lifecycle.fact3.body"
+              >Revision and epoch checks reject late messages from replaced runtimes before they
+              touch the store.</span
+            >
           </li>
         </ul>
       </section>
 
       <section class="section" aria-labelledby="packages-title">
-        <p class="eyebrow">Packages</p>
-        <h2 id="packages-title">Backend-independent contracts, tested against oracles</h2>
-        <p class="section__lede">
+        <p class="eyebrow" data-i18n="packages.eyebrow">Packages</p>
+        <h2 id="packages-title" data-i18n="packages.title">
+          Backend-independent contracts, tested against oracles
+        </h2>
+        <p class="section__lede" data-i18n="packages.lede">
           Optimized implementations ship next to naive reference implementations and are
           differentially tested against them — the oracle stays available as a rollback path.
         </p>
-        <div class="package-grid" id="package-grid"></div>
+        <div class="package-grid">
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-core</h3>
+            <p class="package__role" data-i18n="packages.core">
+              camera, scene store transactions, lifecycle, visibility, budgets
+            </p>
+          </article>
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-spatial</h3>
+            <p class="package__role" data-i18n="packages.spatial">
+              grid spatial index plus the naive differential oracle
+            </p>
+          </article>
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-artifact</h3>
+            <p class="package__role" data-i18n="packages.artifact">
+              revisions, interaction tree, canonical serialization
+            </p>
+          </article>
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-security</h3>
+            <p class="package__role" data-i18n="packages.security">
+              static-profile sanitizer, URL policy, quotas, capabilities
+            </p>
+          </article>
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-runtime</h3>
+            <p class="package__role" data-i18n="packages.runtime">
+              runtime message protocol, epochs, capability-guarded bridge
+            </p>
+          </article>
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-renderer</h3>
+            <p class="package__role" data-i18n="packages.renderer">
+              retained pictures, compositor, LOD, texture budget
+            </p>
+          </article>
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-editor</h3>
+            <p class="package__role" data-i18n="packages.editor">
+              internal hit testing, selection model, virtual event paths
+            </p>
+          </article>
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-protocol</h3>
+            <p class="package__role" data-i18n="packages.protocol">shared pre-release vocabulary</p>
+          </article>
+          <article class="package">
+            <h3 class="package__name" dir="ltr">@dopejs/canvas-platform-probe</h3>
+            <p class="package__role" data-i18n="packages.probe">
+              HTML-in-Canvas capability probes, evidence manifests
+            </p>
+          </article>
+        </div>
       </section>
 
       <section class="section section--status" aria-labelledby="status-title">
-        <p class="eyebrow">Status</p>
-        <h2 id="status-title">Honest scope</h2>
-        <p class="section__lede">
+        <p class="eyebrow" data-i18n="status.eyebrow">Status</p>
+        <h2 id="status-title" data-i18n="status.title">Honest scope</h2>
+        <p class="section__lede" data-i18n="status.lede">
           The engine contracts are implemented and tested. The browser-evidence gates are not
           exited: support for the experimental HTML-in-Canvas APIs is a
           <em>capability we detect</em>, not a claim we make. No open-source license has been
@@ -121,6 +220,7 @@
             href="https://github.com/dopejs/dope-canvas/blob/main/docs/plan.md"
             target="_blank"
             rel="noreferrer"
+            data-i18n="status.cta.plan"
             >Delivery plan and gates</a
           >
           <a
@@ -128,6 +228,7 @@
             href="https://github.com/dopejs/dope-canvas/blob/main/docs/security.md"
             target="_blank"
             rel="noreferrer"
+            data-i18n="status.cta.security"
             >Security model</a
           >
         </div>
@@ -136,7 +237,7 @@
 
     <footer class="site-footer">
       <p>
-        dope-canvas · pre-release ·
+        <span data-i18n="footer.text">dope-canvas · pre-release ·</span>
         <a href="https://github.com/dopejs/dope-canvas" target="_blank" rel="noreferrer">GitHub</a>
       </p>
     </footer>
