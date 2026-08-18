@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Published to npm. The libraries are Apache-2.0 and live under `@dopejs/canvas-*`, built from the
+  v0.2.0 tree with npm provenance attesting the GitHub Actions build. Installing is now ordinary:
+  `pnpm add @dopejs/canvas-core`.
+
 ## v0.2.0 — 2026-08-18
 
 Streaming becomes a first-class property of the node model, every kind renders as itself on the
