@@ -47,6 +47,8 @@
   "streaming.fact2.body": "Un artefacto en streaming queda fijado contra el desalojo, muestra fotogramas provisionales y confirma exactamente una revisión de fuente al terminar.",
   "streaming.fact3.title": "La escena también llega en streaming.",
   "streaming.fact3.body": "Los marcos aparecen y entran en el índice espacial mientras su contenido aún llega, así que las pruebas de impacto y los conjuntos de visibilidad funcionan durante la generación.",
+  "streaming.fact4.title": "Cada tipo tiene tres presentaciones.",
+  "streaming.fact4.body": "Contenido, carga y fallo. Un artefacto está cargando hasta que se confirma su primer carácter, el medio es atómico y solo carga o falla, y un fallo muestra su motivo junto al código que citarías en un informe de error.",
   "packages.eyebrow": "Paquetes",
   "packages.title": "Contratos independientes del backend, probados contra oráculos",
   "packages.lede": "Las implementaciones optimizadas se publican junto a implementaciones de referencia ingenuas y se prueban diferencialmente contra ellas: el oráculo permanece disponible como vía de reversión.",

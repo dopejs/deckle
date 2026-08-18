@@ -47,6 +47,8 @@
   "streaming.fact2.body": "Un artefact en flux est épinglé contre l'éviction, affiche des images provisoires et valide exactement une révision de source à la fin.",
   "streaming.fact3.title": "La scène aussi arrive en flux.",
   "streaming.fact3.body": "Les cadres apparaissent et rejoignent l'index spatial alors que leur contenu arrive encore, si bien que la détection de clic et les ensembles de visibilité fonctionnent pendant la génération.",
+  "streaming.fact4.title": "Chaque type a trois présentations.",
+  "streaming.fact4.body": "Contenu, chargement et échec. Un artefact charge jusqu'à ce que son premier caractère soit validé, un média est atomique et ne fait que charger ou échouer, et un échec affiche sa raison à côté du code que vous citeriez dans un rapport de bogue.",
   "packages.eyebrow": "Paquets",
   "packages.title": "Des contrats indépendants du backend, testés contre des oracles",
   "packages.lede": "Les implémentations optimisées sont livrées à côté d'implémentations de référence naïves et testées différentiellement contre elles — l'oracle reste disponible comme voie de repli.",

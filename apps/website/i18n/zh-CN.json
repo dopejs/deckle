@@ -47,6 +47,8 @@
   "streaming.fact2.body": "流式中的制品被固定、不会被淘汰，期间展示的是临时帧，完成时才提交唯一一次源修订。",
   "streaming.fact3.title": "场景本身也在流式增长。",
   "streaming.fact3.body": "新的帧在内容还没到齐时就已出现并进入空间索引，因此生成过程中命中测试与可见性集合照常工作。",
+  "streaming.fact4.title": "每种类型都有三种呈现。",
+  "streaming.fact4.body": "内容态、加载态与失败态。产物在第一个字符落定之前处于加载态；图片与视频是原子的，只有加载成功或失败；失败时会同时给出原因和你在报缺陷时会引用的错误码。",
   "packages.eyebrow": "软件包",
   "packages.title": "与后端无关的契约，并以 oracle 差分验证",
   "packages.lede": "优化实现与朴素参考实现一同交付，并与之做差分测试——oracle 始终作为回滚路径保留。",

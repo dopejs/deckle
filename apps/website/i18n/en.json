@@ -47,6 +47,8 @@
   "streaming.fact2.body": "A streaming artifact is pinned against eviction, shows provisional frames, and commits exactly one source revision when it finishes.",
   "streaming.fact3.title": "The scene streams too.",
   "streaming.fact3.body": "Frames appear and join the spatial index while their content is still arriving, so hit testing and visibility sets work mid-generation.",
+  "streaming.fact4.title": "Every kind has three presentations.",
+  "streaming.fact4.body": "Content, loading, and failed. An artifact is loading until its first character commits, media is atomic and only ever loads or fails, and a failure shows its reason beside the code you would quote in a bug report.",
   "packages.eyebrow": "Packages",
   "packages.title": "Backend-independent contracts, tested against oracles",
   "packages.lede": "Optimized implementations ship next to naive reference implementations and are differentially tested against them — the oracle stays available as a rollback path.",

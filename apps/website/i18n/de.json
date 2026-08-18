@@ -47,6 +47,8 @@
   "streaming.fact2.body": "Ein streamendes Artefakt ist gegen Verdrängung fixiert, zeigt provisorische Frames und committet beim Abschluss genau eine Quellrevision.",
   "streaming.fact3.title": "Auch die Szene streamt.",
   "streaming.fact3.body": "Rahmen erscheinen und treten dem Raumindex bei, während ihr Inhalt noch eintrifft, sodass Hit-Testing und Sichtbarkeitsmengen mitten in der Generierung funktionieren.",
+  "streaming.fact4.title": "Jede Art hat drei Darstellungen.",
+  "streaming.fact4.body": "Inhalt, Laden und Fehlschlag. Ein Artefakt lädt, bis sein erstes Zeichen feststeht; Medien sind atomar und laden entweder oder scheitern; ein Fehlschlag zeigt seinen Grund neben dem Code, den Sie in einem Fehlerbericht zitieren würden.",
   "packages.eyebrow": "Pakete",
   "packages.title": "Backend-unabhängige Verträge, gegen Orakel getestet",
   "packages.lede": "Optimierte Implementierungen werden neben naiven Referenzimplementierungen ausgeliefert und differenziell gegen sie getestet — das Orakel bleibt als Rückfallpfad verfügbar.",
