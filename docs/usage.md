@@ -1,6 +1,6 @@
 # Using dope-canvas
 
-> Pre-release (`0.2.0`). Nothing here is a stable public contract yet.
+> Pre-release (`0.3.0`). Nothing here is a stable public contract yet.
 
 ## Install
 

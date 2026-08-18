@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/canvas-spatial",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "description": "Spatial indexes and the naive differential oracle for dope-canvas visibility queries.",
   "license": "Apache-2.0",

@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## v0.3.0 — 2026-08-18
+
+Every artifact now has three presentations instead of one, and media joins the kinds. The additions
+are backward compatible: existing kinds, segmenters, and the streaming engine are unchanged, and the
+new `loading` state sits in front of behaviour that previously started at `streaming`.
 
 - Artifacts have three presentations, not one. A new `loading` lifecycle state covers every artifact
   that exists on the canvas with nothing renderable yet, and every kind now compiles a loading and

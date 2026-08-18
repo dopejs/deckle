@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/canvas-protocol",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "description": "Pre-release shared contracts for dope-canvas probes and architecture validation.",
   "license": "Apache-2.0",

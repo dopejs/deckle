@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/canvas-website",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Project website for dope-canvas, deployed to GitHub Pages with the Storybook playground as a sub-route.",
   "license": "Apache-2.0",

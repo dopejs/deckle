@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/canvas-security",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "description": "Sanitization, resource policies, capabilities, and quotas for untrusted dope-canvas artifacts.",
   "license": "Apache-2.0",

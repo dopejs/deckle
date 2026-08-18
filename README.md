@@ -65,7 +65,7 @@ All JavaScript/TypeScript workspace packages, including private applications, us
 
 ## Package status
 
-The libraries are versioned `0.2.0` and published under `@dopejs/canvas-*`; the applications stay
+The libraries are versioned `0.3.0` and published under `@dopejs/canvas-*`; the applications stay
 private. Nothing is a stable public contract yet — the surface may change before the first stable
 release.
 

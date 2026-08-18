@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/canvas-renderer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "description": "Backend-neutral retained picture contract, reference compositor, LOD policy, and texture budget for dope-canvas.",
   "license": "Apache-2.0",
