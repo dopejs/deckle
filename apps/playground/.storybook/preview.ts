@@ -5,7 +5,14 @@ const preview: Preview = {
     layout: "centered",
     options: {
       storySort: {
-        order: ["Streaming", "Infinite Canvas", "Hit Testing", "Sanitizer", "LOD & Texture Cache"],
+        order: [
+          "Canvas Stream",
+          "Streaming",
+          "Infinite Canvas",
+          "Hit Testing",
+          "Sanitizer",
+          "LOD & Texture Cache",
+        ],
       },
     },
   },

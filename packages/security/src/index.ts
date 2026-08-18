@@ -12,7 +12,12 @@ export {
   type QuotaLimits,
   type QuotaViolation,
 } from "./quotas.js";
-export { computeSafePrefix, type PendingReason, type SafePrefix } from "./safe-prefix.js";
+export {
+  computeSafePrefix,
+  htmlSegmenter,
+  type PendingReason,
+  type SafePrefix,
+} from "./safe-prefix.js";
 export {
   sanitizeHtml,
   type SanitizeDiagnostic,

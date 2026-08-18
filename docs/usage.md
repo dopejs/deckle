@@ -108,7 +108,46 @@ if (result.ok) {
 }
 ```
 
-## Streaming an artifact from an agent
+## Streaming any node kind
+
+An agent emits more than HTML: prose, markdown, code, JSON, and tabular rows all arrive
+incrementally, and each has its own idea of when received characters stop being provisional. A
+segmenter answers that question per kind; one engine drives them all.
+
+```ts
+import { jsonSegmenter, completeJsonPrefix, markdownSegmenter } from "@dopejs/canvas-artifact";
+import { createSegmentedPort, StreamingIngestion } from "@dopejs/canvas-core";
+
+// JSON commits at value boundaries; closing the open structures keeps the
+// partial result parseable while the rest is still arriving.
+const jsonPort = createSegmentedPort({
+  segmenter: jsonSegmenter,
+  render: (committed) => (committed ? completeJsonPrefix(committed) : ""),
+  maxChars: 64_000,
+});
+
+// Markdown commits at closed constructs, so an unterminated fence or a
+// half-written link never renders as prose and then reflows.
+const markdownPort = createSegmentedPort({ segmenter: markdownSegmenter });
+
+const ingestion = new StreamingIngestion(store, handle, jsonPort);
+```
+
+Boundaries by kind:
+
+| Segmenter           | Commits up to                    | Typical `pending`  |
+| ------------------- | -------------------------------- | ------------------ |
+| `textSegmenter`     | the last complete grapheme       | `surrogate`        |
+| `codeSegmenter`     | the last complete line           | `partial-line`     |
+| `rowsSegmenter`     | the last terminated row          | `partial-line`     |
+| `markdownSegmenter` | the last closed construct        | `open-fence`       |
+| `jsonSegmenter`     | the last completed value         | `incomplete-value` |
+| `htmlSegmenter`     | the last decided tag or text run | `rawtext:script`   |
+
+Every segmenter guarantees the boundary only moves forward, so a reader never sees an interpretation
+get retracted.
+
+## Streaming an HTML artifact from an agent
 
 An agent produces HTML token by token. `StreamingSanitizer` renders only the part of the buffer
 whose parse is already decided, so a half-written tag or an unterminated `<script>` never reaches a

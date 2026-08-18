@@ -91,22 +91,22 @@ export class StreamingSanitizer {
     const prefix = computeSafePrefix(this.#buffer);
     // Most token-sized chunks land inside a tag and move no boundary; reuse the
     // previous result instead of re-sanitizing the whole prefix.
-    if (prefix.length === this.#lastSafeLength && this.#cached) {
+    if (prefix.committedLength === this.#lastSafeLength && this.#cached) {
       const cached = this.#cached;
       this.#cached = { ...cached, receivedLength: this.#buffer.length, pending: prefix.pending };
       return this.#cached;
     }
 
-    const result = sanitizeHtml(this.#buffer.slice(0, prefix.length), this.#options);
+    const result = sanitizeHtml(this.#buffer.slice(0, prefix.committedLength), this.#options);
     if (!result.ok) {
       return this.#reject(result.reason, result.detail, result.violation);
     }
 
-    this.#lastSafeLength = prefix.length;
+    this.#lastSafeLength = prefix.committedLength;
     this.#cached = {
       status: "streaming",
       html: result.html,
-      safeLength: prefix.length,
+      safeLength: prefix.committedLength,
       receivedLength: this.#buffer.length,
       pending: prefix.pending,
       elementCount: result.elementCount,

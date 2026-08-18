@@ -38,18 +38,18 @@ const CORPUS: readonly string[] = [
 describe("computeSafePrefix", () => {
   it("should accept a complete document in full", () => {
     const html = "<div><p>done</p></div>";
-    expect(computeSafePrefix(html)).toEqual({ length: html.length, pending: null });
+    expect(computeSafePrefix(html)).toEqual({ committedLength: html.length, pending: null });
   });
 
   it("should withhold a partially received tag", () => {
     const prefix = computeSafePrefix('<div><p>text</p><span class="a');
     expect(prefix.pending).toBe("open-tag");
-    expect(prefix.length).toBe("<div><p>text</p>".length);
+    expect(prefix.committedLength).toBe("<div><p>text</p>".length);
   });
 
   it("should withhold a bare trailing angle bracket that could become a tag", () => {
     expect(computeSafePrefix("<p>hi</p><")).toMatchObject({
-      length: "<p>hi</p>".length,
+      committedLength: "<p>hi</p>".length,
       pending: "open-tag",
     });
   });
@@ -57,18 +57,18 @@ describe("computeSafePrefix", () => {
   it("should withhold a tag name that could still become a dangerous element", () => {
     // "<scr" must never be resolved as text: the next chunk may finish "<script>".
     const prefix = computeSafePrefix("<p>safe</p><scr");
-    expect(prefix.length).toBe("<p>safe</p>".length);
+    expect(prefix.committedLength).toBe("<p>safe</p>".length);
     expect(prefix.pending).toBe("open-tag");
   });
 
   it("should withhold raw-text elements until their closing tag arrives", () => {
     const partial = "<p>before</p><script>let a = 1;";
     expect(computeSafePrefix(partial)).toMatchObject({
-      length: "<p>before</p>".length,
+      committedLength: "<p>before</p>".length,
       pending: "rawtext:script",
     });
     const closed = `${partial}</script><p>after</p>`;
-    expect(computeSafePrefix(closed)).toEqual({ length: closed.length, pending: null });
+    expect(computeSafePrefix(closed)).toEqual({ committedLength: closed.length, pending: null });
   });
 
   it("should withhold an unterminated comment and declaration", () => {
@@ -78,7 +78,7 @@ describe("computeSafePrefix", () => {
 
   it("should withhold an incomplete character reference at the tail", () => {
     expect(computeSafePrefix("<p>a &am")).toMatchObject({
-      length: "<p>a ".length,
+      committedLength: "<p>a ".length,
       pending: "entity",
     });
     expect(computeSafePrefix("<p>a &amp;")).toMatchObject({ pending: null });

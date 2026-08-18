@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Streaming is a property of the node model, not an HTML feature. `StreamSlice`/`StreamSegmenter`
+  (`@dopejs/canvas-protocol`) define one contract; `@dopejs/canvas-artifact` implements it for text
+  (grapheme-safe), code and rows (whole lines), markdown (closed constructs only), and JSON (value
+  boundaries, with `completeJsonPrefix` repairing the prefix so partial data parses), while the HTML
+  safe prefix conforms to the same shape. `createSegmentedPort` (`@dopejs/canvas-core`) drives any
+  kind through one ingestion engine. A property test caught a real defect where a markdown boundary
+  retreated when a third backtick turned committed text into a fence; boundaries are now monotonic
+  by test. A Canvas Stream story shows six kinds streaming into frames on the live canvas while the
+  agent keeps announcing new nodes.
+
 - Streaming rendering for agent-generated artifacts. `computeSafePrefix` and `StreamingSanitizer`
   (`@dopejs/canvas-security`) render only the part of a growing buffer whose parse no continuation
   can change, withholding partial tags, unterminated raw-text elements, incomplete character

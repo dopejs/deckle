@@ -20,6 +20,36 @@ export type ArtifactLifecycleState =
 
 export type ArtifactMode = "edit" | "run";
 
+/**
+ * Content kinds an agent can produce. Each kind streams differently, so each
+ * carries its own rule for when received bytes stop being provisional.
+ */
+export type ArtifactKind = "text" | "markdown" | "code" | "json" | "rows" | "html";
+
+/**
+ * Result of segmenting a growing buffer: how much is stable, and why the tail
+ * is withheld.
+ *
+ * "Stable" means no continuation of the stream can change how the committed
+ * characters are interpreted — a half-written markdown link, an unterminated
+ * code fence, an object with no closing brace, and a partial HTML tag all stay
+ * outside the boundary. Rendering only the committed prefix is what keeps a
+ * streaming artifact from flickering between wrong and right interpretations.
+ */
+export interface StreamSlice {
+  /** Characters from the start of the buffer that are stable. */
+  readonly committedLength: number;
+  /** Why the remainder is withheld, or null when the whole buffer is stable. */
+  readonly pending: string | null;
+}
+
+/**
+ * Pure segmentation rule for one artifact kind. Segmentation decides *what is
+ * stable*; turning the committed prefix into something displayable (sanitizing
+ * HTML, parsing JSON, laying out markdown) is a separate step.
+ */
+export type StreamSegmenter = (buffer: string) => StreamSlice;
+
 export interface Rect {
   readonly x: number;
   readonly y: number;

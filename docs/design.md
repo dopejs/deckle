@@ -229,12 +229,29 @@ incomplete by definition. Rendering a raw prefix is unsafe: `<scr` may become `<
 unterminated `<style>` hides its own content from the tokenizer, and a half-written attribute can
 still become an event handler.
 
-Ingestion therefore renders only the **safe prefix** — the longest prefix whose parse no
-continuation can change. The boundary retreats before a partial tag, an unterminated comment or
-declaration, an incomplete character reference, a split surrogate pair, and any raw-text element
-whose closing tag has not arrived. The guarantee is stability, not acceptance: a malformed construct
-is rejected at any length, but the verdict for bytes inside the boundary never changes as the stream
-continues.
+Ingestion therefore renders only the **committed prefix** — the longest prefix whose meaning no
+continuation can change. Everything after the boundary is withheld until more arrives, and the
+boundary never moves backwards: a reader is never shown an interpretation that is later retracted.
+
+Every artifact kind streams differently, so each carries its own segmentation rule while sharing one
+streaming engine:
+
+| Kind       | Committed up to                  | Withheld because                                   |
+| ---------- | -------------------------------- | -------------------------------------------------- |
+| `text`     | the last complete grapheme       | a split surrogate pair or dangling joiner          |
+| `code`     | the last complete line           | highlighting is line-oriented and would re-run     |
+| `rows`     | the last terminated row          | a row without its terminator has no meaning        |
+| `markdown` | the last closed construct        | open fence, unclosed link, dangling emphasis       |
+| `json`     | the last completed value         | a number can gain digits, a string can gain text   |
+| `html`     | the last decided tag or text run | partial tag, unterminated raw text, partial entity |
+
+Segmentation decides _what is stable_; turning the committed prefix into something displayable —
+sanitizing HTML, closing open JSON structures so partial data parses, laying out markdown — is a
+separate step, so a kind can change how it renders without changing what counts as stable.
+
+For `html` the rule is also a safety boundary, and the guarantee there is stability rather than
+acceptance: a malformed construct is rejected at any length, but the verdict for bytes inside the
+boundary never changes as the stream continues.
 
 Streaming artifacts observe the same transactional rules as everything else:
 
@@ -249,6 +266,10 @@ Streaming artifacts observe the same transactional rules as everything else:
   cut off instead of buffered without bound;
 - a rejected, aborted, or timed-out stream fails the artifact, releases the pin, and leaves the last
   provisional frame visible as a placeholder.
+
+Scene growth is itself streamed: an agent announces new artifacts while earlier ones are still
+filling, so frames appear on the canvas, enter the spatial index, and participate in visibility sets
+and hit testing before their content is complete.
 
 Byte-level transport concerns stay outside the engine: callers decode to text (for example with a
 streaming `TextDecoder`) before appending, so chunk boundaries never split a UTF-8 sequence.

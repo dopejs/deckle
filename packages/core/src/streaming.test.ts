@@ -1,6 +1,7 @@
 import type { ArtifactFrame } from "@dopejs/canvas-protocol";
 import { describe, expect, it } from "vitest";
 import {
+  createSegmentedPort,
   PinnedEvictionError,
   SceneStore,
   StreamCoalescer,
@@ -253,5 +254,68 @@ describe("StreamingIngestion — failure paths", () => {
     ingestion.finish();
     expect(() => ingestion.push("x", 1)).toThrow(StreamingIngestionError);
     expect(() => ingestion.finish()).toThrow(StreamingIngestionError);
+  });
+});
+
+describe("createSegmentedPort", () => {
+  const lineSegmenter = (buffer: string) => {
+    const last = buffer.lastIndexOf("\n");
+    return { committedLength: last + 1, pending: last + 1 === buffer.length ? null : "partial" };
+  };
+
+  it("should expose the buffer and boundary for any segmenter", () => {
+    const port = createSegmentedPort({ segmenter: lineSegmenter });
+    port.append("one\ntw");
+    expect(port.buffer).toBe("one\ntw");
+    expect(port.committedLength).toBe(4);
+    expect(port.pending).toBe("partial");
+  });
+
+  it("should render only the committed prefix while streaming", () => {
+    const port = createSegmentedPort({ segmenter: lineSegmenter });
+    expect(port.append("one\ntw").html).toBe("one\n");
+    expect(port.append("o\n").html).toBe("one\ntwo\n");
+  });
+
+  it("should render the whole buffer on completion", () => {
+    const port = createSegmentedPort({ segmenter: lineSegmenter });
+    port.append("one\npartial");
+    const done = port.complete();
+    expect(done.status).toBe("complete");
+    expect(done.html).toBe("one\npartial");
+  });
+
+  it("should let a kind transform the committed prefix", () => {
+    const port = createSegmentedPort({
+      segmenter: lineSegmenter,
+      render: (committed, complete) => `[${complete ? "final" : "partial"}] ${committed.trim()}`,
+    });
+    expect(port.append("one\n").html).toBe("[partial] one");
+    expect(port.complete().html).toBe("[final] one");
+  });
+
+  it("should reject a runaway stream and stay rejected", () => {
+    const port = createSegmentedPort({ segmenter: lineSegmenter, maxChars: 8 });
+    expect(port.append("short\n").status).toBe("streaming");
+    expect(port.append("far too long\n").status).toBe("rejected");
+    expect(port.append("more").status).toBe("rejected");
+    expect(port.complete().status).toBe("rejected");
+  });
+
+  it("should drive ingestion through the scene store", () => {
+    const { store, handle } = scene();
+    const port = createSegmentedPort({ segmenter: lineSegmenter });
+    const ingestion = new StreamingIngestion(
+      store,
+      handle,
+      port,
+      new StreamCoalescer({ minIntervalMs: 0, minChars: 1 }),
+    );
+    expect(store.get(handle).lifecycle).toBe("streaming");
+    ingestion.push("row one\nrow tw", 0);
+    expect(ingestion.html).toBe("row one\n");
+    ingestion.finish();
+    expect(store.get(handle).lifecycle).toBe("parsed");
+    expect(ingestion.html).toBe("row one\nrow tw");
   });
 });

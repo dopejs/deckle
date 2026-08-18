@@ -59,10 +59,12 @@ export {
 } from "./scene-store.js";
 export {
   DEFAULT_COALESCER_OPTIONS,
+  createSegmentedPort,
   StreamCoalescer,
   StreamingIngestion,
   StreamingIngestionError,
   type CoalescerOptions,
+  type SegmentedPort,
   type IngestionResult,
   type StreamingSourcePort,
   type StreamingSourceUpdate,

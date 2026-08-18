@@ -1,3 +1,4 @@
+import type { StreamSegmenter, StreamSlice } from "@dopejs/canvas-protocol";
 import type { ArtifactHandle, SceneStore } from "./scene-store.js";
 
 /**
@@ -20,6 +21,71 @@ export interface StreamingSourceUpdate {
 export interface StreamingSourcePort {
   append(chunk: string): StreamingSourceUpdate;
   complete(): StreamingSourceUpdate;
+}
+
+export interface SegmentedPort extends StreamingSourcePort {
+  /** Everything received so far; the artifact's durable source on completion. */
+  readonly buffer: string;
+  /** Characters of `buffer` that are stable under the kind's segmentation rule. */
+  readonly committedLength: number;
+  /** Why the tail is withheld, or null when the whole buffer is stable. */
+  readonly pending: string | null;
+}
+
+/**
+ * Turn any {@link StreamSegmenter} into a port `StreamingIngestion` can drive,
+ * so text, markdown, code, JSON, rows, and HTML all stream through one engine.
+ *
+ * `render` converts the committed prefix into whatever the artifact displays —
+ * sanitized HTML, repaired partial JSON, laid-out markdown. Keeping it separate
+ * from segmentation means a kind can change how it renders without changing
+ * what counts as stable.
+ */
+export function createSegmentedPort(options: {
+  readonly segmenter: StreamSegmenter;
+  readonly render?: (committed: string, complete: boolean) => string;
+  /** Reject the stream past this many characters. */
+  readonly maxChars?: number;
+}): SegmentedPort {
+  const render = options.render ?? ((committed: string): string => committed);
+  const maxChars = options.maxChars ?? Number.POSITIVE_INFINITY;
+  let buffer = "";
+  let slice: StreamSlice = { committedLength: 0, pending: null };
+  let rejected = false;
+
+  const reject = (detail: string): StreamingSourceUpdate => {
+    rejected = true;
+    return { status: "rejected", html: "", reason: "quota-exceeded", detail };
+  };
+
+  return {
+    get buffer() {
+      return buffer;
+    },
+    get committedLength() {
+      return slice.committedLength;
+    },
+    get pending() {
+      return slice.pending;
+    },
+    append(chunk) {
+      if (rejected) return { status: "rejected", html: "", reason: "quota-exceeded" };
+      buffer += chunk;
+      if (buffer.length > maxChars) {
+        return reject(`stream exceeded ${maxChars} characters`);
+      }
+      slice = options.segmenter(buffer);
+      return {
+        status: "streaming",
+        html: render(buffer.slice(0, slice.committedLength), false),
+      };
+    },
+    complete() {
+      if (rejected) return { status: "rejected", html: "", reason: "quota-exceeded" };
+      slice = { committedLength: buffer.length, pending: null };
+      return { status: "complete", html: render(buffer, true) };
+    },
+  };
 }
 
 export interface CoalescerOptions {

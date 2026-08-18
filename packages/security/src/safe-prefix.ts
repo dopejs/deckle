@@ -1,3 +1,4 @@
+import type { StreamSlice } from "@dopejs/canvas-protocol";
 import { DROP_WITH_CONTENT } from "./sanitizer.js";
 
 /**
@@ -25,10 +26,7 @@ export type PendingReason =
   | "surrogate"
   | `rawtext:${string}`;
 
-export interface SafePrefix {
-  /** Number of leading characters that are safe to parse now. */
-  readonly length: number;
-  /** Why the remainder is withheld, or null when the whole buffer is safe. */
+export interface SafePrefix extends StreamSlice {
   readonly pending: PendingReason | null;
 }
 
@@ -63,17 +61,17 @@ function trimAmbiguousTail(buffer: string): SafePrefix {
 
   const last = buffer.charCodeAt(end - 1);
   if (end > 0 && last >= 0xd800 && last <= 0xdbff) {
-    return { length: end - 1, pending: "surrogate" };
+    return { committedLength: end - 1, pending: "surrogate" };
   }
 
   const from = Math.max(0, end - ENTITY_LOOKBACK);
   const ampersand = buffer.lastIndexOf("&", end - 1);
   if (ampersand >= from && !buffer.slice(ampersand, end).includes(";")) {
     end = ampersand;
-    return { length: end, pending: "entity" };
+    return { committedLength: end, pending: "entity" };
   }
 
-  return { length: buffer.length, pending: null };
+  return { committedLength: buffer.length, pending: null };
 }
 
 export function computeSafePrefix(buffer: string): SafePrefix {
@@ -85,7 +83,7 @@ export function computeSafePrefix(buffer: string): SafePrefix {
       const next = buffer.indexOf("<", index);
       if (next === -1) {
         const tail = trimAmbiguousTail(buffer);
-        return { length: Math.max(safe, tail.length), pending: tail.pending };
+        return { committedLength: Math.max(safe, tail.committedLength), pending: tail.pending };
       }
       index = next;
       safe = next;
@@ -94,18 +92,18 @@ export function computeSafePrefix(buffer: string): SafePrefix {
 
     if (buffer.startsWith("<!--", index)) {
       const end = buffer.indexOf("-->", index + 4);
-      if (end === -1) return { length: safe, pending: "comment" };
+      if (end === -1) return { committedLength: safe, pending: "comment" };
       index = end + 3;
       safe = index;
       continue;
     }
 
     // "<!" and "<?" may still be completing when only "<" has arrived.
-    if (index + 1 >= buffer.length) return { length: safe, pending: "open-tag" };
+    if (index + 1 >= buffer.length) return { committedLength: safe, pending: "open-tag" };
 
     if (buffer.startsWith("<!", index) || buffer.startsWith("<?", index)) {
       const end = buffer.indexOf(">", index + 2);
-      if (end === -1) return { length: safe, pending: "declaration" };
+      if (end === -1) return { committedLength: safe, pending: "declaration" };
       index = end + 1;
       safe = index;
       continue;
@@ -115,7 +113,7 @@ export function computeSafePrefix(buffer: string): SafePrefix {
 
     if (nextChar === "/") {
       const end = findTagEnd(buffer, index);
-      if (end === -1) return { length: safe, pending: "close-tag" };
+      if (end === -1) return { committedLength: safe, pending: "close-tag" };
       index = end + 1;
       safe = index;
       continue;
@@ -129,7 +127,7 @@ export function computeSafePrefix(buffer: string): SafePrefix {
     }
 
     const end = findTagEnd(buffer, index);
-    if (end === -1) return { length: safe, pending: "open-tag" };
+    if (end === -1) return { committedLength: safe, pending: "open-tag" };
 
     const name = (
       /^<([a-zA-Z][a-zA-Z0-9-]*)/.exec(buffer.slice(index, end + 1))?.[1] ?? ""
@@ -140,7 +138,7 @@ export function computeSafePrefix(buffer: string): SafePrefix {
       // Raw-text content is skipped wholesale, so the element is only decided
       // once its closing tag has arrived; the boundary stays before "<".
       const close = new RegExp(`</${name}\\s*>`, "i").exec(buffer.slice(end + 1));
-      if (!close) return { length: safe, pending: `rawtext:${name}` };
+      if (!close) return { committedLength: safe, pending: `rawtext:${name}` };
       index = end + 1 + close.index + close[0].length;
       safe = index;
       continue;
@@ -150,5 +148,8 @@ export function computeSafePrefix(buffer: string): SafePrefix {
     safe = index;
   }
 
-  return { length: safe, pending: null };
+  return { committedLength: safe, pending: null };
 }
+
+/** {@link computeSafePrefix} as a {@link StreamSegmenter} for the html kind. */
+export const htmlSegmenter = (buffer: string): SafePrefix => computeSafePrefix(buffer);

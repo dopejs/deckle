@@ -24,6 +24,14 @@ export {
   type InteractionTree,
 } from "./interaction-tree.js";
 export {
+  codeSegmenter,
+  completeJsonPrefix,
+  jsonSegmenter,
+  markdownSegmenter,
+  rowsSegmenter,
+  textSegmenter,
+} from "./segmenters.js";
+export {
   ARTIFACT_BUNDLE_FORMAT_VERSION,
   HIBERNATION_FORMAT_VERSION,
   SerializationError,
