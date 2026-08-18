@@ -7,7 +7,6 @@
   "meta.design.description": "The dope-canvas technical design: artifact model, lifecycle, HTML rendering strategy, interaction tree, security boundaries, and performance framework.",
   "meta.playground.title": "Playground — dope-canvas",
   "meta.playground.description": "Interactive Storybook demos of the dope-canvas engine: infinite canvas, hit testing, sanitizer, LOD and texture cache.",
-
   "nav.overview": "Overview",
   "nav.usage": "Usage",
   "nav.design": "Design",
@@ -15,7 +14,6 @@
   "nav.github": "GitHub",
   "nav.language": "Language",
   "brand.stage": "pre-release",
-
   "hero.title": "An infinite canvas runtime for AI‑generated web artifacts.",
   "hero.lede": "Keeping hundreds of generated pages alive as iframes doesn't scale. Flattening them to images loses selection and events. dope-canvas keeps the space in between: cached paint you can still reach into.",
   "hero.eq.artifact": "Artifact",
@@ -28,7 +26,6 @@
   "hero.cta.playground": "Open the playground",
   "hero.cta.start": "Get started",
   "hero.cta.design": "Read the technical design",
-
   "lifecycle.eyebrow": "Lifecycle",
   "lifecycle.title": "Resources follow the viewport, not the document count",
   "lifecycle.lede": "Every artifact moves through an explicit state machine. Live DOM, runtimes, and GPU textures are budgeted resources granted by visibility and interaction — never ambient.",
@@ -40,7 +37,16 @@
   "lifecycle.fact2.body": "A texture is one revision of paint output — the interaction tree keeps internal hit testing alive without live DOM.",
   "lifecycle.fact3.title": "Stale runtimes can't write.",
   "lifecycle.fact3.body": "Revision and epoch checks reject late messages from replaced runtimes before they touch the store.",
-
+  "streaming.eyebrow": "Streaming",
+  "streaming.title": "Built for content that is still being written",
+  "streaming.lede": "An agent emits an artifact token by token. Every kind commits at its own boundary — a grapheme, a line, a closed markdown construct, a JSON value, a decided HTML tag — and that boundary only ever moves forward, so a reader never sees an interpretation get retracted.",
+  "streaming.aria": "Per kind, the reason the tail is withheld: text surrogate, code partial line, markdown open fence, json incomplete value, html rawtext script",
+  "streaming.fact1.title": "Nothing half-parsed reaches the screen.",
+  "streaming.fact1.body": "A partial tag, an unterminated raw-text element, or an open code fence stays outside the boundary until the stream proves what it is.",
+  "streaming.fact2.title": "Provisional paint is not authoritative.",
+  "streaming.fact2.body": "A streaming artifact is pinned against eviction, shows provisional frames, and commits exactly one source revision when it finishes.",
+  "streaming.fact3.title": "The scene streams too.",
+  "streaming.fact3.body": "Frames appear and join the spatial index while their content is still arriving, so hit testing and visibility sets work mid-generation.",
   "packages.eyebrow": "Packages",
   "packages.title": "Backend-independent contracts, tested against oracles",
   "packages.lede": "Optimized implementations ship next to naive reference implementations and are differentially tested against them — the oracle stays available as a rollback path.",
@@ -49,17 +55,15 @@
   "packages.artifact": "revisions, interaction tree, canonical serialization",
   "packages.security": "static-profile sanitizer, URL policy, quotas, capabilities",
   "packages.runtime": "runtime message protocol, epochs, capability-guarded bridge",
-  "packages.renderer": "retained pictures, compositor, LOD, texture budget",
+  "packages.renderer": "retained pictures, canvas-native content rendering, LOD, texture budget",
   "packages.editor": "internal hit testing, selection model, virtual event paths",
   "packages.protocol": "shared pre-release vocabulary",
   "packages.probe": "HTML-in-Canvas capability probes, evidence manifests",
-
   "status.eyebrow": "Status",
   "status.title": "Honest scope",
   "status.lede": "The engine contracts are implemented and tested. The browser-evidence gates are not exited: support for the experimental HTML-in-Canvas APIs is a <em>capability we detect</em>, not a claim we make. No open-source license has been selected yet.",
   "status.cta.plan": "Delivery plan and gates",
   "status.cta.security": "Security model",
-
   "footer.text": "dope-canvas · pre-release ·",
   "docs.englishOnly": "This technical document is available in English only."
 }

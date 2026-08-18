@@ -7,7 +7,6 @@
   "meta.design.description": "La conception technique de dope-canvas : modèle d'artefact, cycle de vie, stratégie de rendu HTML, arbre d'interaction, limites de sécurité et cadre de performance.",
   "meta.playground.title": "Bac à sable — dope-canvas",
   "meta.playground.description": "Démos Storybook interactives du moteur dope-canvas : canevas infini, détection de clic, assainisseur, LOD et cache de textures.",
-
   "nav.overview": "Présentation",
   "nav.usage": "Utilisation",
   "nav.design": "Conception",
@@ -15,7 +14,6 @@
   "nav.github": "GitHub",
   "nav.language": "Langue",
   "brand.stage": "préversion",
-
   "hero.title": "Un moteur de canevas infini pour artefacts web générés par IA.",
   "hero.lede": "Garder des centaines de pages générées vivantes en iframes ne passe pas à l'échelle. Les aplatir en images fait perdre la sélection et les événements. dope-canvas occupe l'espace intermédiaire : un rendu mis en cache dans lequel on peut encore entrer.",
   "hero.eq.artifact": "Artefact",
@@ -28,7 +26,6 @@
   "hero.cta.playground": "Ouvrir le bac à sable",
   "hero.cta.start": "Commencer",
   "hero.cta.design": "Lire la conception technique",
-
   "lifecycle.eyebrow": "Cycle de vie",
   "lifecycle.title": "Les ressources suivent la fenêtre, pas le nombre de documents",
   "lifecycle.lede": "Chaque artefact parcourt une machine à états explicite. DOM vivant, moteurs d'exécution et textures GPU sont des ressources budgétées, accordées par la visibilité et l'interaction — jamais par défaut.",
@@ -40,7 +37,16 @@
   "lifecycle.fact2.body": "Une texture n'est qu'une révision du rendu — l'arbre d'interaction maintient la détection de clic interne sans DOM vivant.",
   "lifecycle.fact3.title": "Un moteur périmé ne peut pas écrire.",
   "lifecycle.fact3.body": "Les contrôles de révision et d'époque rejettent les messages tardifs des moteurs remplacés avant qu'ils n'atteignent le magasin.",
-
+  "streaming.eyebrow": "Flux",
+  "streaming.title": "Conçu pour du contenu encore en cours d'écriture",
+  "streaming.lede": "Un agent produit un artefact token par token. Chaque type valide à sa propre limite — un graphème, une ligne, une construction markdown fermée, une valeur JSON, une balise HTML décidée — et cette limite n'avance jamais à reculons : le lecteur ne voit jamais une interprétation être retirée.",
+  "streaming.aria": "Par type, la raison pour laquelle la fin est retenue : text surrogate, code partial line, markdown open fence, json incomplete value, html rawtext script",
+  "streaming.fact1.title": "Rien de à moitié analysé n'atteint l'écran.",
+  "streaming.fact1.body": "Une balise partielle, un élément de texte brut non terminé ou une clôture de code ouverte restent hors de la limite jusqu'à ce que le flux prouve leur nature.",
+  "streaming.fact2.title": "Le rendu provisoire ne fait pas autorité.",
+  "streaming.fact2.body": "Un artefact en flux est épinglé contre l'éviction, affiche des images provisoires et valide exactement une révision de source à la fin.",
+  "streaming.fact3.title": "La scène aussi arrive en flux.",
+  "streaming.fact3.body": "Les cadres apparaissent et rejoignent l'index spatial alors que leur contenu arrive encore, si bien que la détection de clic et les ensembles de visibilité fonctionnent pendant la génération.",
   "packages.eyebrow": "Paquets",
   "packages.title": "Des contrats indépendants du backend, testés contre des oracles",
   "packages.lede": "Les implémentations optimisées sont livrées à côté d'implémentations de référence naïves et testées différentiellement contre elles — l'oracle reste disponible comme voie de repli.",
@@ -49,17 +55,15 @@
   "packages.artifact": "révisions, arbre d'interaction, sérialisation canonique",
   "packages.security": "assainisseur de profil statique, politique d'URL, quotas, capacités",
   "packages.runtime": "protocole de messages du moteur, époques, pont protégé par capacités",
-  "packages.renderer": "images retenues, compositeur, LOD, budget de textures",
+  "packages.renderer": "images retenues, rendu de contenu natif au canevas, LOD, budget de textures",
   "packages.editor": "détection de clic interne, modèle de sélection, chemins d'événements virtuels",
   "packages.protocol": "vocabulaire partagé de préversion",
   "packages.probe": "sondes de capacités HTML-in-Canvas, manifestes de preuves",
-
   "status.eyebrow": "État",
   "status.title": "Portée honnête",
   "status.lede": "Les contrats du moteur sont implémentés et testés. Les jalons de preuve navigateur ne sont pas franchis : la prise en charge des API expérimentales HTML-in-Canvas est une <em>capacité que nous détectons</em>, pas une promesse que nous faisons. Aucune licence open source n'a encore été choisie.",
   "status.cta.plan": "Plan de livraison et jalons",
   "status.cta.security": "Modèle de sécurité",
-
   "footer.text": "dope-canvas · préversion ·",
   "docs.englishOnly": "Ce document technique n'est disponible qu'en anglais."
 }

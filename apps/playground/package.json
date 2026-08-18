@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/canvas-playground",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Interactive Storybook playground for the dope-canvas engine packages. Demo code only; not a production API.",
   "type": "module",

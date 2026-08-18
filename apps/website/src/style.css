@@ -446,6 +446,41 @@ h2 {
   text-align: start;
 }
 
+/* Streaming boundary strip: kind paired with why its tail is withheld. */
+.boundary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+
+.boundary__pair {
+  display: inline-flex;
+  align-items: stretch;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.boundary__kind {
+  padding: 4px 9px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.boundary__reason {
+  padding: 4px 9px;
+  background: hsl(28 90% 95%);
+  border-inline-start: 1px dashed hsl(28 60% 70%);
+  color: hsl(28 70% 34%);
+}
+
 .facts {
   list-style: none;
   margin: 0;

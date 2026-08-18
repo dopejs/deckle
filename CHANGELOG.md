@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## v0.2.0 — 2026-08-18
+
+Streaming becomes a first-class property of the node model, every kind renders as itself on the
+canvas, and the project site ships in 11 languages. Packages remain private pending license
+selection.
 
 - Each node kind now _renders_ rather than showing its source. A canvas-native display list
   (`@dopejs/canvas-renderer`) compiles markdown, the sanitized HTML subset, code, JSON, rows, and
@@ -29,6 +33,9 @@
   testing, pin artifacts against eviction mid-generation, and commit exactly one source revision on
   completion. `StreamCoalescer` and `StreamingIngestion` turn a token stream into budgeted render
   ticks. A Streaming story in the playground shows the safety boundary live.
+
+- README and the project site gained a Streaming section; the site's package matrix now reflects
+  canvas-native content rendering.
 
 - Website is localized into 11 languages (English, 简体中文, 繁體中文, Español, Français, Deutsch,
   Русский, עברית, العربية, 日本語, 한국어). Each locale is a real static route (`/ja/`,

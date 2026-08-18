@@ -140,6 +140,73 @@
         </ul>
       </section>
 
+      <section class="section" aria-labelledby="streaming-title">
+        <p class="eyebrow" data-i18n="streaming.eyebrow">Streaming</p>
+        <h2 id="streaming-title" data-i18n="streaming.title">
+          Built for content that is still being written
+        </h2>
+        <p class="section__lede" data-i18n="streaming.lede">
+          An agent emits an artifact token by token. Every kind commits at its own boundary — a
+          grapheme, a line, a closed markdown construct, a JSON value, a decided HTML tag — and that
+          boundary only ever moves forward, so a reader never sees an interpretation get retracted.
+        </p>
+        <div
+          class="boundary"
+          dir="ltr"
+          role="img"
+          data-i18n-label="streaming.aria"
+          aria-label="Per kind, the reason the tail is withheld: text surrogate, code partial line, markdown open fence, json incomplete value, html rawtext script"
+        >
+          <span class="boundary__pair"
+            ><span class="boundary__kind">text</span
+            ><span class="boundary__reason">surrogate</span></span
+          >
+          <span class="boundary__pair"
+            ><span class="boundary__kind">code</span
+            ><span class="boundary__reason">partial-line</span></span
+          >
+          <span class="boundary__pair"
+            ><span class="boundary__kind">markdown</span
+            ><span class="boundary__reason">open-fence</span></span
+          >
+          <span class="boundary__pair"
+            ><span class="boundary__kind">json</span
+            ><span class="boundary__reason">incomplete-value</span></span
+          >
+          <span class="boundary__pair"
+            ><span class="boundary__kind">html</span
+            ><span class="boundary__reason">rawtext:script</span></span
+          >
+        </div>
+        <ul class="facts">
+          <li>
+            <strong data-i18n="streaming.fact1.title"
+              >Nothing half-parsed reaches the screen.</strong
+            >
+            <span data-i18n="streaming.fact1.body"
+              >A partial tag, an unterminated raw-text element, or an open code fence stays outside
+              the boundary until the stream proves what it is.</span
+            >
+          </li>
+          <li>
+            <strong data-i18n="streaming.fact2.title"
+              >Provisional paint is not authoritative.</strong
+            >
+            <span data-i18n="streaming.fact2.body"
+              >A streaming artifact is pinned against eviction, shows provisional frames, and
+              commits exactly one source revision when it finishes.</span
+            >
+          </li>
+          <li>
+            <strong data-i18n="streaming.fact3.title">The scene streams too.</strong>
+            <span data-i18n="streaming.fact3.body"
+              >Frames appear and join the spatial index while their content is still arriving, so
+              hit testing and visibility sets work mid-generation.</span
+            >
+          </li>
+        </ul>
+      </section>
+
       <section class="section" aria-labelledby="packages-title">
         <p class="eyebrow" data-i18n="packages.eyebrow">Packages</p>
         <h2 id="packages-title" data-i18n="packages.title">

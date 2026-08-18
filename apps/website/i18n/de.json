@@ -7,7 +7,6 @@
   "meta.design.description": "Das technische Design von dope-canvas: Artefaktmodell, Lifecycle, HTML-Rendering-Strategie, Interaktionsbaum, Sicherheitsgrenzen und Performance-Rahmen.",
   "meta.playground.title": "Playground — dope-canvas",
   "meta.playground.description": "Interaktive Storybook-Demos der dope-canvas-Engine: Infinite Canvas, Hit-Testing, Sanitizer, LOD und Textur-Cache.",
-
   "nav.overview": "Überblick",
   "nav.usage": "Nutzung",
   "nav.design": "Design",
@@ -15,7 +14,6 @@
   "nav.github": "GitHub",
   "nav.language": "Sprache",
   "brand.stage": "Vorabversion",
-
   "hero.title": "Eine Infinite-Canvas-Laufzeit für KI-generierte Web-Artefakte.",
   "hero.lede": "Hunderte generierter Seiten als iframes am Leben zu halten, skaliert nicht. Sie zu Bildern zu verflachen, kostet Auswahl und Events. dope-canvas besetzt den Raum dazwischen: zwischengespeichertes Rendering, in das man weiterhin hineingreifen kann.",
   "hero.eq.artifact": "Artefakt",
@@ -28,7 +26,6 @@
   "hero.cta.playground": "Playground öffnen",
   "hero.cta.start": "Loslegen",
   "hero.cta.design": "Technisches Design lesen",
-
   "lifecycle.eyebrow": "Lifecycle",
   "lifecycle.title": "Ressourcen folgen dem Viewport, nicht der Dokumentanzahl",
   "lifecycle.lede": "Jedes Artefakt durchläuft eine explizite Zustandsmaschine. Live-DOM, Laufzeiten und GPU-Texturen sind budgetierte Ressourcen, die durch Sichtbarkeit und Interaktion gewährt werden — nie beiläufig.",
@@ -40,7 +37,16 @@
   "lifecycle.fact2.body": "Eine Textur ist nur eine Revision der Rendering-Ausgabe — der Interaktionsbaum hält internes Hit-Testing ohne Live-DOM am Leben.",
   "lifecycle.fact3.title": "Veraltete Laufzeiten können nicht schreiben.",
   "lifecycle.fact3.body": "Revisions- und Epochenprüfungen weisen späte Nachrichten ersetzter Laufzeiten ab, bevor sie den Store erreichen.",
-
+  "streaming.eyebrow": "Streaming",
+  "streaming.title": "Gebaut für Inhalte, die noch geschrieben werden",
+  "streaming.lede": "Ein Agent erzeugt ein Artefakt Token für Token. Jede Art committet an ihrer eigenen Grenze — ein Graphem, eine Zeile, ein geschlossenes Markdown-Konstrukt, ein JSON-Wert, ein entschiedenes HTML-Tag — und diese Grenze bewegt sich nur vorwärts, sodass Lesende nie erleben, dass eine Interpretation zurückgenommen wird.",
+  "streaming.aria": "Je Art der Grund, warum das Ende zurückgehalten wird: text surrogate, code partial line, markdown open fence, json incomplete value, html rawtext script",
+  "streaming.fact1.title": "Nichts halb Geparstes erreicht den Bildschirm.",
+  "streaming.fact1.body": "Ein unvollständiges Tag, ein nicht beendetes Rohtext-Element oder ein offener Code-Zaun bleiben außerhalb der Grenze, bis der Stream beweist, was sie sind.",
+  "streaming.fact2.title": "Provisorische Darstellung ist nicht maßgeblich.",
+  "streaming.fact2.body": "Ein streamendes Artefakt ist gegen Verdrängung fixiert, zeigt provisorische Frames und committet beim Abschluss genau eine Quellrevision.",
+  "streaming.fact3.title": "Auch die Szene streamt.",
+  "streaming.fact3.body": "Rahmen erscheinen und treten dem Raumindex bei, während ihr Inhalt noch eintrifft, sodass Hit-Testing und Sichtbarkeitsmengen mitten in der Generierung funktionieren.",
   "packages.eyebrow": "Pakete",
   "packages.title": "Backend-unabhängige Verträge, gegen Orakel getestet",
   "packages.lede": "Optimierte Implementierungen werden neben naiven Referenzimplementierungen ausgeliefert und differenziell gegen sie getestet — das Orakel bleibt als Rückfallpfad verfügbar.",
@@ -49,17 +55,15 @@
   "packages.artifact": "Revisionen, Interaktionsbaum, kanonische Serialisierung",
   "packages.security": "Sanitizer für statisches Profil, URL-Richtlinie, Kontingente, Capabilities",
   "packages.runtime": "Laufzeit-Nachrichtenprotokoll, Epochen, capability-geschützte Brücke",
-  "packages.renderer": "Retained Pictures, Compositor, LOD, Texturbudget",
+  "packages.renderer": "Retained Pictures, canvas-natives Inhaltsrendering, LOD, Texturbudget",
   "packages.editor": "internes Hit-Testing, Auswahlmodell, virtuelle Ereignispfade",
   "packages.protocol": "gemeinsames Vokabular der Vorabversion",
   "packages.probe": "HTML-in-Canvas-Capability-Prüfungen, Nachweismanifeste",
-
   "status.eyebrow": "Status",
   "status.title": "Ehrlicher Umfang",
   "status.lede": "Die Engine-Verträge sind implementiert und getestet. Die Browser-Nachweis-Gates sind nicht bestanden: Unterstützung für die experimentellen HTML-in-Canvas-APIs ist eine <em>Fähigkeit, die wir erkennen</em>, keine Zusage, die wir geben. Eine Open-Source-Lizenz wurde noch nicht gewählt.",
   "status.cta.plan": "Lieferplan und Gates",
   "status.cta.security": "Sicherheitsmodell",
-
   "footer.text": "dope-canvas · Vorabversion ·",
   "docs.englishOnly": "Dieses technische Dokument ist nur auf Englisch verfügbar."
 }

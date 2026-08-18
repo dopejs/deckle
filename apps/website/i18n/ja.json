@@ -7,7 +7,6 @@
   "meta.design.description": "dope-canvas の技術設計: アーティファクトモデル、ライフサイクル、HTML 描画戦略、インタラクションツリー、セキュリティ境界、パフォーマンス指標。",
   "meta.playground.title": "プレイグラウンド — dope-canvas",
   "meta.playground.description": "dope-canvas エンジンのインタラクティブな Storybook デモ: 無限キャンバス、ヒットテスト、サニタイザー、LOD とテクスチャキャッシュ。",
-
   "nav.overview": "概要",
   "nav.usage": "使い方",
   "nav.design": "設計",
@@ -15,7 +14,6 @@
   "nav.github": "GitHub",
   "nav.language": "言語",
   "brand.stage": "プレリリース",
-
   "hero.title": "AI 生成 Web アーティファクトのための無限キャンバスランタイム。",
   "hero.lede": "数百もの生成ページを iframe で生かし続けるのはスケールしません。画像に平坦化すれば選択とイベントが失われます。dope-canvas はその中間を担います。キャッシュされた描画のまま、内部に手を伸ばせます。",
   "hero.eq.artifact": "アーティファクト",
@@ -28,7 +26,6 @@
   "hero.cta.playground": "プレイグラウンドを開く",
   "hero.cta.start": "はじめる",
   "hero.cta.design": "技術設計を読む",
-
   "lifecycle.eyebrow": "ライフサイクル",
   "lifecycle.title": "リソースはドキュメント数ではなくビューポートに従う",
   "lifecycle.lede": "すべてのアーティファクトは明示的なステートマシンを遷移します。ライブ DOM、ランタイム、GPU テクスチャは、可視性とインタラクションによって与えられる予算付きリソースであり、常時確保されることはありません。",
@@ -40,7 +37,16 @@
   "lifecycle.fact2.body": "テクスチャは描画出力の 1 リビジョンにすぎません。インタラクションツリーがライブ DOM なしで内部ヒットテストを維持します。",
   "lifecycle.fact3.title": "古いランタイムは書き込めません。",
   "lifecycle.fact3.body": "リビジョンとエポックの検査が、置き換えられたランタイムからの遅延メッセージをストアに届く前に拒否します。",
-
+  "streaming.eyebrow": "ストリーミング",
+  "streaming.title": "まだ書かれている途中のコンテンツのために",
+  "streaming.lede": "エージェントはアーティファクトをトークンごとに出力します。各種類はそれぞれの境界で確定します——1 つの書記素、1 行、閉じた markdown 構造、JSON の値、確定した HTML タグ。境界は前にしか進まないので、読み手が解釈の撤回を目にすることはありません。",
+  "streaming.aria": "種類ごとに末尾を保留する理由: text は surrogate、code は partial line、markdown は open fence、json は incomplete value、html は rawtext script",
+  "streaming.fact1.title": "解析途中のものが画面に出ることはありません。",
+  "streaming.fact1.body": "途中までのタグ、閉じていない raw テキスト要素、開いたままのコードフェンスは、それが何なのかストリームが示すまで境界の外に留まります。",
+  "streaming.fact2.title": "暫定的な描画は正式なものではありません。",
+  "streaming.fact2.body": "ストリーミング中のアーティファクトは退避から固定され、暫定フレームを表示し、完了時にちょうど 1 回だけソースリビジョンをコミットします。",
+  "streaming.fact3.title": "シーン自体もストリーミングされます。",
+  "streaming.fact3.body": "フレームは内容が届き切る前に現れて空間インデックスに入るため、生成の途中でもヒットテストと可視集合が機能します。",
   "packages.eyebrow": "パッケージ",
   "packages.title": "バックエンド非依存の契約を、オラクルと突き合わせて検証",
   "packages.lede": "最適化実装は素朴な参照実装と並べて提供し、両者を差分テストします。オラクルはロールバック経路として常に利用可能です。",
@@ -49,17 +55,15 @@
   "packages.artifact": "リビジョン、インタラクションツリー、正規化シリアライズ",
   "packages.security": "静的プロファイルのサニタイザー、URL ポリシー、クォータ、ケイパビリティ",
   "packages.runtime": "ランタイムメッセージプロトコル、エポック、ケイパビリティ保護ブリッジ",
-  "packages.renderer": "保持ピクチャ、コンポジター、LOD、テクスチャ予算",
+  "packages.renderer": "保持ピクチャ、キャンバスネイティブのコンテンツ描画、LOD、テクスチャ予算",
   "packages.editor": "内部ヒットテスト、選択モデル、仮想イベントパス",
   "packages.protocol": "共有プレリリース語彙",
   "packages.probe": "HTML-in-Canvas 能力プローブ、エビデンスマニフェスト",
-
   "status.eyebrow": "ステータス",
   "status.title": "誠実なスコープ",
   "status.lede": "エンジンの契約は実装済みでテスト済みです。ブラウザ証跡のゲートは未通過であり、実験的な HTML-in-Canvas API への対応は<em>検出する能力</em>であって、こちらが約束するものではありません。オープンソースライセンスはまだ選定されていません。",
   "status.cta.plan": "デリバリー計画とゲート",
   "status.cta.security": "セキュリティモデル",
-
   "footer.text": "dope-canvas · プレリリース ·",
   "docs.englishOnly": "この技術ドキュメントは英語版のみ提供しています。"
 }

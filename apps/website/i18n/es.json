@@ -7,7 +7,6 @@
   "meta.design.description": "El diseño técnico de dope-canvas: modelo de artefactos, ciclo de vida, estrategia de renderizado HTML, árbol de interacción, límites de seguridad y marco de rendimiento.",
   "meta.playground.title": "Área de pruebas — dope-canvas",
   "meta.playground.description": "Demos interactivas en Storybook del motor dope-canvas: lienzo infinito, pruebas de impacto, saneador, LOD y caché de texturas.",
-
   "nav.overview": "Resumen",
   "nav.usage": "Uso",
   "nav.design": "Diseño",
@@ -15,7 +14,6 @@
   "nav.github": "GitHub",
   "nav.language": "Idioma",
   "brand.stage": "versión previa",
-
   "hero.title": "Un entorno de lienzo infinito para artefactos web generados por IA.",
   "hero.lede": "Mantener vivos cientos de páginas generadas como iframes no escala. Aplanarlas a imágenes pierde la selección y los eventos. dope-canvas ocupa el espacio intermedio: pintura en caché a la que aún puedes acceder.",
   "hero.eq.artifact": "Artefacto",
@@ -28,7 +26,6 @@
   "hero.cta.playground": "Abrir el área de pruebas",
   "hero.cta.start": "Empezar",
   "hero.cta.design": "Leer el diseño técnico",
-
   "lifecycle.eyebrow": "Ciclo de vida",
   "lifecycle.title": "Los recursos siguen a la ventana, no al número de documentos",
   "lifecycle.lede": "Cada artefacto recorre una máquina de estados explícita. El DOM vivo, los entornos de ejecución y las texturas de GPU son recursos presupuestados que concede la visibilidad y la interacción; nunca están presentes por defecto.",
@@ -40,7 +37,16 @@
   "lifecycle.fact2.body": "Una textura es una revisión de la salida de pintura: el árbol de interacción mantiene vivas las pruebas de impacto internas sin DOM vivo.",
   "lifecycle.fact3.title": "Los entornos obsoletos no pueden escribir.",
   "lifecycle.fact3.body": "Las comprobaciones de revisión y época rechazan los mensajes tardíos de entornos reemplazados antes de que toquen el almacén.",
-
+  "streaming.eyebrow": "Streaming",
+  "streaming.title": "Pensado para contenido que aún se está escribiendo",
+  "streaming.lede": "Un agente emite un artefacto token a token. Cada tipo confirma en su propio límite — un grafema, una línea, una construcción markdown cerrada, un valor JSON, una etiqueta HTML decidida — y ese límite solo avanza, de modo que quien lee nunca ve retractarse una interpretación.",
+  "streaming.aria": "Por tipo, el motivo por el que se retiene la cola: text surrogate, code partial line, markdown open fence, json incomplete value, html rawtext script",
+  "streaming.fact1.title": "Nada a medio analizar llega a la pantalla.",
+  "streaming.fact1.body": "Una etiqueta parcial, un elemento de texto sin cerrar o una valla de código abierta quedan fuera del límite hasta que el flujo demuestre qué son.",
+  "streaming.fact2.title": "La pintura provisional no es autoritativa.",
+  "streaming.fact2.body": "Un artefacto en streaming queda fijado contra el desalojo, muestra fotogramas provisionales y confirma exactamente una revisión de fuente al terminar.",
+  "streaming.fact3.title": "La escena también llega en streaming.",
+  "streaming.fact3.body": "Los marcos aparecen y entran en el índice espacial mientras su contenido aún llega, así que las pruebas de impacto y los conjuntos de visibilidad funcionan durante la generación.",
   "packages.eyebrow": "Paquetes",
   "packages.title": "Contratos independientes del backend, probados contra oráculos",
   "packages.lede": "Las implementaciones optimizadas se publican junto a implementaciones de referencia ingenuas y se prueban diferencialmente contra ellas: el oráculo permanece disponible como vía de reversión.",
@@ -49,17 +55,15 @@
   "packages.artifact": "revisiones, árbol de interacción, serialización canónica",
   "packages.security": "saneador de perfil estático, política de URL, cuotas, capacidades",
   "packages.runtime": "protocolo de mensajes del entorno, épocas, puente protegido por capacidades",
-  "packages.renderer": "imágenes retenidas, compositor, LOD, presupuesto de texturas",
+  "packages.renderer": "imágenes retenidas, renderizado nativo de contenido en lienzo, LOD, presupuesto de texturas",
   "packages.editor": "pruebas de impacto internas, modelo de selección, rutas de eventos virtuales",
   "packages.protocol": "vocabulario compartido de versión previa",
   "packages.probe": "sondas de capacidades HTML-in-Canvas, manifiestos de evidencia",
-
   "status.eyebrow": "Estado",
   "status.title": "Alcance honesto",
   "status.lede": "Los contratos del motor están implementados y probados. Las puertas de evidencia del navegador no se han superado: el soporte de las API experimentales HTML-in-Canvas es una <em>capacidad que detectamos</em>, no una promesa que hacemos. Todavía no se ha elegido una licencia de código abierto.",
   "status.cta.plan": "Plan de entrega y puertas",
   "status.cta.security": "Modelo de seguridad",
-
   "footer.text": "dope-canvas · versión previa ·",
   "docs.englishOnly": "Este documento técnico solo está disponible en inglés."
 }

@@ -7,7 +7,6 @@
   "meta.design.description": "dope-canvas 기술 설계: 아티팩트 모델, 라이프사이클, HTML 렌더링 전략, 인터랙션 트리, 보안 경계, 성능 프레임워크.",
   "meta.playground.title": "플레이그라운드 — dope-canvas",
   "meta.playground.description": "dope-canvas 엔진의 인터랙티브 Storybook 데모: 무한 캔버스, 히트 테스트, 새니타이저, LOD와 텍스처 캐시.",
-
   "nav.overview": "개요",
   "nav.usage": "사용법",
   "nav.design": "설계",
@@ -15,7 +14,6 @@
   "nav.github": "GitHub",
   "nav.language": "언어",
   "brand.stage": "사전 릴리스",
-
   "hero.title": "AI 생성 웹 아티팩트를 위한 무한 캔버스 런타임.",
   "hero.lede": "수백 개의 생성 페이지를 iframe으로 살려 두는 방식은 확장되지 않습니다. 이미지로 평탄화하면 선택과 이벤트를 잃습니다. dope-canvas는 그 사이 공간을 차지합니다. 캐시된 페인트 그대로, 내부에 손을 뻗을 수 있습니다.",
   "hero.eq.artifact": "아티팩트",
@@ -28,7 +26,6 @@
   "hero.cta.playground": "플레이그라운드 열기",
   "hero.cta.start": "시작하기",
   "hero.cta.design": "기술 설계 읽기",
-
   "lifecycle.eyebrow": "라이프사이클",
   "lifecycle.title": "리소스는 문서 수가 아니라 뷰포트를 따릅니다",
   "lifecycle.lede": "모든 아티팩트는 명시적 상태 머신을 따라 이동합니다. 라이브 DOM, 런타임, GPU 텍스처는 가시성과 인터랙션에 따라 부여되는 예산 자원이며, 기본으로 상주하지 않습니다.",
@@ -40,7 +37,16 @@
   "lifecycle.fact2.body": "텍스처는 페인트 출력의 한 리비전일 뿐입니다. 인터랙션 트리가 라이브 DOM 없이도 내부 히트 테스트를 유지합니다.",
   "lifecycle.fact3.title": "오래된 런타임은 쓸 수 없습니다.",
   "lifecycle.fact3.body": "리비전과 에폭 검사가 교체된 런타임의 지연 메시지를 스토어에 닿기 전에 거부합니다.",
-
+  "streaming.eyebrow": "스트리밍",
+  "streaming.title": "아직 쓰이는 중인 콘텐츠를 위해",
+  "streaming.lede": "에이전트는 아티팩트를 토큰 단위로 내보냅니다. 종류마다 고유한 커밋 경계가 있습니다 — 완성된 자소, 한 줄, 닫힌 markdown 구조, JSON 값, 확정된 HTML 태그. 그 경계는 앞으로만 이동하므로 읽는 사람이 해석이 철회되는 것을 볼 일은 없습니다.",
+  "streaming.aria": "종류별로 꼬리를 보류하는 이유: text는 surrogate, code는 partial line, markdown은 open fence, json은 incomplete value, html은 rawtext script",
+  "streaming.fact1.title": "절반만 파싱된 것은 화면에 오르지 않습니다.",
+  "streaming.fact1.body": "잘린 태그, 닫히지 않은 raw 텍스트 요소, 열린 코드 펜스는 스트림이 그 정체를 증명할 때까지 경계 밖에 남습니다.",
+  "streaming.fact2.title": "잠정 페인트는 권위 있는 결과가 아닙니다.",
+  "streaming.fact2.body": "스트리밍 중인 아티팩트는 축출로부터 고정되고, 잠정 프레임을 보여주며, 완료 시 정확히 한 번의 소스 리비전만 커밋합니다.",
+  "streaming.fact3.title": "장면 자체도 스트리밍됩니다.",
+  "streaming.fact3.body": "프레임은 내용이 도착하는 중에도 나타나 공간 인덱스에 들어가므로, 생성 도중에도 히트 테스트와 가시성 집합이 동작합니다.",
   "packages.eyebrow": "패키지",
   "packages.title": "백엔드에 독립적인 계약, 오라클과 대조 검증",
   "packages.lede": "최적화 구현은 단순 참조 구현과 나란히 제공되고 서로 차등 테스트됩니다. 오라클은 롤백 경로로 항상 남아 있습니다.",
@@ -49,17 +55,15 @@
   "packages.artifact": "리비전, 인터랙션 트리, 정규 직렬화",
   "packages.security": "정적 프로파일 새니타이저, URL 정책, 쿼터, 케이퍼빌리티",
   "packages.runtime": "런타임 메시지 프로토콜, 에폭, 케이퍼빌리티 보호 브리지",
-  "packages.renderer": "리테인드 픽처, 컴포지터, LOD, 텍스처 예산",
+  "packages.renderer": "리테인드 픽처, 캔버스 네이티브 콘텐츠 렌더링, LOD, 텍스처 예산",
   "packages.editor": "내부 히트 테스트, 선택 모델, 가상 이벤트 경로",
   "packages.protocol": "공유 사전 릴리스 어휘",
   "packages.probe": "HTML-in-Canvas 기능 프로브, 증거 매니페스트",
-
   "status.eyebrow": "상태",
   "status.title": "정직한 범위",
   "status.lede": "엔진 계약은 구현과 테스트를 마쳤습니다. 브라우저 증거 게이트는 아직 통과하지 않았습니다. 실험적 HTML-in-Canvas API 지원은 우리가 <em>감지하는 능력</em>이지, 우리가 하는 약속이 아닙니다. 오픈소스 라이선스는 아직 선택되지 않았습니다.",
   "status.cta.plan": "배포 계획과 게이트",
   "status.cta.security": "보안 모델",
-
   "footer.text": "dope-canvas · 사전 릴리스 ·",
   "docs.englishOnly": "이 기술 문서는 영어로만 제공됩니다."
 }

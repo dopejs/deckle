@@ -5,10 +5,14 @@ artifacts. An artifact may originate as HTML, CSS, and controlled JavaScript, wh
 camera movement, spatial virtualization, live/snapshot lifecycle, interaction metadata, resource
 budgets, and rendering composition.
 
-The repository is currently at the **pre-development baseline**. It contains the architecture,
-delivery plan, decision records, security and compatibility boundaries, benchmark protocol, and
-repository gates. It does not yet contain a working infinite canvas or claim production support for
-experimental browser HTML-in-Canvas APIs.
+The backend-independent engine contracts are implemented and tested: scene transactions, camera and
+spatial virtualization, lifecycle and budgets, artifact revisions, sanitization, the controlled
+runtime protocol, retained rendering, and internal hit testing. Streaming is a first-class property
+of the node model, and supported content renders through a canvas-native profile.
+
+Browser-evidence gates are **not** exited. Support for the experimental HTML-in-Canvas APIs is a
+capability the probe detects, never a claim, and absolute performance and memory gates stay unset
+until M0 measurements exist.
 
 ## Why this exists
 
@@ -23,6 +27,10 @@ Artifact = source + durable state + interaction tree + paint cache + optional li
 
 A snapshot is only a paint cache. The document and interaction model remain available for Figma-like
 selection, event routing, activation, and revision-safe restoration.
+
+Because the artifacts come from agents, they arrive incrementally. Every content kind commits at its
+own boundary — a grapheme, a line, a closed markdown construct, a JSON value, a decided HTML tag —
+and that boundary only moves forward, so a reader never sees an interpretation get retracted.
 
 ## Start here
 
@@ -57,7 +65,7 @@ All JavaScript/TypeScript workspace packages, including private applications, us
 
 ## Package status
 
-All packages are private and versioned `0.1.0`; none is a stable public contract yet, and none is
+All packages are private and versioned `0.2.0`; none is a stable public contract yet, and none is
 published to a registry — npm publication waits on the owners' license selection.
 
 | Package                         | Responsibility                                                    |
@@ -68,9 +76,11 @@ published to a registry — npm publication waits on the owners' license selecti
 | `@dopejs/canvas-artifact`       | revisions, interaction tree, canonical serialization              |
 | `@dopejs/canvas-security`       | sanitizer, URL policy, quotas, capabilities                       |
 | `@dopejs/canvas-runtime`        | runtime message protocol, epochs, capability-guarded host bridge  |
-| `@dopejs/canvas-renderer`       | retained pictures, reference compositor, LOD, texture budget      |
+| `@dopejs/canvas-renderer`       | retained pictures, canvas-native content rendering, LOD, budget   |
 | `@dopejs/canvas-editor`         | internal hit testing, selection model, virtual event paths        |
 | `@dopejs/canvas-platform-probe` | M0 capability probes and evidence manifests (private application) |
+| `@dopejs/canvas-playground`     | Storybook demos of every engine capability (private application)  |
+| `@dopejs/canvas-website`        | the project site and its localized routes (private application)   |
 
 Implementation status against the delivery plan is tracked in [the plan](docs/plan.md).
 Browser-evidence gates (M0) are not exited; support for the experimental HTML-in-Canvas APIs remains

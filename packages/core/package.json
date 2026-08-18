@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/canvas-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Scene store, camera, lifecycle orchestration, visibility sets, and resource budgets for dope-canvas.",
   "type": "module",

@@ -7,7 +7,6 @@
   "meta.design.description": "dope-canvas 技術設計：產物模型、生命週期、HTML 繪製策略、互動樹、安全邊界與效能框架。",
   "meta.playground.title": "試驗場 — dope-canvas",
   "meta.playground.description": "dope-canvas 引擎的互動式 Storybook 範例：無限畫布、命中測試、淨化器、LOD 與紋理快取。",
-
   "nav.overview": "總覽",
   "nav.usage": "用法",
   "nav.design": "設計",
@@ -15,7 +14,6 @@
   "nav.github": "GitHub",
   "nav.language": "語言",
   "brand.stage": "預先發行",
-
   "hero.title": "面向 AI 生成網頁產物的無限畫布執行環境。",
   "hero.lede": "把成百上千個生成頁面都用 iframe 保持存活並不可行；全部壓平成圖片又會失去選取與事件。dope-canvas 守住中間地帶：快取下來的繪製結果，依然能夠深入觸及。",
   "hero.eq.artifact": "產物",
@@ -28,7 +26,6 @@
   "hero.cta.playground": "開啟試驗場",
   "hero.cta.start": "快速上手",
   "hero.cta.design": "閱讀技術設計",
-
   "lifecycle.eyebrow": "生命週期",
   "lifecycle.title": "資源取決於視區，而非文件數量",
   "lifecycle.lede": "每個產物都在明確的狀態機中流轉。即時 DOM、執行環境與 GPU 紋理都是依可見性與互動授予的預算資源，絕不常駐。",
@@ -40,7 +37,16 @@
   "lifecycle.fact2.body": "紋理只是繪製輸出的某一個修訂版本——互動樹讓內部命中測試在沒有即時 DOM 時依然有效。",
   "lifecycle.fact3.title": "過期執行環境無法寫入。",
   "lifecycle.fact3.body": "修訂編號與 epoch 檢查會在被替換執行環境的遲到訊息觸及儲存之前將其拒絕。",
-
+  "streaming.eyebrow": "串流",
+  "streaming.title": "為「仍在生成中的內容」而設計",
+  "streaming.lede": "Agent 是逐 token 產出產物的。每種類型都有自己的提交邊界——一個完整字素、一整行、一個閉合的 markdown 構造、一個完整 JSON 值、一個已定的 HTML 標籤——而邊界只會向前移動，讀者永遠不會看到某個解釋被撤回。",
+  "streaming.aria": "各類型扣留末尾內容的原因：text 為 surrogate，code 為 partial-line，markdown 為 open-fence，json 為 incomplete-value，html 為 rawtext:script",
+  "streaming.fact1.title": "半解析的內容永遠不會上螢幕。",
+  "streaming.fact1.body": "半截標籤、未閉合的原文段、未閉合的程式碼圍欄，都留在邊界之外，直到後續內容證明它到底是什麼。",
+  "streaming.fact2.title": "暫時繪製不是權威結果。",
+  "streaming.fact2.body": "串流中的產物被固定、不會被淘汰，期間展示的是暫時影格，完成時才提交唯一一次原始碼修訂。",
+  "streaming.fact3.title": "場景本身也在串流增長。",
+  "streaming.fact3.body": "新的影格在內容還沒到齊時就已出現並進入空間索引，因此生成過程中命中測試與可見性集合照常運作。",
   "packages.eyebrow": "套件",
   "packages.title": "與後端無關的契約，並以 oracle 進行差分驗證",
   "packages.lede": "最佳化實作與樸素參考實作一同交付，並與之進行差分測試——oracle 始終保留作為回復路徑。",
@@ -49,17 +55,15 @@
   "packages.artifact": "修訂、互動樹、正規化序列化",
   "packages.security": "靜態設定檔淨化器、URL 政策、配額、能力",
   "packages.runtime": "執行環境訊息協定、epoch、能力守衛橋接",
-  "packages.renderer": "保留式圖片、合成器、LOD、紋理預算",
+  "packages.renderer": "保留式圖片、canvas 原生內容繪製、LOD、紋理預算",
   "packages.editor": "內部命中測試、選取模型、虛擬事件路徑",
   "packages.protocol": "共用的預先發行詞彙表",
   "packages.probe": "HTML-in-Canvas 能力探測、證據清單",
-
   "status.eyebrow": "狀態",
   "status.title": "誠實的範圍",
   "status.lede": "引擎契約已實作並通過測試。瀏覽器證據關卡尚未通過：對實驗性 HTML-in-Canvas API 的支援是我們<em>偵測到的能力</em>，而不是我們做出的承諾。開源授權條款目前尚未選定。",
   "status.cta.plan": "交付計畫與關卡",
   "status.cta.security": "安全模型",
-
   "footer.text": "dope-canvas · 預先發行 ·",
   "docs.englishOnly": "本技術文件目前僅提供英文版本。"
 }

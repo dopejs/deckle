@@ -7,7 +7,6 @@
   "meta.design.description": "dope-canvas 技术设计：制品模型、生命周期、HTML 渲染策略、交互树、安全边界与性能框架。",
   "meta.playground.title": "演练场 — dope-canvas",
   "meta.playground.description": "dope-canvas 引擎的交互式 Storybook 演示：无限画布、命中测试、净化器、LOD 与纹理缓存。",
-
   "nav.overview": "概览",
   "nav.usage": "用法",
   "nav.design": "设计",
@@ -15,7 +14,6 @@
   "nav.github": "GitHub",
   "nav.language": "语言",
   "brand.stage": "预发布",
-
   "hero.title": "面向 AI 生成网页制品的无限画布运行时。",
   "hero.lede": "把成百上千个生成页面都用 iframe 保活并不现实；全部拍平成图片又会丢失选择与事件。dope-canvas 守住中间地带：缓存下来的绘制结果，依然可以深入触达。",
   "hero.eq.artifact": "制品",
@@ -28,7 +26,6 @@
   "hero.cta.playground": "打开演练场",
   "hero.cta.start": "快速上手",
   "hero.cta.design": "阅读技术设计",
-
   "lifecycle.eyebrow": "生命周期",
   "lifecycle.title": "资源随视口而定，而非随文档数量增长",
   "lifecycle.lede": "每个制品都在显式状态机中流转。活动 DOM、运行时与 GPU 纹理都是按可见性和交互授予的预算资源，绝不常驻。",
@@ -40,7 +37,16 @@
   "lifecycle.fact2.body": "纹理只是绘制输出的某一个修订版本——交互树让内部命中测试在没有活动 DOM 时依然有效。",
   "lifecycle.fact3.title": "过期运行时无法写入。",
   "lifecycle.fact3.body": "修订号与 epoch 校验会在被替换运行时的迟到消息触达存储之前将其拒绝。",
-
+  "streaming.eyebrow": "流式",
+  "streaming.title": "为「还在生成中的内容」而设计",
+  "streaming.lede": "Agent 是逐 token 产出制品的。每种类型都有自己的提交边界——一个完整字素、一整行、一个闭合的 markdown 构造、一个完整 JSON 值、一个已定的 HTML 标签——而边界只会向前移动，读者永远不会看到某个解释被撤回。",
+  "streaming.aria": "各类型扣留末尾内容的原因：text 为 surrogate，code 为 partial-line，markdown 为 open-fence，json 为 incomplete-value，html 为 rawtext:script",
+  "streaming.fact1.title": "半解析的内容永远不会上屏。",
+  "streaming.fact1.body": "半截标签、未闭合的原文段、未闭合的代码围栏，都留在边界之外，直到后续内容证明它到底是什么。",
+  "streaming.fact2.title": "临时绘制不是权威结果。",
+  "streaming.fact2.body": "流式中的制品被固定、不会被淘汰，期间展示的是临时帧，完成时才提交唯一一次源修订。",
+  "streaming.fact3.title": "场景本身也在流式增长。",
+  "streaming.fact3.body": "新的帧在内容还没到齐时就已出现并进入空间索引，因此生成过程中命中测试与可见性集合照常工作。",
   "packages.eyebrow": "软件包",
   "packages.title": "与后端无关的契约，并以 oracle 差分验证",
   "packages.lede": "优化实现与朴素参考实现一同交付，并与之做差分测试——oracle 始终作为回滚路径保留。",
@@ -49,17 +55,15 @@
   "packages.artifact": "修订、交互树、规范化序列化",
   "packages.security": "静态档案净化器、URL 策略、配额、能力",
   "packages.runtime": "运行时消息协议、epoch、能力守卫桥接",
-  "packages.renderer": "保留式图片、合成器、LOD、纹理预算",
+  "packages.renderer": "保留式图片、canvas 原生内容渲染、LOD、纹理预算",
   "packages.editor": "内部命中测试、选择模型、虚拟事件路径",
   "packages.protocol": "共享的预发布词汇表",
   "packages.probe": "HTML-in-Canvas 能力探测、证据清单",
-
   "status.eyebrow": "状态",
   "status.title": "诚实的边界",
   "status.lede": "引擎契约已实现并通过测试。浏览器证据门禁尚未通过：对实验性 HTML-in-Canvas API 的支持是我们<em>检测到的能力</em>，而不是我们做出的承诺。开源许可证目前尚未选定。",
   "status.cta.plan": "交付计划与门禁",
   "status.cta.security": "安全模型",
-
   "footer.text": "dope-canvas · 预发布 ·",
   "docs.englishOnly": "本技术文档目前仅提供英文版本。"
 }
