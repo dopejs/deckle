@@ -321,12 +321,31 @@ When native HTML-in-Canvas is unavailable, a bounded live DOM overlay may preser
 active artifacts. It is not expected to meet the same density or composition capabilities. The
 selected fallback and its limitations are observable.
 
-### 7.4 Canvas-native compiler option
+### 7.4 Canvas-native content profile
 
-A future controlled HTML/CSS profile may compile directly to retained scene primitives. This can
-remove live DOM cost for common generated artifacts but is a separate compatibility tier, not an
-implicit partial rendering of arbitrary HTML. It requires its own specification, fixtures, and
-differential oracle.
+A controlled content profile compiles directly to retained scene primitives instead of a DOM
+subtree. This removes live DOM cost for common generated artifacts but is a separate compatibility
+tier, not an implicit partial rendering of arbitrary HTML.
+
+A first profile is implemented. Content compiles to a display list of positioned text runs and
+rules:
+
+- markdown — headings, paragraphs, list items, emphasis, inline code, links, fenced code;
+- the sanitized HTML subset — the same constructs plus tables, so an artifact renders as headings
+  and emphasis rather than as visible markup;
+- code and JSON — syntax-highlighted lines, with JSON formatted;
+- rows — a table with aligned columns and a header rule;
+- text — wrapped prose.
+
+Layout is pure and text measurement is injected, so geometry is identical in a browser, a worker,
+and a test. Layout depends on content and frame width only; zoom is a transform, which is what keeps
+camera movement from rebuilding content. Anything outside the supported constructs degrades to plain
+text rather than being approximated.
+
+What this profile is not: an HTML or CSS engine. Arbitrary layout, positioning, floats, flexbox,
+media, and scripted content remain the live-tier question that M0 evidence must answer. Extending
+the profile requires extending its fixtures and, where a live tier exists, a differential oracle
+against it.
 
 ## 8. Interaction tree and hit testing
 

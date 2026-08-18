@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Each node kind now _renders_ rather than showing its source. A canvas-native display list
+  (`@dopejs/canvas-renderer`) compiles markdown, the sanitized HTML subset, code, JSON, rows, and
+  text into positioned text runs and rules: headings and emphasis, syntax highlighting, formatted
+  JSON, and tables with aligned columns and a header rule. Layout is pure with injected text
+  measurement, and depends on content and frame width only — zoom is a transform, so camera movement
+  never rebuilds content. This is the canvas-native profile from design §7.4, not an HTML engine;
+  unsupported constructs degrade to plain text.
+
 - Streaming is a property of the node model, not an HTML feature. `StreamSlice`/`StreamSegmenter`
   (`@dopejs/canvas-protocol`) define one contract; `@dopejs/canvas-artifact` implements it for text
   (grapheme-safe), code and rows (whole lines), markdown (closed constructs only), and JSON (value

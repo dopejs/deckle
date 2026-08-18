@@ -23,6 +23,18 @@ import {
 } from "@dopejs/canvas-core";
 import type { ArtifactFrame, ArtifactKind, StreamSegmenter } from "@dopejs/canvas-protocol";
 import { htmlSegmenter, sanitizeHtml } from "@dopejs/canvas-security";
+import {
+  compileCode,
+  compileHtmlProfile,
+  compileJson,
+  compileMarkdown,
+  compileRows,
+  compileText,
+  layoutBlocks,
+  type Block,
+  type DisplayList,
+  type TextStyle,
+} from "@dopejs/canvas-renderer";
 import { createHiDpiCanvas } from "./hidpi.js";
 
 export default {
@@ -33,8 +45,10 @@ interface KindSpec {
   readonly kind: ArtifactKind;
   readonly segmenter: StreamSegmenter;
   readonly hue: number;
-  /** Turn the committed prefix into the text drawn inside the frame. */
+  /** Turn the committed prefix into the source the frame will render. */
   readonly render: (committed: string, complete: boolean) => string;
+  /** Compile that source into display-list blocks for canvas-native drawing. */
+  readonly compile: (rendered: string) => Block[];
 }
 
 /**
@@ -43,27 +57,54 @@ interface KindSpec {
  * displayable. The canvas drives them all through one ingestion engine.
  */
 const KINDS: readonly KindSpec[] = [
-  { kind: "markdown", segmenter: markdownSegmenter, hue: 210, render: (text) => text },
-  { kind: "code", segmenter: codeSegmenter, hue: 275, render: (text) => text },
+  {
+    kind: "markdown",
+    segmenter: markdownSegmenter,
+    hue: 210,
+    render: (text) => text,
+    compile: (text) => compileMarkdown(text),
+  },
+  {
+    kind: "code",
+    segmenter: codeSegmenter,
+    hue: 275,
+    render: (text) => text,
+    compile: (text) => compileCode(text),
+  },
   {
     kind: "json",
     segmenter: jsonSegmenter,
     // Closing the open structures keeps partial output parseable, so the frame
-    // shows real formatted data instead of a truncated blob.
-    render: (text) => (text ? JSON.stringify(JSON.parse(completeJsonPrefix(text)), null, 1) : ""),
+    // shows real formatted, highlighted data instead of a truncated blob.
+    render: (text) => (text ? completeJsonPrefix(text) : ""),
+    compile: (text) => compileJson(text),
     hue: 150,
   },
-  { kind: "rows", segmenter: rowsSegmenter, hue: 30, render: (text) => text },
-  { kind: "text", segmenter: textSegmenter, hue: 340, render: (text) => text },
+  {
+    kind: "rows",
+    segmenter: rowsSegmenter,
+    hue: 30,
+    render: (text) => text,
+    compile: (text) => compileRows(text),
+  },
+  {
+    kind: "text",
+    segmenter: textSegmenter,
+    hue: 340,
+    render: (text) => text,
+    compile: (text) => compileText(text),
+  },
   {
     kind: "html",
     segmenter: htmlSegmenter,
-    // Rasterizing HTML inside the canvas is the M0 browser work; until that
-    // path is proven this frame shows the sanitized markup the tier would draw.
+    // The sanitized profile compiles to the same display list as everything
+    // else, so HTML renders as headings, emphasis, and tables rather than as
+    // markup. Rasterizing arbitrary HTML remains the M0 browser question.
     render: (text) => {
       const result = sanitizeHtml(text);
       return result.ok ? result.html : "";
     },
+    compile: (html) => compileHtmlProfile(html),
     hue: 95,
   },
 ];
@@ -103,6 +144,8 @@ interface StreamingNode {
   readonly chunks: readonly string[];
   cursor: number;
   display: string;
+  /** Layout is content geometry, so it is recomputed only when content changes. */
+  layout: DisplayList | null;
   done: boolean;
 }
 
@@ -197,6 +240,7 @@ export const Streaming_Nodes = (): HTMLElement => {
       chunks: tokenize(SOURCES[spec.kind], index),
       cursor: 0,
       display: "",
+      layout: null,
       done: false,
     });
     announced += 1;
@@ -212,12 +256,16 @@ export const Streaming_Nodes = (): HTMLElement => {
       if (node.done) continue;
       if (node.cursor >= node.chunks.length) {
         node.display = node.ingestion.finish().html;
+        node.layout = null;
         node.done = true;
         continue;
       }
       const result = node.ingestion.push(node.chunks[node.cursor] as string, clock);
       node.cursor += 1;
-      if (result.rendered) node.display = result.html;
+      if (result.rendered && result.html !== node.display) {
+        node.display = result.html;
+        node.layout = null;
+      }
       if (result.status === "rejected") node.done = true;
       active = true;
     }
@@ -225,28 +273,24 @@ export const Streaming_Nodes = (): HTMLElement => {
     return active || announced < KINDS.length;
   };
 
-  const wrap = (text: string, maxWidth: number, maxLines: number): string[] => {
-    const lines: string[] = [];
-    for (const paragraph of text.split("\n")) {
-      if (lines.length >= maxLines) break;
-      if (paragraph === "") {
-        lines.push("");
-        continue;
-      }
-      let current = "";
-      for (const word of paragraph.split(" ")) {
-        const candidate = current === "" ? word : `${current} ${word}`;
-        if (context.measureText(candidate).width > maxWidth && current !== "") {
-          lines.push(current);
-          current = word;
-          if (lines.length >= maxLines) break;
-        } else {
-          current = candidate;
-        }
-      }
-      if (lines.length < maxLines && current !== "") lines.push(current);
-    }
-    return lines.slice(0, maxLines);
+  const fontOf = (style: TextStyle): string =>
+    `${style.italic ? "italic " : ""}${style.weight} ${style.size}px ` +
+    (style.family === "mono" ? "ui-monospace, SFMono-Regular, monospace" : "system-ui, sans-serif");
+
+  const measure = (text: string, style: TextStyle): number => {
+    context.font = fontOf(style);
+    return context.measureText(text).width;
+  };
+
+  const FRAME_PADDING = 10;
+
+  /** Layout depends on content and frame width only — never on zoom. */
+  const layoutOf = (node: StreamingNode): DisplayList => {
+    node.layout ??= layoutBlocks(node.spec.compile(node.display), {
+      width: node.frame.width - FRAME_PADDING * 2,
+      measure,
+    });
+    return node.layout;
   };
 
   const draw = (): void => {
@@ -291,29 +335,46 @@ export const Streaming_Nodes = (): HTMLElement => {
       context.fillStyle = `hsl(${node.spec.hue} 70% 55%)`;
       context.fillRect(topLeft.x, topLeft.y + height - 3, (width * received) / total, 3);
 
-      if (camera.zoom > 0.35) {
-        context.fillStyle = "#20242a";
-        context.font = `${10.5 * Math.min(camera.zoom, 1.2)}px ui-monospace, monospace`;
-        const lineHeight = 13 * Math.min(camera.zoom, 1.2);
-        const maxLines = Math.floor((height - 34 * camera.zoom) / lineHeight);
-        const lines = wrap(node.display, width - 16, Math.max(0, maxLines));
-        lines.forEach((line, index) => {
-          context.fillText(
-            line,
-            topLeft.x + 8,
-            topLeft.y + 30 * camera.zoom + index * lineHeight,
-            width - 16,
-          );
-        });
+      if (camera.zoom > 0.3) {
+        // Content is laid out once in artifact space; zoom is only a transform,
+        // which is what keeps camera movement from rebuilding content.
+        const list = layoutOf(node);
+        context.save();
+        context.beginPath();
+        context.rect(topLeft.x, topLeft.y + 22 * camera.zoom, width, height - 26 * camera.zoom);
+        context.clip();
+        context.translate(topLeft.x + FRAME_PADDING * camera.zoom, topLeft.y + 26 * camera.zoom);
+        context.scale(camera.zoom, camera.zoom);
 
-        // The withheld tail, shown as the caret the reader never sees resolve.
-        if (isStreaming && node.port.pending !== null) {
-          context.fillStyle = `hsl(${node.spec.hue} 80% 45%)`;
-          const caretY = topLeft.y + 30 * camera.zoom + Math.max(0, lines.length - 1) * lineHeight;
-          const caretX =
-            topLeft.x + 8 + context.measureText(lines[lines.length - 1] ?? "").width + 2;
-          context.fillRect(caretX, caretY - 9, 5, 11);
+        for (const rule of list.rules) {
+          context.fillStyle = rule.color;
+          context.fillRect(rule.x, rule.y, rule.width, 1);
         }
+        for (const run of list.runs) {
+          context.font = fontOf(run.style);
+          context.fillStyle = run.style.color;
+          context.fillText(run.text, run.x, run.y, run.maxWidth);
+          if (run.style.underline === true) {
+            const width_ = Math.min(context.measureText(run.text).width, run.maxWidth);
+            context.fillRect(run.x, run.y + 2, width_, 0.8);
+          }
+        }
+
+        // The withheld tail, drawn as a caret that never resolves on screen.
+        if (isStreaming && node.port.pending !== null) {
+          const last = list.runs[list.runs.length - 1];
+          context.fillStyle = `hsl(${node.spec.hue} 80% 45%)`;
+          if (last) {
+            context.font = fontOf(last.style);
+            context.fillRect(
+              last.x + context.measureText(last.text).width + 1,
+              last.y - last.style.size,
+              4,
+              last.style.size + 2,
+            );
+          }
+        }
+        context.restore();
       }
     }
 
