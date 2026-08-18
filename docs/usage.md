@@ -1,31 +1,52 @@
 # Using dope-canvas
 
-> The packages are pre-release (`0.0.0`, private) and are not yet published to a registry. Until a
-> first release is cut, consume them from a checkout of this repository — for example through a pnpm
-> workspace or `pnpm link`. Every API below is real and covered by the repository test suite; the
-> public surface may still change before release.
+> The packages are pre-release (`0.2.0`) and are not on npm yet — publication is gated on the
+> owners' license selection, which is tracked in [the plan](plan.md).
 
 ## Install
+
+The packages are not published to a registry yet — npm publication waits on the repository owners
+selecting a license. Once that lands, the install is the ordinary one:
+
+```bash
+pnpm add @dopejs/canvas-core @dopejs/canvas-artifact @dopejs/canvas-security
+```
+
+Until then, build the tarballs from a checkout and install those. They are the same artifacts that
+will be published: built JavaScript with type declarations, no workspace-only references.
 
 ```bash
 git clone https://github.com/dopejs/dope-canvas.git
 cd dope-canvas
 pnpm install --frozen-lockfile
-pnpm check   # 200+ tests, lint, types
+pnpm build
+pnpm --filter @dopejs/canvas-core pack --pack-destination /tmp/dope-canvas
 ```
 
-Add the packages you need to your workspace:
+Then point your project at the tarball. Transitive `@dopejs/canvas-*` dependencies resolve from the
+registry unless you override them, so pack and override every package you pull in:
 
 ```jsonc
 // package.json
 {
   "dependencies": {
-    "@dopejs/canvas-core": "workspace:*",
-    "@dopejs/canvas-spatial": "workspace:*",
-    "@dopejs/canvas-security": "workspace:*",
+    "@dopejs/canvas-core": "file:/tmp/dope-canvas/dopejs-canvas-core-0.2.0.tgz",
+  },
+  "pnpm": {
+    "overrides": {
+      "@dopejs/canvas-protocol": "file:/tmp/dope-canvas/dopejs-canvas-protocol-0.2.0.tgz",
+      "@dopejs/canvas-spatial": "file:/tmp/dope-canvas/dopejs-canvas-spatial-0.2.0.tgz",
+    },
   },
 }
 ```
+
+`pnpm packages:smoke` runs exactly this path — pack every library, install it into a throwaway
+project outside the workspace, and import it — so the published surface cannot regress into
+something that only works inside this repository.
+
+Everything below is real API covered by the repository test suite; the public surface may still
+change before the first release.
 
 ## Scene and camera
 

@@ -38,6 +38,9 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Verify packages are consumable outside the workspace
+        run: pnpm packages:smoke
+
       - name: Verify Cargo artifact cleanup
         if: always()
         run: pnpm rust:artifacts:check

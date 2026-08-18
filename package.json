@@ -21,7 +21,8 @@
     "rust:clippy": "node scripts/run-rust.mjs clippy --workspace --all-targets -- -D warnings",
     "rust:test": "node scripts/run-rust.mjs test --workspace",
     "test": "vitest run",
-    "typecheck": "pnpm -r --if-present typecheck"
+    "typecheck": "pnpm -r --if-present typecheck",
+    "packages:smoke": "node scripts/check-package-consumable.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
