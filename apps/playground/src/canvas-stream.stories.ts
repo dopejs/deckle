@@ -311,21 +311,23 @@ export const Streaming_Nodes = (): HTMLElement => {
       const height = node.frame.height * camera.zoom;
       const isStreaming = record.lifecycle === "streaming";
 
-      context.fillStyle = "#fff";
-      context.strokeStyle = isStreaming
-        ? `hsl(${node.spec.hue} 70% 55%)`
-        : `hsl(${node.spec.hue} 30% 72%)`;
-      context.lineWidth = isStreaming ? 2 : 1;
-      if (isStreaming) context.setLineDash([6, 4]);
-      context.beginPath();
-      context.roundRect(topLeft.x, topLeft.y, width, height, 8 * Math.min(camera.zoom, 1));
-      context.fill();
-      context.stroke();
-      context.setLineDash([]);
+      // One rounded path is the frame's clip for everything drawn inside it, so
+      // the badge band and the progress bar follow the corners instead of
+      // squaring them off.
+      const radius = 8 * Math.min(camera.zoom, 1);
+      const frame = new Path2D();
+      frame.roundRect(topLeft.x, topLeft.y, width, height, radius);
+      const badgeHeight = 22 * camera.zoom;
+      const progressHeight = 3 * Math.min(camera.zoom, 1.5);
 
-      // Kind badge and progress bar.
+      context.fillStyle = "#fff";
+      context.fill(frame);
+
+      context.save();
+      context.clip(frame);
+
       context.fillStyle = `hsl(${node.spec.hue} 60% 92%)`;
-      context.fillRect(topLeft.x, topLeft.y, width, 22 * camera.zoom);
+      context.fillRect(topLeft.x, topLeft.y, width, badgeHeight);
       context.fillStyle = `hsl(${node.spec.hue} 60% 28%)`;
       context.font = `${11 * Math.min(camera.zoom, 1.2)}px ui-monospace, monospace`;
       context.fillText(node.spec.kind, topLeft.x + 8, topLeft.y + 15 * camera.zoom);
@@ -333,7 +335,12 @@ export const Streaming_Nodes = (): HTMLElement => {
       const received = node.port.buffer.length;
       const total = SOURCES[node.spec.kind].length;
       context.fillStyle = `hsl(${node.spec.hue} 70% 55%)`;
-      context.fillRect(topLeft.x, topLeft.y + height - 3, (width * received) / total, 3);
+      context.fillRect(
+        topLeft.x,
+        topLeft.y + height - progressHeight,
+        (width * received) / total,
+        progressHeight,
+      );
 
       if (camera.zoom > 0.3) {
         // Content is laid out once in artifact space; zoom is only a transform,
@@ -341,7 +348,12 @@ export const Streaming_Nodes = (): HTMLElement => {
         const list = layoutOf(node);
         context.save();
         context.beginPath();
-        context.rect(topLeft.x, topLeft.y + 22 * camera.zoom, width, height - 26 * camera.zoom);
+        context.rect(
+          topLeft.x,
+          topLeft.y + badgeHeight,
+          width,
+          height - badgeHeight - progressHeight,
+        );
         context.clip();
         context.translate(topLeft.x + FRAME_PADDING * camera.zoom, topLeft.y + 26 * camera.zoom);
         context.scale(camera.zoom, camera.zoom);
@@ -376,6 +388,17 @@ export const Streaming_Nodes = (): HTMLElement => {
         }
         context.restore();
       }
+
+      context.restore(); // release the rounded clip
+
+      // Stroke the border last so it stays crisp over the fills it bounds.
+      context.strokeStyle = isStreaming
+        ? `hsl(${node.spec.hue} 70% 55%)`
+        : `hsl(${node.spec.hue} 30% 72%)`;
+      context.lineWidth = isStreaming ? 2 : 1;
+      if (isStreaming) context.setLineDash([6, 4]);
+      context.stroke(frame);
+      context.setLineDash([]);
     }
 
     const withheld = nodes.reduce(
