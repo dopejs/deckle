@@ -65,8 +65,9 @@ All JavaScript/TypeScript workspace packages, including private applications, us
 
 ## Package status
 
-All packages are private and versioned `0.2.0`; none is a stable public contract yet, and none is
-published to a registry — npm publication waits on the owners' license selection.
+The libraries are versioned `0.2.0` and published under `@dopejs/canvas-*`; the applications stay
+private. Nothing is a stable public contract yet — the surface may change before the first stable
+release.
 
 | Package                         | Responsibility                                                    |
 | ------------------------------- | ----------------------------------------------------------------- |
@@ -88,6 +89,6 @@ a capability, not a claim.
 
 ## License
 
-No license has been selected yet. Until the repository owners add one, the contents are not offered
-under an open-source license. License selection is a P0 release prerequisite tracked in
-[the plan](docs/plan.md).
+[Apache-2.0](LICENSE). The patent grant matters here: the streaming boundary model and the
+canvas-native rendering profile are the kind of implementation work that benefits from an explicit
+grant rather than a bare permissive license.

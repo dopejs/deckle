@@ -84,6 +84,14 @@ try {
     if (!existsSync(file)) {
       throw new Error(`pnpm pack did not produce ${file}`);
     }
+    // Apache-2.0 requires recipients to receive the license, and npm only ships
+    // files inside the package directory — the repository root copy would not.
+    const contents = run("tar", ["-tzf", file]);
+    for (const required of ["package/LICENSE", "package/README.md", "package/dist/index.js"]) {
+      if (!contents.includes(required)) {
+        throw new Error(`${manifest.name}: tarball is missing ${required}`);
+      }
+    }
     // Transitive dependencies resolve to the registry unless overridden, and
     // nothing is published yet, so point every name at its local tarball.
     overrides[manifest.name] = `file:${file}`;

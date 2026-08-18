@@ -3,6 +3,16 @@
   "version": "0.2.0",
   "private": true,
   "description": "M0 feasibility probe: HTML-in-Canvas capability detection and signed evidence manifests. Probe code is disposable and is not a production API.",
+  "license": "Apache-2.0",
+  "homepage": "https://canvas.dopejs.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "directory": "apps/platform-probe"
+  },
+  "bugs": {
+    "url": "https://github.com/dopejs/dope-canvas/issues"
+  },
   "type": "module",
   "exports": {
     ".": {

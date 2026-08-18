@@ -4,23 +4,19 @@
 
 ## Install
 
-The packages are not on npm yet, so there is no supported way to add them to another project. When
-they are published, installing will be ordinary:
-
 ```bash
 pnpm add @dopejs/canvas-core
 ```
 
-What is blocking publication is a license: the repository has not selected one, and shipping code
-without a license would leave you with no right to use it. That decision is tracked in
-[the plan](plan.md).
+Add whichever packages you need — they are independent and depend only on each other:
 
-In the meantime you can [try the engine in the playground](https://canvas.dopejs.com/playground/) —
-it runs these packages in the browser with nothing to install — or clone the repository and work
-against the source.
+```bash
+pnpm add @dopejs/canvas-artifact @dopejs/canvas-security @dopejs/canvas-renderer
+```
 
 The API below is real and covered by the repository test suite. The public surface may still change
-before the first release.
+before the first stable release, and browser-evidence gates are not exited — see
+[the plan](plan.md).
 
 ## Scene and camera
 

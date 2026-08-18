@@ -8,3 +8,7 @@ node_modules/
 target/
 .cache/cargo-target/
 *.tsbuildinfo
+
+# Staged into each package by scripts/prepare-package.mjs before packing.
+packages/*/LICENSE
+packages/*/NOTICE

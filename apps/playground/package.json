@@ -3,6 +3,16 @@
   "version": "0.2.0",
   "private": true,
   "description": "Interactive Storybook playground for the dope-canvas engine packages. Demo code only; not a production API.",
+  "license": "Apache-2.0",
+  "homepage": "https://canvas.dopejs.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "directory": "apps/playground"
+  },
+  "bugs": {
+    "url": "https://github.com/dopejs/dope-canvas/issues"
+  },
   "type": "module",
   "scripts": {
     "build": "storybook build -o dist",

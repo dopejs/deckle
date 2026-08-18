@@ -1,8 +1,18 @@
 {
   "name": "@dopejs/canvas-artifact",
   "version": "0.2.0",
-  "private": true,
+  "private": false,
   "description": "Artifact source, revisions, interaction tree, and deterministic serialization for dope-canvas.",
+  "license": "Apache-2.0",
+  "homepage": "https://canvas.dopejs.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "directory": "packages/artifact"
+  },
+  "bugs": {
+    "url": "https://github.com/dopejs/dope-canvas/issues"
+  },
   "type": "module",
   "exports": {
     ".": {
@@ -13,6 +23,8 @@
   "sideEffects": false,
   "files": [
     "dist",
+    "LICENSE",
+    "NOTICE",
     "README.md"
   ],
   "publishConfig": {
@@ -29,7 +41,8 @@
   "scripts": {
     "build": "node ../../scripts/clean-dist.mjs && tsc -p tsconfig.build.json",
     "test": "vitest run src",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "prepack": "node ../../scripts/prepare-package.mjs"
   },
   "dependencies": {
     "@dopejs/canvas-protocol": "workspace:*"

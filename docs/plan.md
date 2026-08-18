@@ -22,9 +22,9 @@ browser/device run, and the two owner-controlled P0 items remain open.
 | `@dopejs/canvas-editor`         | nested transform/clip/paint-order hit testing, selection, event paths (M3)                              | oracle-differential tests                             |
 | `@dopejs/canvas-platform-probe` | capability detection, evidence manifest with simulation guard (M0 harness)                              | fail-closed detection tests                           |
 
-Remaining blocked work: real-browser M0 probe runs and measurements; license selection and
-CODEOWNERS/branch protection by repository owners; absolute performance/memory gate numbers, which
-by design cannot be fixed before M0 evidence exists.
+Remaining blocked work: real-browser M0 probe runs and measurements; CODEOWNERS/branch protection by
+repository owners; absolute performance/memory gate numbers, which by design cannot be fixed before
+M0 evidence exists.
 
 ## 1. Delivery principles
 
@@ -65,7 +65,7 @@ P0 establishes the repository and prevents architectural assumptions from becomi
 - [x] CI, formatting, linting, type checking, unit test, docs-link, and package-name gates.
 - [x] Minimal private protocol vocabulary; no claim of a stable public API.
 - [x] Cargo output policy and cleanup runner prepared before any Rust workspace exists.
-- [ ] Open-source license selected by repository owners.
+- [x] Open-source license selected by repository owners (Apache-2.0).
 - [ ] CODEOWNERS and branch-protection policy configured in GitHub.
 
 ### Exit gate

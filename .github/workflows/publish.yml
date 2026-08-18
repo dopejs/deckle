@@ -1,0 +1,53 @@
+name: Publish
+
+# Publishing is deliberately manual and tag-driven: a release is a decision,
+# not a side effect of merging. The workflow re-runs every repository gate and
+# the outside-the-workspace consumability smoke before it touches the registry.
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Pack and validate without publishing"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write # npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment: npm
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.33.2
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22.22.0
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check repository
+        run: pnpm check
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Verify packages are consumable outside the workspace
+        run: pnpm packages:smoke
+
+      - name: Publish
+        if: ${{ !inputs.dry-run }}
+        run: pnpm publish --recursive --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
