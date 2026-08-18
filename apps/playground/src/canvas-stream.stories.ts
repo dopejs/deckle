@@ -22,6 +22,7 @@ import {
   type SegmentedPort,
 } from "@dopejs/canvas-core";
 import type { ArtifactFrame, ArtifactKind, StreamSegmenter } from "@dopejs/canvas-protocol";
+import { MediaIngestion } from "@dopejs/canvas-core";
 import { htmlSegmenter, sanitizeHtml } from "@dopejs/canvas-security";
 import {
   compileCode,
@@ -30,6 +31,9 @@ import {
   compileMarkdown,
   compileRows,
   compileText,
+  compileError,
+  compileLoading,
+  compileMedia,
   layoutBlocks,
   type Block,
   type DisplayList,
@@ -109,7 +113,18 @@ const KINDS: readonly KindSpec[] = [
   },
 ];
 
-const SOURCES: Record<ArtifactKind, string> = {
+/** Kinds that have no partial form: they load, then resolve or fail. */
+const MEDIA_KINDS = [
+  { kind: "image" as const, hue: 190, metadata: { width: 1200, height: 800 }, bytes: 420_000 },
+  {
+    kind: "video" as const,
+    hue: 255,
+    metadata: { width: 1920, height: 1080, durationMs: 12_500 },
+    bytes: 2_400_000,
+  },
+];
+
+const SOURCES: Record<Exclude<ArtifactKind, "image" | "video">, string> = {
   markdown:
     "## Q3 summary\n\nRevenue reached **$4.2M**, up 12% quarter over quarter.\n\n" +
     "Drivers:\n- Enterprise renewals\n- Self-serve conversion\n\n" +
@@ -134,15 +149,27 @@ const SOURCES: Record<ArtifactKind, string> = {
     '<p onclick="alert(1)">Appendix follows.</p></section>',
 };
 
+type NodeStatus = "loading" | "content" | "failed";
+
+interface MediaState {
+  readonly ingestion: MediaIngestion;
+  loaded: number;
+  readonly total: number;
+  /** One artifact fails on purpose so the error state is always on screen. */
+  readonly failAt: number | null;
+}
+
 interface StreamingNode {
   readonly id: string;
   readonly spec: KindSpec;
   readonly frame: ArtifactFrame;
   readonly handle: ArtifactHandle;
-  readonly port: SegmentedPort;
-  readonly ingestion: StreamingIngestion;
+  readonly port: SegmentedPort | null;
+  readonly ingestion: StreamingIngestion | null;
   readonly chunks: readonly string[];
   cursor: number;
+  media: MediaState | null;
+  metadata: { width: number; height: number; durationMs?: number } | null;
   display: string;
   /** Layout is content geometry, so it is recomputed only when content changes. */
   layout: DisplayList | null;
@@ -205,18 +232,58 @@ export const Streaming_Nodes = (): HTMLElement => {
   let announced = 0;
   let timer: number | null = null;
 
+  const TOTAL_NODES = KINDS.length + MEDIA_KINDS.length;
+
+  const frameFor = (index: number): ArtifactFrame => ({
+    x: -420 + (index % 3) * 300,
+    y: -300 + Math.floor(index / 3) * 280,
+    width: 260,
+    height: 230,
+    zIndex: index,
+  });
+
   const announce = (): void => {
     const index = announced;
-    const spec = KINDS[index % KINDS.length] as KindSpec;
-    const column = index % 3;
-    const row = Math.floor(index / 3);
-    const frame: ArtifactFrame = {
-      x: -420 + column * 300,
-      y: -260 + row * 260,
-      width: 260,
-      height: 210,
-      zIndex: index,
-    };
+    const frame = frameFor(index);
+
+    if (index >= KINDS.length) {
+      // Atomic media: nothing to segment, so it loads and then resolves or fails.
+      const media = MEDIA_KINDS[index - KINDS.length] as (typeof MEDIA_KINDS)[number];
+      const id = `${media.kind}-${index}`;
+      const handle = store.transact((tx) => tx.createArtifact(id, frame));
+      nodes.push({
+        id,
+        spec: {
+          kind: media.kind,
+          hue: media.hue,
+          segmenter: () => ({ committedLength: 0, pending: null }),
+          render: () => "",
+          compile: () => [],
+        },
+        frame,
+        handle,
+        port: null,
+        ingestion: null,
+        chunks: [],
+        cursor: 0,
+        media: {
+          ingestion: new MediaIngestion(store, handle, media.kind),
+          loaded: 0,
+          total: media.bytes,
+          // The video fails on purpose: an error state nobody can see is an
+          // error state nobody has checked.
+          failAt: media.kind === "video" ? Math.floor(media.bytes * 0.6) : null,
+        },
+        metadata: media.metadata,
+        display: "",
+        layout: null,
+        done: false,
+      });
+      announced += 1;
+      return;
+    }
+
+    const spec = KINDS[index] as KindSpec;
     const id = `${spec.kind}-${index}`;
     const handle = store.transact((tx) => tx.createArtifact(id, frame));
     const port = createSegmentedPort({
@@ -224,21 +291,22 @@ export const Streaming_Nodes = (): HTMLElement => {
       render: spec.render,
       maxChars: 4096,
     });
-    const ingestion = new StreamingIngestion(
-      store,
-      handle,
-      port,
-      new StreamCoalescer({ minIntervalMs: 0, minChars: 1 }),
-    );
     nodes.push({
       id,
       spec,
       frame,
       handle,
       port,
-      ingestion,
-      chunks: tokenize(SOURCES[spec.kind], index),
+      ingestion: new StreamingIngestion(
+        store,
+        handle,
+        port,
+        new StreamCoalescer({ minIntervalMs: 0, minChars: 1 }),
+      ),
+      chunks: tokenize(SOURCES[spec.kind as keyof typeof SOURCES], index),
       cursor: 0,
+      media: null,
+      metadata: null,
       display: "",
       layout: null,
       done: false,
@@ -246,21 +314,47 @@ export const Streaming_Nodes = (): HTMLElement => {
     announced += 1;
   };
 
+  const advanceMedia = (node: StreamingNode, media: MediaState): boolean => {
+    // Media has no partial content, so what advances is the transfer, not the
+    // artifact: the frame stays in loading until it resolves or fails.
+    media.loaded = Math.min(media.total, media.loaded + Math.ceil(media.total / 24));
+    media.ingestion.report(media.loaded, media.total);
+    node.layout = null;
+
+    if (media.failAt !== null && media.loaded >= media.failAt) {
+      media.ingestion.fail("decode-failed", "the stream ended before the media could decode");
+      node.done = true;
+      return true;
+    }
+    if (media.loaded >= media.total) {
+      media.ingestion.resolve(node.metadata ?? { width: 1, height: 1 });
+      node.done = true;
+    }
+    return true;
+  };
+
   const tick = (): boolean => {
     clock += 16;
-    // The agent keeps announcing frames while earlier ones are still filling.
-    if (announced < KINDS.length && clock % 96 === 0) announce();
+    if (announced < TOTAL_NODES && clock % 96 === 0) announce();
 
     let active = false;
     for (const node of nodes) {
       if (node.done) continue;
+
+      if (node.media) {
+        active = advanceMedia(node, node.media) || active;
+        continue;
+      }
+
+      const ingestion = node.ingestion;
+      if (!ingestion) continue;
       if (node.cursor >= node.chunks.length) {
-        node.display = node.ingestion.finish().html;
+        node.display = ingestion.finish().html;
         node.layout = null;
         node.done = true;
         continue;
       }
-      const result = node.ingestion.push(node.chunks[node.cursor] as string, clock);
+      const result = ingestion.push(node.chunks[node.cursor] as string, clock);
       node.cursor += 1;
       if (result.rendered && result.html !== node.display) {
         node.display = result.html;
@@ -270,7 +364,7 @@ export const Streaming_Nodes = (): HTMLElement => {
       active = true;
     }
     draw();
-    return active || announced < KINDS.length;
+    return active || announced < TOTAL_NODES;
   };
 
   const fontOf = (style: TextStyle): string =>
@@ -284,11 +378,45 @@ export const Streaming_Nodes = (): HTMLElement => {
 
   const FRAME_PADDING = 10;
 
-  /** Layout depends on content and frame width only — never on zoom. */
+  const statusOf = (node: StreamingNode): NodeStatus => {
+    const record = store.getById(node.id);
+    if (record?.lifecycle === "failed") return "failed";
+    if (record?.lifecycle === "loading") return "loading";
+    return "content";
+  };
+
+  /**
+   * Layout depends on content and frame width only — never on zoom. Which
+   * blocks get laid out depends on the artifact's state: every kind has a
+   * loading and an error presentation, not just a content one.
+   */
   const layoutOf = (node: StreamingNode): DisplayList => {
-    node.layout ??= layoutBlocks(node.spec.compile(node.display), {
+    if (node.layout) return node.layout;
+    const record = store.getById(node.id);
+    const status = statusOf(node);
+
+    let blocks;
+    if (status === "failed") {
+      blocks = compileError({
+        code: record?.failure?.code ?? "unknown",
+        message: record?.failure?.message ?? "the artifact failed",
+        recoverable: record?.failure?.recoverable ?? true,
+      });
+    } else if (status === "loading") {
+      blocks = compileLoading({
+        kind: node.spec.kind,
+        progress: node.media ? node.media.loaded / node.media.total : null,
+      });
+    } else if (node.media && node.metadata) {
+      blocks = compileMedia(node.spec.kind as "image" | "video", node.metadata);
+    } else {
+      blocks = node.spec.compile(node.display);
+    }
+
+    node.layout = layoutBlocks(blocks, {
       width: node.frame.width - FRAME_PADDING * 2,
       measure,
+      maxMediaHeight: node.frame.height - 70,
     });
     return node.layout;
   };
@@ -300,16 +428,21 @@ export const Streaming_Nodes = (): HTMLElement => {
     const visible = new Set(sets.visible);
 
     let streaming = 0;
+    let loading = 0;
+    let failed = 0;
     for (const node of nodes) {
       const record = store.getById(node.id);
       if (!record) continue;
       if (record.lifecycle === "streaming") streaming += 1;
+      if (record.lifecycle === "loading") loading += 1;
+      if (record.lifecycle === "failed") failed += 1;
       if (!visible.has(node.id)) continue;
 
       const topLeft = worldToScreen(camera, { x: node.frame.x, y: node.frame.y });
       const width = node.frame.width * camera.zoom;
       const height = node.frame.height * camera.zoom;
-      const isStreaming = record.lifecycle === "streaming";
+      const isStreaming = record.lifecycle === "streaming" || record.lifecycle === "loading";
+      const hasFailed = record.lifecycle === "failed";
 
       // One rounded path is the frame's clip for everything drawn inside it, so
       // the badge band and the progress bar follow the corners instead of
@@ -326,14 +459,16 @@ export const Streaming_Nodes = (): HTMLElement => {
       context.save();
       context.clip(frame);
 
-      context.fillStyle = `hsl(${node.spec.hue} 60% 92%)`;
+      context.fillStyle = hasFailed ? "#fbe9e7" : `hsl(${node.spec.hue} 60% 92%)`;
       context.fillRect(topLeft.x, topLeft.y, width, badgeHeight);
-      context.fillStyle = `hsl(${node.spec.hue} 60% 28%)`;
+      context.fillStyle = hasFailed ? "#8c1d18" : `hsl(${node.spec.hue} 60% 28%)`;
       context.font = `${11 * Math.min(camera.zoom, 1.2)}px ui-monospace, monospace`;
       context.fillText(node.spec.kind, topLeft.x + 8, topLeft.y + 15 * camera.zoom);
 
-      const received = node.port.buffer.length;
-      const total = SOURCES[node.spec.kind].length;
+      const received = node.media ? node.media.loaded : (node.port?.buffer.length ?? 0);
+      const total = node.media
+        ? node.media.total
+        : SOURCES[node.spec.kind as keyof typeof SOURCES].length;
       context.fillStyle = `hsl(${node.spec.hue} 70% 55%)`;
       context.fillRect(
         topLeft.x,
@@ -358,6 +493,12 @@ export const Streaming_Nodes = (): HTMLElement => {
         context.translate(topLeft.x + FRAME_PADDING * camera.zoom, topLeft.y + 26 * camera.zoom);
         context.scale(camera.zoom, camera.zoom);
 
+        for (const rect of list.rects) {
+          context.fillStyle = rect.fill;
+          context.beginPath();
+          context.roundRect(rect.x, rect.y, rect.width, rect.height, rect.radius ?? 0);
+          context.fill();
+        }
         for (const rule of list.rules) {
           context.fillStyle = rule.color;
           context.fillRect(rule.x, rule.y, rule.width, 1);
@@ -373,7 +514,8 @@ export const Streaming_Nodes = (): HTMLElement => {
         }
 
         // The withheld tail, drawn as a caret that never resolves on screen.
-        if (isStreaming && node.port.pending !== null) {
+        // Media has no tail: it is atomic, so there is nothing to withhold.
+        if (isStreaming && node.port?.pending != null) {
           const last = list.runs[list.runs.length - 1];
           context.fillStyle = `hsl(${node.spec.hue} 80% 45%)`;
           if (last) {
@@ -392,23 +534,25 @@ export const Streaming_Nodes = (): HTMLElement => {
       context.restore(); // release the rounded clip
 
       // Stroke the border last so it stays crisp over the fills it bounds.
-      context.strokeStyle = isStreaming
-        ? `hsl(${node.spec.hue} 70% 55%)`
-        : `hsl(${node.spec.hue} 30% 72%)`;
-      context.lineWidth = isStreaming ? 2 : 1;
+      context.strokeStyle = hasFailed
+        ? "#b3261e"
+        : isStreaming
+          ? `hsl(${node.spec.hue} 70% 55%)`
+          : `hsl(${node.spec.hue} 30% 72%)`;
+      context.lineWidth = isStreaming || hasFailed ? 2 : 1;
       if (isStreaming) context.setLineDash([6, 4]);
       context.stroke(frame);
       context.setLineDash([]);
     }
 
     const withheld = nodes.reduce(
-      (sum, node) => sum + (node.port.buffer.length - node.port.committedLength),
+      (sum, node) => sum + ((node.port?.buffer.length ?? 0) - (node.port?.committedLength ?? 0)),
       0,
     );
-    const pendingReasons = [...new Set(nodes.map((node) => node.port.pending).filter(Boolean))];
+    const pendingReasons = [...new Set(nodes.map((node) => node.port?.pending).filter(Boolean))];
     hud.textContent =
-      `nodes ${nodes.length}   streaming ${streaming}   visible ${sets.visible.length}` +
-      `   cold ${sets.cold.length}\n` +
+      `nodes ${nodes.length}   loading ${loading}   streaming ${streaming}   failed ${failed}` +
+      `   visible ${sets.visible.length}\n` +
       `withheld ${withheld} chars   reasons ${pendingReasons.join(", ") || "—"}\n` +
       `zoom ${camera.zoom.toFixed(2)}   draw ${(performance.now() - start).toFixed(2)} ms`;
   };

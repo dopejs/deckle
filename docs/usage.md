@@ -190,6 +190,41 @@ provisional frame stays visible as a placeholder:
 ingestion.abort("agent timed out");
 ```
 
+## Media and the states every artifact has
+
+Images and video cannot stream: no prefix of the bytes is a smaller picture. They load, then resolve
+or fail. The host decodes and reports; the engine owns the lifecycle.
+
+```ts
+import { MediaIngestion } from "@dopejs/canvas-core";
+import { compileLoading, compileMedia, compileError } from "@dopejs/canvas-renderer";
+
+const media = new MediaIngestion(store, handle, "image"); // artifact is now "loading"
+media.report(bytesSoFar, totalBytes); // determinate progress when a length is known
+media.resolve({ width: 1200, height: 800 }); // → "parsed", one source revision
+// media.fail("decode-failed", "the image data is not a supported format");
+```
+
+Pick the presentation from the artifact's lifecycle — every kind has all three:
+
+```ts
+const record = store.get(handle);
+const blocks =
+  record.lifecycle === "failed"
+    ? compileError(record.failure!)
+    : record.lifecycle === "loading"
+      ? compileLoading({ kind, progress: media.progress.ratio })
+      : compileMedia("image", media.metadata!);
+```
+
+Streamed kinds are loading too until their segmenter commits a first character — a chunk can arrive
+that commits nothing, so `IngestionResult.loading` keys off renderable content rather than receipt:
+
+```ts
+const tick = ingestion.push(token, performance.now());
+if (tick.loading) renderSkeleton();
+```
+
 ## Hit testing cached artifacts
 
 An interaction tree keeps internal selection working when paint is just a cached texture. The

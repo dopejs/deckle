@@ -211,6 +211,9 @@ cold ───┴──────→ parsed → snapshot ⇄ live → hibernat
 ```
 
 - `cold`: validated source, durable state, and coarse metadata only.
+- `loading`: the artifact exists on the canvas with nothing renderable yet — a generation before its
+  first committed character, or media that has not decoded. Every artifact passes through it, so "no
+  content yet" is a state the renderer handles rather than an empty frame that looks broken.
 - `streaming`: a generator is still producing the source. Only the safe prefix is rendered, paint is
   provisional, and no authoritative interaction tree exists yet.
 - `parsed`: document/interaction source is available without live execution.
@@ -244,6 +247,18 @@ streaming engine:
 | `markdown` | the last closed construct        | open fence, unclosed link, dangling emphasis       |
 | `json`     | the last completed value         | a number can gain digits, a string can gain text   |
 | `html`     | the last decided tag or text run | partial tag, unterminated raw text, partial entity |
+
+`image` and `video` are deliberately absent from that table. Media is atomic: no prefix of the bytes
+is a smaller picture, so there is nothing to segment and nothing provisional to paint. Those kinds
+go `loading → parsed` on decode or `loading → failed`, reserving their box from the intrinsic aspect
+ratio so the layout does not jump when the real dimensions arrive. Decoding stays with the host —
+the engine holds no DOM and no codecs — which reports transfer progress, resolution, or failure
+while the engine owns the lifecycle, the pin, and the revision.
+
+Every kind carries three presentations, not one: content, loading, and failed. A frame with no
+content and no loading state reads as a broken artifact rather than a pending one, and an error with
+no presentation is an error nobody can act on — so failures show their message alongside the typed
+code that identifies them.
 
 Segmentation decides _what is stable_; turning the committed prefix into something displayable —
 sanitizing HTML, closing open JSON structures so partial data parses, laying out markdown — is a

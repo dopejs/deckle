@@ -1,4 +1,13 @@
 export {
+  compileError,
+  compileLoading,
+  compileMedia,
+  DEFAULT_STATUS_THEME,
+  type ArtifactError,
+  type LoadingOptions,
+  type StatusTheme,
+} from "./status.js";
+export {
   compileCode,
   compileHtmlProfile,
   compileJson,
@@ -14,6 +23,7 @@ export {
   layoutBlocks,
   type Block,
   type DisplayList,
+  type DisplayRect,
   type DisplayRule,
   type InlineRun,
   type LayoutOptions,

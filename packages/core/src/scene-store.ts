@@ -25,7 +25,9 @@ export type PinReason =
   | "background-capability"
   | "inspection"
   /** An agent is still generating this artifact; evicting it would lose the stream. */
-  | "streaming";
+  | "streaming"
+  /** Content has been requested but nothing is renderable yet. */
+  | "loading";
 
 export interface ArtifactRevisions {
   readonly sourceRevision: number;

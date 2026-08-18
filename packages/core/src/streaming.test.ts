@@ -2,6 +2,8 @@ import type { ArtifactFrame } from "@dopejs/canvas-protocol";
 import { describe, expect, it } from "vitest";
 import {
   createSegmentedPort,
+  MediaIngestion,
+  MediaIngestionError,
   PinnedEvictionError,
   SceneStore,
   StreamCoalescer,
@@ -83,9 +85,15 @@ describe("StreamCoalescer", () => {
 });
 
 describe("StreamingIngestion — lifecycle", () => {
-  it("should move the artifact into streaming and pin it", () => {
+  it("should move the artifact into streaming once content is renderable", () => {
     const { store, handle } = scene();
-    new StreamingIngestion(store, handle, fakePort());
+    const ingestion = new StreamingIngestion(
+      store,
+      handle,
+      fakePort(),
+      new StreamCoalescer({ minIntervalMs: 0, minChars: 1 }),
+    );
+    ingestion.push("<p>a</p>", 0);
     const record = store.get(handle);
     expect(record.lifecycle).toBe("streaming");
     expect(record.pins).toContain("streaming");
@@ -311,11 +319,154 @@ describe("createSegmentedPort", () => {
       port,
       new StreamCoalescer({ minIntervalMs: 0, minChars: 1 }),
     );
-    expect(store.get(handle).lifecycle).toBe("streaming");
     ingestion.push("row one\nrow tw", 0);
+    expect(store.get(handle).lifecycle).toBe("streaming");
     expect(ingestion.html).toBe("row one\n");
     ingestion.finish();
     expect(store.get(handle).lifecycle).toBe("parsed");
     expect(ingestion.html).toBe("row one\nrow tw");
+  });
+});
+
+describe("StreamingIngestion — loading before the first content", () => {
+  it("should start loading, not streaming", () => {
+    const { store, handle } = scene();
+    new StreamingIngestion(store, handle, fakePort());
+    const record = store.get(handle);
+    expect(record.lifecycle).toBe("loading");
+    expect(record.pins).toContain("loading");
+  });
+
+  it("should stay loading while chunks commit nothing renderable", () => {
+    const { store, handle } = scene();
+    // A port that withholds everything models "<scr" — received, not committed.
+    const silent: StreamingSourcePort = {
+      append: () => ({ status: "streaming", html: "" }),
+      complete: () => ({ status: "complete", html: "<p>done</p>" }),
+    };
+    const ingestion = new StreamingIngestion(
+      store,
+      handle,
+      silent,
+      new StreamCoalescer({ minIntervalMs: 0, minChars: 1 }),
+    );
+    const tick = ingestion.push("<scr", 0);
+    expect(tick.loading).toBe(true);
+    expect(store.get(handle).lifecycle).toBe("loading");
+  });
+
+  it("should promote to streaming on the first renderable content", () => {
+    const { store, handle } = scene();
+    const ingestion = new StreamingIngestion(
+      store,
+      handle,
+      fakePort(),
+      new StreamCoalescer({ minIntervalMs: 0, minChars: 1 }),
+    );
+    const tick = ingestion.push("<p>a</p>", 0);
+    expect(tick.loading).toBe(false);
+    const record = store.get(handle);
+    expect(record.lifecycle).toBe("streaming");
+    expect(record.pins).toEqual(["streaming"]);
+  });
+
+  it("should release the loading pin when a stream fails before producing content", () => {
+    const { store, handle } = scene();
+    const ingestion = new StreamingIngestion(store, handle, fakePort({ rejectOn: "BOOM" }));
+    ingestion.push("BOOM", 0);
+    const record = store.get(handle);
+    expect(record.lifecycle).toBe("failed");
+    expect(record.pins).toEqual([]);
+  });
+
+  it("should finish cleanly even if nothing ever rendered", () => {
+    const { store, handle } = scene();
+    const ingestion = new StreamingIngestion(store, handle, fakePort());
+    ingestion.finish();
+    const record = store.get(handle);
+    expect(record.lifecycle).toBe("parsed");
+    expect(record.pins).toEqual([]);
+  });
+});
+
+describe("MediaIngestion", () => {
+  it("should hold an image in loading and pin it", () => {
+    const { store, handle } = scene();
+    const media = new MediaIngestion(store, handle, "image");
+    const record = store.get(handle);
+    expect(record.lifecycle).toBe("loading");
+    expect(record.pins).toContain("loading");
+    expect(media.metadata).toBeNull();
+  });
+
+  it("should report determinate progress when a length is known", () => {
+    const { store, handle } = scene();
+    const media = new MediaIngestion(store, handle, "video");
+    expect(media.report(0).ratio).toBeNull();
+    expect(media.report(512, 1024).ratio).toBe(0.5);
+    expect(media.progress.loadedBytes).toBe(512);
+  });
+
+  it("should reject impossible progress values", () => {
+    const { store, handle } = scene();
+    const media = new MediaIngestion(store, handle, "image");
+    expect(() => media.report(-1)).toThrow(RangeError);
+    expect(() => media.report(100, 10)).toThrow(RangeError);
+  });
+
+  it("should resolve to parsed with one source revision and release the pin", () => {
+    const { store, handle } = scene();
+    const before = store.get(handle).revisions.sourceRevision;
+    const media = new MediaIngestion(store, handle, "image");
+    media.resolve({ width: 1200, height: 800 });
+    const record = store.get(handle);
+    expect(record.lifecycle).toBe("parsed");
+    expect(record.pins).toEqual([]);
+    expect(record.revisions.sourceRevision).toBe(before + 1);
+    expect(media.metadata).toEqual({ width: 1200, height: 800 });
+  });
+
+  it("should never enter streaming, because media has no partial form", () => {
+    const { store, handle } = scene();
+    new MediaIngestion(store, handle, "image");
+    expect(() => {
+      store.transact((tx) => {
+        tx.transition(handle, "streaming");
+      });
+    }).not.toThrow();
+    // The transition is legal in the state machine but the ingestion never uses
+    // it: resolving goes straight from loading to parsed.
+    const { store: s2, handle: h2 } = scene();
+    const media = new MediaIngestion(s2, h2, "video");
+    media.resolve({ width: 1920, height: 1080, durationMs: 4000 });
+    expect(s2.get(h2).lifecycle).toBe("parsed");
+  });
+
+  it("should reject degenerate or impossible metadata", () => {
+    const { store, handle } = scene();
+    const media = new MediaIngestion(store, handle, "video");
+    expect(() => media.resolve({ width: 0, height: 100 })).toThrow(RangeError);
+    expect(() => media.resolve({ width: 10, height: 10, durationMs: -1 })).toThrow(RangeError);
+  });
+
+  it("should fail with a typed code and release the pin", () => {
+    const { store, handle } = scene();
+    const media = new MediaIngestion(store, handle, "image");
+    media.fail("decode-failed", "the image data is not a supported format");
+    const record = store.get(handle);
+    expect(record.lifecycle).toBe("failed");
+    expect(record.failure).toMatchObject({ code: "decode-failed", recoverable: true });
+    expect(record.pins).toEqual([]);
+  });
+
+  it("should refuse further input once settled", () => {
+    const { store, handle } = scene();
+    const media = new MediaIngestion(store, handle, "image");
+    media.resolve({ width: 10, height: 10 });
+    expect(() => media.report(1)).toThrow(MediaIngestionError);
+    expect(() => media.resolve({ width: 10, height: 10 })).toThrow(MediaIngestionError);
+    expect(() => {
+      media.fail("x", "y");
+    }).toThrow(MediaIngestionError);
   });
 });

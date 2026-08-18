@@ -34,7 +34,18 @@ export type Block =
       readonly cells: readonly (readonly InlineRun[])[];
       readonly header: boolean;
     }
-  | { readonly type: "spacer" };
+  | { readonly type: "spacer" }
+  /** Placeholder bars for content that has not arrived yet. */
+  | { readonly type: "skeleton"; readonly lines: number }
+  /** A media box that reserves its aspect ratio before the media decodes. */
+  | {
+      readonly type: "media";
+      readonly aspect: number;
+      readonly caption: readonly InlineRun[];
+      /** 0-1 for a determinate bar, null for indeterminate. */
+      readonly progress: number | null;
+      readonly tone: string;
+    };
 
 export interface PositionedRun {
   readonly x: number;
@@ -43,6 +54,16 @@ export interface PositionedRun {
   readonly style: TextStyle;
   /** Maximum width the backend should clip this run to. */
   readonly maxWidth: number;
+}
+
+/** A filled box: skeleton bar, media placeholder, progress track, error accent. */
+export interface DisplayRect {
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+  readonly fill: string;
+  readonly radius?: number;
 }
 
 export interface DisplayRule {
@@ -55,6 +76,7 @@ export interface DisplayRule {
 export interface DisplayList {
   readonly runs: readonly PositionedRun[];
   readonly rules: readonly DisplayRule[];
+  readonly rects: readonly DisplayRect[];
   /** Total laid-out height, so callers can scroll or clip. */
   readonly height: number;
 }
@@ -68,6 +90,10 @@ export interface LayoutOptions {
   readonly lineHeight?: number;
   readonly blockGap?: number;
   readonly ruleColor?: string;
+  readonly skeletonColor?: string;
+  readonly progressColor?: string;
+  /** Caps a media placeholder so a tall aspect ratio cannot dominate a frame. */
+  readonly maxMediaHeight?: number;
 }
 
 const DEFAULT_LINE_HEIGHT = 1.45;
@@ -157,6 +183,7 @@ function columnWidths(
 export function layoutBlocks(blocks: readonly Block[], options: LayoutOptions): DisplayList {
   const state: WrapState = { runs: [], y: 0 };
   const rules: DisplayRule[] = [];
+  const rects: DisplayRect[] = [];
   const blockGap = options.blockGap ?? DEFAULT_BLOCK_GAP;
   const ruleColor = options.ruleColor ?? "#d9d8d0";
   const lineHeightMultiplier = options.lineHeight ?? DEFAULT_LINE_HEIGHT;
@@ -206,6 +233,45 @@ export function layoutBlocks(blocks: readonly Block[], options: LayoutOptions): 
       case "spacer":
         state.y += blockGap;
         break;
+      case "skeleton": {
+        // Bars of uneven width read as text that has not arrived; a uniform
+        // block reads as a rendering bug.
+        const barHeight = 9;
+        const widths = [1, 0.92, 0.74, 0.85, 0.6];
+        for (let line = 0; line < block.lines; line += 1) {
+          rects.push({
+            x: 0,
+            y: state.y,
+            width: options.width * (widths[line % widths.length] as number),
+            height: barHeight,
+            fill: options.skeletonColor ?? "#e6e5df",
+            radius: 3,
+          });
+          state.y += barHeight + 7;
+        }
+        state.y += blockGap;
+        break;
+      }
+      case "media": {
+        const height = Math.min(options.width / block.aspect, options.maxMediaHeight ?? 240);
+        const width = Math.min(options.width, height * block.aspect);
+        rects.push({ x: 0, y: state.y, width, height, fill: block.tone, radius: 6 });
+        if (block.progress !== null) {
+          const track = 4;
+          rects.push({
+            x: 0,
+            y: state.y + height - track,
+            width: width * Math.max(0, Math.min(1, block.progress)),
+            height: track,
+            fill: options.progressColor ?? "#1e66f5",
+            radius: 2,
+          });
+        }
+        state.y += height + 4;
+        if (block.caption.length > 0) wrapRuns(block.caption, options, state, 0);
+        state.y += blockGap;
+        break;
+      }
       case "heading":
         wrapRuns(block.runs, options, state, 0);
         state.y += 2;
@@ -244,5 +310,5 @@ export function layoutBlocks(blocks: readonly Block[], options: LayoutOptions): 
     }
   }
 
-  return { runs: state.runs, rules, height: state.y };
+  return { runs: state.runs, rules, rects, height: state.y };
 }

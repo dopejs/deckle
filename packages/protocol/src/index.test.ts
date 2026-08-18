@@ -19,8 +19,18 @@ describe("isArtifactLifecycleTransitionAllowed", () => {
 });
 
 describe("streaming lifecycle", () => {
-  it("should allow a cold artifact to start streaming", () => {
-    expect(isArtifactLifecycleTransitionAllowed("cold", "streaming")).toBe(true);
+  it("should route a cold artifact through loading, never straight into streaming", () => {
+    // Every artifact must pass through loading so "nothing renderable yet" is a
+    // state the renderer handles instead of an empty frame that looks broken.
+    expect(isArtifactLifecycleTransitionAllowed("cold", "loading")).toBe(true);
+    expect(isArtifactLifecycleTransitionAllowed("cold", "streaming")).toBe(false);
+    expect(isArtifactLifecycleTransitionAllowed("loading", "streaming")).toBe(true);
+  });
+
+  it("should let atomic media resolve from loading straight to parsed", () => {
+    expect(isArtifactLifecycleTransitionAllowed("loading", "parsed")).toBe(true);
+    expect(isArtifactLifecycleTransitionAllowed("loading", "snapshot")).toBe(false);
+    expect(isArtifactLifecycleTransitionAllowed("loading", "failed")).toBe(true);
   });
 
   it("should require a stream to finish before it can be painted authoritatively", () => {

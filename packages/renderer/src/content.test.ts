@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   compileCode,
+  compileError,
   compileHtmlProfile,
+  compileLoading,
+  compileMedia,
+  DEFAULT_STATUS_THEME,
   compileJson,
   compileMarkdown,
   compileRows,
@@ -23,9 +27,12 @@ function textOf(runs: readonly InlineRun[]): string {
 }
 
 function allRuns(blocks: readonly Block[]): InlineRun[] {
-  return blocks.flatMap((block) =>
-    block.type === "row" ? block.cells.flat() : block.type === "spacer" ? [] : [...block.runs],
-  );
+  return blocks.flatMap((block) => {
+    if (block.type === "row") return block.cells.flat();
+    if (block.type === "media") return [...block.caption];
+    if (block.type === "spacer" || block.type === "skeleton") return [];
+    return [...block.runs];
+  });
 }
 
 describe("parseInline", () => {
@@ -237,5 +244,107 @@ describe("layoutBlocks", () => {
     const a = layoutBlocks(blocks, { width: 220, measure });
     const b = layoutBlocks(blocks, { width: 220, measure });
     expect(a).toEqual(b);
+  });
+});
+
+describe("compileLoading", () => {
+  it("should show skeleton bars for text-like kinds", () => {
+    const blocks = compileLoading({ kind: "markdown" });
+    expect(blocks[0]?.type).toBe("skeleton");
+    const list = layoutBlocks(blocks, { width: 200, measure });
+    expect(list.rects.length).toBeGreaterThan(1);
+    // Uneven widths: a uniform block would read as a rendering bug.
+    expect(new Set(list.rects.map((rect) => rect.width)).size).toBeGreaterThan(1);
+  });
+
+  it("should reserve a media box instead of skeleton text", () => {
+    for (const kind of ["image", "video"] as const) {
+      const blocks = compileLoading({ kind });
+      expect(blocks).toHaveLength(1);
+      expect(blocks[0]?.type).toBe("media");
+    }
+  });
+
+  it("should give video a wider default box than an image", () => {
+    const aspectOf = (block: Block | undefined): number =>
+      block?.type === "media" ? block.aspect : 0;
+    expect(aspectOf(compileLoading({ kind: "video" })[0])).toBeGreaterThan(
+      aspectOf(compileLoading({ kind: "image" })[0]),
+    );
+  });
+
+  it("should draw a determinate progress track only when a ratio is known", () => {
+    const measured = layoutBlocks(compileLoading({ kind: "image", progress: 0.5 }), {
+      width: 200,
+      measure,
+    });
+    const indeterminate = layoutBlocks(compileLoading({ kind: "image" }), { width: 200, measure });
+    expect(measured.rects).toHaveLength(2);
+    expect(indeterminate.rects).toHaveLength(1);
+  });
+
+  it("should clamp a progress ratio outside 0 to 1", () => {
+    const over = layoutBlocks(compileLoading({ kind: "image", progress: 4 }), {
+      width: 200,
+      measure,
+    });
+    expect(over.rects[1]?.width).toBeLessThanOrEqual(over.rects[0]?.width ?? 0);
+  });
+
+  it("should name what is being waited on", () => {
+    expect(textOf(allRuns(compileLoading({ kind: "json" })))).toContain("json");
+    expect(textOf(allRuns(compileLoading({ kind: "image", label: "fetching poster" })))).toBe(
+      "fetching poster",
+    );
+  });
+});
+
+describe("compileMedia", () => {
+  it("should carry the intrinsic aspect ratio once known", () => {
+    const [block] = compileMedia("image", { width: 800, height: 400 });
+    expect(block?.type === "media" && block.aspect).toBe(2);
+  });
+
+  it("should caption the intrinsic size and video duration", () => {
+    expect(textOf(allRuns(compileMedia("image", { width: 800, height: 400 })))).toBe(
+      "image 800×400",
+    );
+    expect(
+      textOf(allRuns(compileMedia("video", { width: 1920, height: 1080, durationMs: 12500 }))),
+    ).toBe("video 1920×1080 · 12.5s");
+  });
+
+  it("should fall back to a default ratio for degenerate dimensions", () => {
+    const [block] = compileMedia("video", { width: 0, height: 0 });
+    expect(block?.type === "media" && block.aspect).toBeGreaterThan(1);
+  });
+
+  it("should not draw a progress track once resolved", () => {
+    const list = layoutBlocks(compileMedia("image", { width: 100, height: 100 }), {
+      width: 200,
+      measure,
+    });
+    expect(list.rects).toHaveLength(1);
+  });
+});
+
+describe("compileError", () => {
+  it("should show the message and the typed code", () => {
+    const rendered = textOf(allRuns(compileError({ code: "decode-failed", message: "bad JPEG" })));
+    expect(rendered).toContain("bad JPEG");
+    expect(rendered).toContain("decode-failed");
+  });
+
+  it("should say whether retrying could help", () => {
+    expect(textOf(allRuns(compileError({ code: "x", message: "m" })))).toContain("can retry");
+    expect(
+      textOf(allRuns(compileError({ code: "x", message: "m", recoverable: false }))),
+    ).not.toContain("can retry");
+  });
+
+  it("should colour the heading as a failure", () => {
+    const heading = compileError({ code: "x", message: "m" })[0];
+    const runs = heading?.type === "paragraph" ? heading.runs : [];
+    expect(runs[0]?.style.color).toBe(DEFAULT_STATUS_THEME.danger);
   });
 });

@@ -154,6 +154,8 @@ export class StreamCoalescer {
 }
 
 export interface IngestionResult {
+  /** True while nothing is renderable yet, so the frame shows a loading state. */
+  readonly loading: boolean;
   readonly status: StreamingSourceUpdate["status"];
   /** True when this chunk produced a new provisional frame. */
   readonly rendered: boolean;
@@ -184,6 +186,8 @@ export class StreamingIngestion {
   readonly #coalescer: StreamCoalescer;
   #html = "";
   #settled = false;
+  /** Loading until the segmenter commits something worth painting. */
+  #started = false;
 
   constructor(
     store: SceneStore,
@@ -195,9 +199,12 @@ export class StreamingIngestion {
     this.#handle = handle;
     this.#port = port;
     this.#coalescer = coalescer;
+    // An announced artifact is loading, not streaming: until the segmenter
+    // commits a first character there is nothing to paint, and a frame with no
+    // content and no loading state reads as broken rather than pending.
     store.transact((tx) => {
-      tx.transition(handle, "streaming");
-      tx.pin(handle, "streaming");
+      tx.transition(handle, "loading");
+      tx.pin(handle, "loading");
     });
   }
 
@@ -220,6 +227,7 @@ export class StreamingIngestion {
     if (!shouldRender) {
       return {
         status: "streaming",
+        loading: !this.#started,
         rendered: false,
         html: this.#html,
         draftRevision: this.#store.get(this.#handle).revisions.draftRevision,
@@ -228,11 +236,25 @@ export class StreamingIngestion {
 
     this.#html = update.html;
     const draftRevision = this.#store.transact((tx) => {
+      // Chunks can arrive that commit nothing — "<scr" moves no boundary — so
+      // the promotion out of loading keys off renderable content, not receipt.
+      if (!this.#started && update.html !== "") {
+        this.#started = true;
+        tx.transition(this.#handle, "streaming");
+        tx.unpin(this.#handle, "loading");
+        tx.pin(this.#handle, "streaming");
+      }
       const draft = tx.bumpDraftRevision(this.#handle);
       tx.commitProvisionalPaint(this.#handle, draft);
       return draft;
     });
-    return { status: "streaming", rendered: true, html: this.#html, draftRevision };
+    return {
+      status: "streaming",
+      loading: !this.#started,
+      rendered: true,
+      html: this.#html,
+      draftRevision,
+    };
   }
 
   /** Finish the stream: commit one source revision and leave the artifact parsed. */
@@ -247,10 +269,11 @@ export class StreamingIngestion {
     this.#store.transact((tx) => {
       tx.bumpSourceRevision(this.#handle);
       tx.transition(this.#handle, "parsed");
-      tx.unpin(this.#handle, "streaming");
+      tx.unpin(this.#handle, this.#started ? "streaming" : "loading");
     });
     return {
       status: "complete",
+      loading: false,
       rendered: true,
       html: this.#html,
       draftRevision: this.#store.get(this.#handle).revisions.draftRevision,
@@ -271,10 +294,11 @@ export class StreamingIngestion {
         message: update.detail ?? "the artifact stream did not complete",
         recoverable: true,
       });
-      tx.unpin(this.#handle, "streaming");
+      tx.unpin(this.#handle, this.#started ? "streaming" : "loading");
     });
     return {
       status: "rejected",
+      loading: false,
       rendered: false,
       html: this.#html,
       draftRevision: this.#store.get(this.#handle).revisions.draftRevision,

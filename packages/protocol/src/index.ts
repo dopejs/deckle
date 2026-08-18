@@ -10,13 +10,19 @@ export type ArtifactRevision = number;
 export type InteractionNodeId = string;
 
 /**
- * `streaming` covers artifacts an agent is still generating: the source is an
- * incomplete but growing prefix, so paint produced from it is provisional and
- * no authoritative interaction tree exists yet. A streaming artifact can only
- * become `parsed` (its source completed) or be abandoned back to `cold`.
+ * `loading` covers artifacts that exist on the canvas with nothing renderable
+ * yet: a generation that has not produced its first committed character, or
+ * media that has not decoded. Every artifact passes through it, so "no content
+ * yet" is a state the renderer must handle rather than an empty frame that
+ * looks broken.
+ *
+ * `streaming` covers artifacts an agent is still generating once some content
+ * is renderable: the source is an incomplete but growing prefix, so paint from
+ * it is provisional and no authoritative interaction tree exists yet. Atomic
+ * kinds skip it entirely and go straight from `loading` to `parsed`.
  */
 export type ArtifactLifecycleState =
-  "cold" | "streaming" | "parsed" | "snapshot" | "live" | "hibernated" | "failed";
+  "cold" | "loading" | "streaming" | "parsed" | "snapshot" | "live" | "hibernated" | "failed";
 
 export type ArtifactMode = "edit" | "run";
 
@@ -24,7 +30,29 @@ export type ArtifactMode = "edit" | "run";
  * Content kinds an agent can produce. Each kind streams differently, so each
  * carries its own rule for when received bytes stop being provisional.
  */
-export type ArtifactKind = "text" | "markdown" | "code" | "json" | "rows" | "html";
+export type ArtifactKind =
+  | "text"
+  | "markdown"
+  | "code"
+  | "json"
+  | "rows"
+  | "html"
+  /** Atomic media: no partial content exists, only loading, ready, or failed. */
+  | "image"
+  | "video";
+
+/** True for kinds whose content arrives incrementally and can be segmented. */
+export function isStreamableKind(kind: ArtifactKind): boolean {
+  return kind !== "image" && kind !== "video";
+}
+
+/** Intrinsic media dimensions, reported by the host once decoding succeeds. */
+export interface MediaMetadata {
+  readonly width: number;
+  readonly height: number;
+  /** Video only; omitted for stills. */
+  readonly durationMs?: number;
+}
 
 /**
  * Result of segmenting a growing buffer: how much is stable, and why the tail
@@ -93,7 +121,13 @@ export function isArtifactLifecycleTransitionAllowed(
   if (to === "failed") return true;
 
   const transitions: Readonly<Record<ArtifactLifecycleState, readonly ArtifactLifecycleState[]>> = {
-    cold: ["streaming", "parsed", "live"],
+    // Content that has to be fetched or generated enters through `loading`;
+    // `parsed` stays reachable for sources already in hand, such as a bundle
+    // restored from storage.
+    cold: ["loading", "parsed", "live"],
+    // Atomic media resolves straight to `parsed`; generated content passes
+    // through `streaming` once its first characters are renderable.
+    loading: ["streaming", "parsed", "cold"],
     // A stream must finish before it can be painted authoritatively: going
     // straight to snapshot or live would publish an incomplete source.
     streaming: ["parsed", "cold"],

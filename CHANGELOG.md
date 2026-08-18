@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- Artifacts have three presentations, not one. A new `loading` lifecycle state covers every artifact
+  that exists on the canvas with nothing renderable yet, and every kind now compiles a loading and
+  an error presentation alongside its content: skeleton bars for text-like kinds, a reserved box for
+  media, and failures that show their message beside the typed code. Streamed artifacts stay in
+  `loading` until their segmenter commits a first character, because a chunk can arrive that commits
+  nothing.
+
+- `image` and `video` artifact kinds. Media is atomic — no prefix of the bytes is a smaller picture
+  — so `MediaIngestion` replaces segmentation with load, resolve, or fail, reporting determinate
+  progress when a length is known and reserving the frame from the intrinsic aspect ratio so layout
+  does not jump on decode. Decoding stays with the host; the engine owns the lifecycle, pin, and
+  revision.
+
 - Published to npm. The libraries are Apache-2.0 and live under `@dopejs/canvas-*`, built from the
   v0.2.0 tree with npm provenance attesting the GitHub Actions build. Installing is now ordinary:
   `pnpm add @dopejs/canvas-core`.

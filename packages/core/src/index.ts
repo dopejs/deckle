@@ -1,3 +1,4 @@
+export { MediaIngestion, MediaIngestionError, type LoadProgress } from "./media.js";
 export {
   createCamera,
   DEFAULT_CAMERA_LIMITS,
