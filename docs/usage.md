@@ -1,52 +1,26 @@
 # Using dope-canvas
 
-> The packages are pre-release (`0.2.0`) and are not on npm yet — publication is gated on the
-> owners' license selection, which is tracked in [the plan](plan.md).
+> Pre-release (`0.2.0`). Nothing here is a stable public contract yet.
 
 ## Install
 
-The packages are not published to a registry yet — npm publication waits on the repository owners
-selecting a license. Once that lands, the install is the ordinary one:
+The packages are not on npm yet, so there is no supported way to add them to another project. When
+they are published, installing will be ordinary:
 
 ```bash
-pnpm add @dopejs/canvas-core @dopejs/canvas-artifact @dopejs/canvas-security
+pnpm add @dopejs/canvas-core
 ```
 
-Until then, build the tarballs from a checkout and install those. They are the same artifacts that
-will be published: built JavaScript with type declarations, no workspace-only references.
+What is blocking publication is a license: the repository has not selected one, and shipping code
+without a license would leave you with no right to use it. That decision is tracked in
+[the plan](plan.md).
 
-```bash
-git clone https://github.com/dopejs/dope-canvas.git
-cd dope-canvas
-pnpm install --frozen-lockfile
-pnpm build
-pnpm --filter @dopejs/canvas-core pack --pack-destination /tmp/dope-canvas
-```
+In the meantime you can [try the engine in the playground](https://canvas.dopejs.com/playground/) —
+it runs these packages in the browser with nothing to install — or clone the repository and work
+against the source.
 
-Then point your project at the tarball. Transitive `@dopejs/canvas-*` dependencies resolve from the
-registry unless you override them, so pack and override every package you pull in:
-
-```jsonc
-// package.json
-{
-  "dependencies": {
-    "@dopejs/canvas-core": "file:/tmp/dope-canvas/dopejs-canvas-core-0.2.0.tgz",
-  },
-  "pnpm": {
-    "overrides": {
-      "@dopejs/canvas-protocol": "file:/tmp/dope-canvas/dopejs-canvas-protocol-0.2.0.tgz",
-      "@dopejs/canvas-spatial": "file:/tmp/dope-canvas/dopejs-canvas-spatial-0.2.0.tgz",
-    },
-  },
-}
-```
-
-`pnpm packages:smoke` runs exactly this path — pack every library, install it into a throwaway
-project outside the workspace, and import it — so the published surface cannot regress into
-something that only works inside this repository.
-
-Everything below is real API covered by the repository test suite; the public surface may still
-change before the first release.
+The API below is real and covered by the repository test suite. The public surface may still change
+before the first release.
 
 ## Scene and camera
 
