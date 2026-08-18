@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Streaming rendering for agent-generated artifacts. `computeSafePrefix` and `StreamingSanitizer`
+  (`@dopejs/canvas-security`) render only the part of a growing buffer whose parse no continuation
+  can change, withholding partial tags, unterminated raw-text elements, incomplete character
+  references, and split surrogate pairs; source quotas are enforced while streaming. A new
+  `streaming` lifecycle state plus `draftRevision`/`provisionalPaintRevision`
+  (`@dopejs/canvas-protocol`, `@dopejs/canvas-core`) keep provisional paint out of authoritative hit
+  testing, pin artifacts against eviction mid-generation, and commit exactly one source revision on
+  completion. `StreamCoalescer` and `StreamingIngestion` turn a token stream into budgeted render
+  ticks. A Streaming story in the playground shows the safety boundary live.
+
 - Website is localized into 11 languages (English, 简体中文, 繁體中文, Español, Français, Deutsch,
   Русский, עברית, العربية, 日本語, 한국어). Each locale is a real static route (`/ja/`,
   `/ar/docs/usage/`, …) generated at build time with the correct `lang`/`dir`, translated copy,

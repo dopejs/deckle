@@ -49,7 +49,7 @@ export type SanitizeResult =
  * Their content is skipped as raw text up to the matching close tag, matching
  * browser rawtext parsing for script/style and failing closed for the rest.
  */
-const DROP_WITH_CONTENT = new Set([
+export const DROP_WITH_CONTENT = new Set([
   "script",
   "style",
   "iframe",

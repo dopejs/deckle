@@ -58,6 +58,16 @@ export {
   type SceneTransaction,
 } from "./scene-store.js";
 export {
+  DEFAULT_COALESCER_OPTIONS,
+  StreamCoalescer,
+  StreamingIngestion,
+  StreamingIngestionError,
+  type CoalescerOptions,
+  type IngestionResult,
+  type StreamingSourcePort,
+  type StreamingSourceUpdate,
+} from "./streaming.js";
+export {
   DEFAULT_VISIBILITY_OPTIONS,
   VisibilityTracker,
   type VisibilityOptions,

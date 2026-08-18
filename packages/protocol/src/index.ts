@@ -9,8 +9,14 @@ export type ArtifactId = string;
 export type ArtifactRevision = number;
 export type InteractionNodeId = string;
 
+/**
+ * `streaming` covers artifacts an agent is still generating: the source is an
+ * incomplete but growing prefix, so paint produced from it is provisional and
+ * no authoritative interaction tree exists yet. A streaming artifact can only
+ * become `parsed` (its source completed) or be abandoned back to `cold`.
+ */
 export type ArtifactLifecycleState =
-  "cold" | "parsed" | "snapshot" | "live" | "hibernated" | "failed";
+  "cold" | "streaming" | "parsed" | "snapshot" | "live" | "hibernated" | "failed";
 
 export type ArtifactMode = "edit" | "run";
 
@@ -57,7 +63,10 @@ export function isArtifactLifecycleTransitionAllowed(
   if (to === "failed") return true;
 
   const transitions: Readonly<Record<ArtifactLifecycleState, readonly ArtifactLifecycleState[]>> = {
-    cold: ["parsed", "live"],
+    cold: ["streaming", "parsed", "live"],
+    // A stream must finish before it can be painted authoritatively: going
+    // straight to snapshot or live would publish an incomplete source.
+    streaming: ["parsed", "cold"],
     parsed: ["cold", "snapshot", "live"],
     snapshot: ["cold", "live", "hibernated"],
     live: ["snapshot", "hibernated"],

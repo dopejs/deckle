@@ -18,7 +18,14 @@ import {
 
 /** Reasons that pin an artifact against eviction (design §5.1). */
 export type PinReason =
-  "focus" | "composition" | "pointer-capture" | "drag" | "background-capability" | "inspection";
+  | "focus"
+  | "composition"
+  | "pointer-capture"
+  | "drag"
+  | "background-capability"
+  | "inspection"
+  /** An agent is still generating this artifact; evicting it would lose the stream. */
+  | "streaming";
 
 export interface ArtifactRevisions {
   readonly sourceRevision: number;
@@ -26,6 +33,17 @@ export interface ArtifactRevisions {
   readonly interactionRevision: number;
   readonly paintRevision: number;
   readonly runtimeEpoch: number;
+  /**
+   * Increments while a stream appends to an incomplete source. Drafts are
+   * deliberately separate from `sourceRevision`: an agent emitting tokens must
+   * not invalidate committed paint or interaction trees on every chunk.
+   */
+  readonly draftRevision: number;
+  /**
+   * Paint produced from a draft. It may be displayed as a placeholder but is
+   * never authoritative for hit testing, and a committed paint supersedes it.
+   */
+  readonly provisionalPaintRevision: number;
 }
 
 export interface ArtifactFailure {
@@ -57,6 +75,8 @@ const INITIAL_REVISIONS: ArtifactRevisions = {
   interactionRevision: 0,
   paintRevision: 0,
   runtimeEpoch: 0,
+  draftRevision: 0,
+  provisionalPaintRevision: 0,
 };
 
 /** States whose entry counts as releasing live/snapshot resources. */
@@ -74,6 +94,14 @@ export interface SceneTransaction {
   bumpSourceRevision(handle: ArtifactHandle): number;
   bumpStateRevision(handle: ArtifactHandle): number;
   bumpRuntimeEpoch(handle: ArtifactHandle): number;
+  /** Record that a stream appended to an incomplete source. */
+  bumpDraftRevision(handle: ArtifactHandle): number;
+  /**
+   * Publish paint rendered from a draft. Throws {@link StaleRevisionError} when
+   * the draft has already moved on, so a slow render cannot overwrite a newer
+   * frame of the same stream.
+   */
+  commitProvisionalPaint(handle: ArtifactHandle, forDraftRevision: number): number;
   /**
    * Publish an interaction tree produced against the given source/state pair.
    * Throws {@link StaleRevisionError} when the committed pair moved on.
@@ -234,9 +262,37 @@ export class SceneStore {
         const revisions = {
           ...record.revisions,
           sourceRevision: record.revisions.sourceRevision + 1,
+          // A new source generation makes any in-flight draft obsolete.
+          draftRevision: 0,
         };
         put({ ...record, revisions });
         return revisions.sourceRevision;
+      },
+      bumpDraftRevision: (handle) => {
+        const record = resolve(handle);
+        const revisions = {
+          ...record.revisions,
+          draftRevision: record.revisions.draftRevision + 1,
+        };
+        put({ ...record, revisions });
+        return revisions.draftRevision;
+      },
+      commitProvisionalPaint: (handle, forDraftRevision) => {
+        const record = resolve(handle);
+        if (forDraftRevision !== record.revisions.draftRevision) {
+          throw new StaleRevisionError(
+            record.id,
+            "provisional paint",
+            forDraftRevision,
+            record.revisions.draftRevision,
+          );
+        }
+        const revisions = {
+          ...record.revisions,
+          provisionalPaintRevision: record.revisions.provisionalPaintRevision + 1,
+        };
+        put({ ...record, revisions });
+        return revisions.provisionalPaintRevision;
       },
       bumpStateRevision: (handle) => {
         const record = resolve(handle);
@@ -269,6 +325,8 @@ export class SceneStore {
         const revisions = {
           ...record.revisions,
           paintRevision: record.revisions.paintRevision + 1,
+          // Authoritative paint supersedes any placeholder from the stream.
+          provisionalPaintRevision: 0,
         };
         put({ ...record, revisions });
         return revisions.paintRevision;

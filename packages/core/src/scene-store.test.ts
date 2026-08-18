@@ -30,6 +30,8 @@ describe("SceneStore handles and transactions", () => {
       interactionRevision: 0,
       paintRevision: 0,
       runtimeEpoch: 0,
+      draftRevision: 0,
+      provisionalPaintRevision: 0,
     });
     expect(store.queryPoint(50, 40)).toEqual(["a1"]);
   });

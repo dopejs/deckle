@@ -146,6 +146,8 @@ interface ArtifactRecord {
   interactionRevision: number;
   paintRevision: number;
   runtimeEpoch: number;
+  draftRevision: number;
+  provisionalPaintRevision: number;
 }
 ```
 
@@ -155,6 +157,12 @@ interface ArtifactRecord {
 - `paintRevision` identifies the image or DisplayList derived from the same pair.
 - `runtimeEpoch` changes whenever a live runtime is replaced, preventing late messages from an old
   runtime from mutating a restored artifact.
+- `draftRevision` changes while a generator appends to an incomplete source. Drafts are deliberately
+  separate from `sourceRevision` so a token stream does not invalidate committed paint and
+  interaction trees on every chunk.
+- `provisionalPaintRevision` identifies paint derived from a draft. It may be displayed while the
+  source is still arriving, is never authoritative for hit testing, and is superseded by the first
+  committed `paintRevision`.
 
 A paint result can only become current when its input revisions match the Scene Store. A stale
 snapshot may remain as a temporary visual placeholder but is marked stale and cannot contribute
@@ -195,14 +203,16 @@ as low-resolution cached pictures without creating live DOM.
 ## 6. Artifact lifecycle
 
 ```text
-                 ┌──────────── failure ────────────┐
-                 ▼                                 │
-cold → parsed → snapshot ⇄ live → hibernated ─────┘
-  ▲       │          │         │          │
-  └───────┴──────────┴─────────┴──────────┘
+        ┌─ streaming ─┐        ┌──────────── failure ────────────┐
+        ▼             │        ▼                                 │
+cold ───┴──────→ parsed → snapshot ⇄ live → hibernated ─────────┘
+  ▲                │          │         │          │
+  └────────────────┴──────────┴─────────┴──────────┘
 ```
 
 - `cold`: validated source, durable state, and coarse metadata only.
+- `streaming`: a generator is still producing the source. Only the safe prefix is rendered, paint is
+  provisional, and no authoritative interaction tree exists yet.
 - `parsed`: document/interaction source is available without live execution.
 - `snapshot`: immutable paint cache plus correlated interaction tree.
 - `live`: DOM or controlled runtime is mounted and accepts supported events.
@@ -212,7 +222,38 @@ cold → parsed → snapshot ⇄ live → hibernated ─────┘
 Transitions are transactions. Allocation happens before publication. Failure leaves the previous
 committed state usable. Eviction never destroys a pinned artifact.
 
-### 6.1 Resource budgets
+### 6.1 Streaming ingestion
+
+An agent emits an artifact token by token, so the canvas must show progress from a source that is
+incomplete by definition. Rendering a raw prefix is unsafe: `<scr` may become `<script>`, an
+unterminated `<style>` hides its own content from the tokenizer, and a half-written attribute can
+still become an event handler.
+
+Ingestion therefore renders only the **safe prefix** — the longest prefix whose parse no
+continuation can change. The boundary retreats before a partial tag, an unterminated comment or
+declaration, an incomplete character reference, a split surrogate pair, and any raw-text element
+whose closing tag has not arrived. The guarantee is stability, not acceptance: a malformed construct
+is rejected at any length, but the verdict for bytes inside the boundary never changes as the stream
+continues.
+
+Streaming artifacts observe the same transactional rules as everything else:
+
+- transitions are `cold → streaming → parsed`; reaching `snapshot` or `live` requires a completed
+  source, so an incomplete document can never be published as authoritative paint;
+- the artifact is pinned for the duration, because evicting it would discard the only copy of an
+  in-flight generation;
+- chunks are coalesced into render ticks by time and volume — token-rate repainting is a cost, not a
+  feature — and each tick publishes a provisional paint keyed to the current draft revision, so a
+  slow render cannot overwrite a newer frame;
+- source-byte quotas are enforced while streaming rather than at the end, so a runaway generator is
+  cut off instead of buffered without bound;
+- a rejected, aborted, or timed-out stream fails the artifact, releases the pin, and leaves the last
+  provisional frame visible as a placeholder.
+
+Byte-level transport concerns stay outside the engine: callers decode to text (for example with a
+streaming `TextDecoder`) before appending, so chunk boundaries never split a UTF-8 sequence.
+
+### 6.2 Resource budgets
 
 The host accounts for at least:
 

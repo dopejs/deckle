@@ -108,6 +108,58 @@ if (result.ok) {
 }
 ```
 
+## Streaming an artifact from an agent
+
+An agent produces HTML token by token. `StreamingSanitizer` renders only the part of the buffer
+whose parse is already decided, so a half-written tag or an unterminated `<script>` never reaches a
+renderer; `StreamingIngestion` moves the artifact through the `streaming` lifecycle state, pins it
+so it cannot be evicted mid-generation, and commits exactly one source revision at the end.
+
+```ts
+import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/canvas-core";
+import { StreamingSanitizer } from "@dopejs/canvas-security";
+
+const store = new SceneStore();
+const handle = store.transact((tx) =>
+  tx.createArtifact("agent-report", { x: 0, y: 0, width: 640, height: 480, zIndex: 0 }),
+);
+
+const sanitizer = new StreamingSanitizer();
+const ingestion = new StreamingIngestion(
+  store,
+  handle,
+  sanitizer,
+  new StreamCoalescer({ minIntervalMs: 66, minChars: 512 }),
+);
+
+for await (const token of agentResponse) {
+  const tick = ingestion.push(token, performance.now());
+  if (tick.rendered) render(tick.html); // safe prefix only
+  if (tick.status === "rejected") break; // quota or malformed source
+}
+
+const final = ingestion.finish(); // commits sourceRevision, artifact becomes "parsed"
+render(final.html);
+```
+
+Inspect the boundary directly when you need to explain what is being withheld:
+
+```ts
+import { computeSafePrefix } from "@dopejs/canvas-security";
+
+computeSafePrefix('<p>done</p><div class="ca');
+// → { length: 11, pending: "open-tag" }
+computeSafePrefix("<p>done</p><script>steal()");
+// → { length: 11, pending: "rawtext:script" }
+```
+
+Abandon a stream that stalls or is cancelled — the artifact fails, the pin is released, and the last
+provisional frame stays visible as a placeholder:
+
+```ts
+ingestion.abort("agent timed out");
+```
+
 ## Hit testing cached artifacts
 
 An interaction tree keeps internal selection working when paint is just a cached texture. The
