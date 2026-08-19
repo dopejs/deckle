@@ -4,7 +4,7 @@
   "private": true,
   "description": "Infinite canvas runtime for AI-generated Web artifacts.",
   "license": "Apache-2.0",
-  "homepage": "https://canvas.dopejs.com",
+  "homepage": "https://deckle.dopejs.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dopejs/deckle.git"

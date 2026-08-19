@@ -4,7 +4,7 @@
   "private": true,
   "description": "Project website for Deckle, deployed to GitHub Pages with the Storybook playground as a sub-route.",
   "license": "Apache-2.0",
-  "homepage": "https://canvas.dopejs.com",
+  "homepage": "https://deckle.dopejs.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dopejs/deckle.git",

@@ -3,7 +3,7 @@
  * Kept free of I/O so they can be unit tested.
  */
 
-const SITE_ORIGIN = "https://canvas.dopejs.com";
+const SITE_ORIGIN = "https://deckle.dopejs.com";
 
 /** Directory segment for a locale: "" for the default locale, "<code>/" otherwise. */
 export function localeSegment(code) {

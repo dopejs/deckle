@@ -4,7 +4,7 @@
   "private": true,
   "description": "M0 feasibility probe: HTML-in-Canvas capability detection and signed evidence manifests. Probe code is disposable and is not a production API.",
   "license": "Apache-2.0",
-  "homepage": "https://canvas.dopejs.com",
+  "homepage": "https://deckle.dopejs.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dopejs/deckle.git",

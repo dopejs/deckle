@@ -191,10 +191,10 @@ describe("buildAlternates", () => {
   it("should emit one absolute alternate per locale plus x-default", () => {
     const links = buildAlternates("docs/usage/", LOCALES);
     expect(links).toContain(
-      '<link rel="alternate" hreflang="en" href="https://canvas.dopejs.com/docs/usage/">',
+      '<link rel="alternate" hreflang="en" href="https://deckle.dopejs.com/docs/usage/">',
     );
     expect(links).toContain(
-      '<link rel="alternate" hreflang="ar" href="https://canvas.dopejs.com/ar/docs/usage/">',
+      '<link rel="alternate" hreflang="ar" href="https://deckle.dopejs.com/ar/docs/usage/">',
     );
     expect(links).toContain('hreflang="x-default"');
   });

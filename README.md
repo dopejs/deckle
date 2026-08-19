@@ -34,13 +34,13 @@ and that boundary only moves forward, so a reader never sees an interpretation g
 
 ## Start here
 
-- [Project website](https://canvas.dopejs.com/) — also in
-  [简体中文](https://canvas.dopejs.com/zh-CN/), [繁體中文](https://canvas.dopejs.com/zh-TW/),
-  [Español](https://canvas.dopejs.com/es/), [Français](https://canvas.dopejs.com/fr/),
-  [Deutsch](https://canvas.dopejs.com/de/), [Русский](https://canvas.dopejs.com/ru/),
-  [עברית](https://canvas.dopejs.com/he/), [العربية](https://canvas.dopejs.com/ar/),
-  [日本語](https://canvas.dopejs.com/ja/), [한국어](https://canvas.dopejs.com/ko/)
-- [Interactive playground](https://canvas.dopejs.com/playground/)
+- [Project website](https://deckle.dopejs.com/) — also in
+  [简体中文](https://deckle.dopejs.com/zh-CN/), [繁體中文](https://deckle.dopejs.com/zh-TW/),
+  [Español](https://deckle.dopejs.com/es/), [Français](https://deckle.dopejs.com/fr/),
+  [Deutsch](https://deckle.dopejs.com/de/), [Русский](https://deckle.dopejs.com/ru/),
+  [עברית](https://deckle.dopejs.com/he/), [العربية](https://deckle.dopejs.com/ar/),
+  [日本語](https://deckle.dopejs.com/ja/), [한국어](https://deckle.dopejs.com/ko/)
+- [Interactive playground](https://deckle.dopejs.com/playground/)
 
 - [Technical design](docs/design.md)
 - [Delivery plan](docs/plan.md)

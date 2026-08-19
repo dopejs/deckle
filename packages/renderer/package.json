@@ -4,7 +4,7 @@
   "private": false,
   "description": "Backend-neutral retained picture contract, reference compositor, LOD policy, and texture budget for Deckle.",
   "license": "Apache-2.0",
-  "homepage": "https://canvas.dopejs.com",
+  "homepage": "https://deckle.dopejs.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dopejs/deckle.git",

@@ -50,9 +50,9 @@ already-published artifact installable. The window in which this is cheap is clo
 argument for doing it now rather than deferring again.
 
 The GitHub repository is renamed to `dopejs/deckle`; GitHub redirects the old path, so existing
-clones and links keep working. The site domain is unchanged for now, so `canvas.dopejs.com` still
-serves the project — a cosmetic inconsistency, and the one part of the rename that needs DNS rather
-than a commit.
+clones and links keep working. The project site now uses `deckle.dopejs.com`; the canonical URL is
+configured in the repository metadata and locale page generator, while DNS and the GitHub Pages
+custom-domain setting remain deployment configuration outside this repository.
 
 ## Failure modes
 

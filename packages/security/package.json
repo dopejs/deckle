@@ -4,7 +4,7 @@
   "private": false,
   "description": "Sanitization, resource policies, capabilities, and quotas for untrusted Deckle artifacts.",
   "license": "Apache-2.0",
-  "homepage": "https://canvas.dopejs.com",
+  "homepage": "https://deckle.dopejs.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dopejs/deckle.git",

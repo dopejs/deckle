@@ -4,7 +4,7 @@
   "private": false,
   "description": "Artifact source, revisions, interaction tree, and deterministic serialization for Deckle.",
   "license": "Apache-2.0",
-  "homepage": "https://canvas.dopejs.com",
+  "homepage": "https://deckle.dopejs.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dopejs/deckle.git",

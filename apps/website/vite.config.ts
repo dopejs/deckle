@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   // Relative base: the site is served from the custom domain root
-  // (canvas.dopejs.com) and must also work under a path prefix.
+  // (deckle.dopejs.com) and must also work under a path prefix.
   base: "./",
   build: {
     rollupOptions: {
