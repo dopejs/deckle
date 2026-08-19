@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-renderer",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-renderer",
+  "version": "0.4.0",
   "private": false,
-  "description": "Backend-neutral retained picture contract, reference compositor, LOD policy, and texture budget for dope-canvas.",
+  "description": "Backend-neutral retained picture contract, reference compositor, LOD policy, and texture budget for Deckle.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "packages/renderer"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "exports": {
@@ -45,8 +45,8 @@
     "prepack": "node ../../scripts/prepare-package.mjs"
   },
   "dependencies": {
-    "@dopejs/canvas-core": "workspace:*",
-    "@dopejs/canvas-protocol": "workspace:*"
+    "@dopejs/deckle-core": "workspace:*",
+    "@dopejs/deckle-protocol": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

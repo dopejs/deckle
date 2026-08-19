@@ -1,4 +1,4 @@
-import type { Rect } from "@dopejs/canvas-protocol";
+import type { Rect } from "@dopejs/deckle-protocol";
 
 /**
  * A rect is queryable when every component is a finite number and its extent is

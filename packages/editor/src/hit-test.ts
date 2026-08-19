@@ -7,8 +7,8 @@ import {
   type InteractionNode,
   type InteractionTree,
   type Mat2D,
-} from "@dopejs/canvas-artifact";
-import { rectContainsPoint } from "@dopejs/canvas-spatial";
+} from "@dopejs/deckle-artifact";
+import { rectContainsPoint } from "@dopejs/deckle-spatial";
 
 /**
  * Hit-testing semantics (design §8):

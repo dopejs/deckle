@@ -1,17 +1,17 @@
-# Using dope-canvas
+# Using Deckle
 
-> Pre-release (`0.3.0`). Nothing here is a stable public contract yet.
+> Pre-release (`0.4.0`). Nothing here is a stable public contract yet.
 
 ## Install
 
 ```bash
-pnpm add @dopejs/canvas-core
+pnpm add @dopejs/deckle-core
 ```
 
 Add whichever packages you need — they are independent and depend only on each other:
 
 ```bash
-pnpm add @dopejs/canvas-artifact @dopejs/canvas-security @dopejs/canvas-renderer
+pnpm add @dopejs/deckle-artifact @dopejs/deckle-security @dopejs/deckle-renderer
 ```
 
 The API below is real and covered by the repository test suite. The public surface may still change
@@ -25,7 +25,7 @@ thrown error discards the draft and the previously committed scene — including
 stays untouched.
 
 ```ts
-import { SceneStore, createCamera, panCamera, zoomCameraAt } from "@dopejs/canvas-core";
+import { SceneStore, createCamera, panCamera, zoomCameraAt } from "@dopejs/deckle-core";
 
 const store = new SceneStore();
 const handle = store.transact((tx) =>
@@ -46,7 +46,7 @@ Resources follow the viewport. `VisibilityTracker` classifies artifacts into `vi
 `warm`, `cold`, and `pinned`; `BudgetLedger` is the admission gate in front of any allocation.
 
 ```ts
-import { BudgetLedger, VisibilityTracker } from "@dopejs/canvas-core";
+import { BudgetLedger, VisibilityTracker } from "@dopejs/deckle-core";
 
 const sets = new VisibilityTracker().compute(store, camera);
 // sets.visible → mount or keep live; sets.cold → release resources
@@ -88,7 +88,7 @@ is re-serialized from allowlisted parts only; anything unparseable is rejected w
 instead of guessed at.
 
 ```ts
-import { sanitizeHtml } from "@dopejs/canvas-security";
+import { sanitizeHtml } from "@dopejs/deckle-security";
 
 const result = sanitizeHtml('<section onclick="alert(1)"><h1>Hi</h1></section>');
 if (result.ok) {
@@ -106,8 +106,8 @@ incrementally, and each has its own idea of when received characters stop being 
 segmenter answers that question per kind; one engine drives them all.
 
 ```ts
-import { jsonSegmenter, completeJsonPrefix, markdownSegmenter } from "@dopejs/canvas-artifact";
-import { createSegmentedPort, StreamingIngestion } from "@dopejs/canvas-core";
+import { jsonSegmenter, completeJsonPrefix, markdownSegmenter } from "@dopejs/deckle-artifact";
+import { createSegmentedPort, StreamingIngestion } from "@dopejs/deckle-core";
 
 // JSON commits at value boundaries; closing the open structures keeps the
 // partial result parseable while the rest is still arriving.
@@ -146,8 +146,8 @@ renderer; `StreamingIngestion` moves the artifact through the `streaming` lifecy
 so it cannot be evicted mid-generation, and commits exactly one source revision at the end.
 
 ```ts
-import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/canvas-core";
-import { StreamingSanitizer } from "@dopejs/canvas-security";
+import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/deckle-core";
+import { StreamingSanitizer } from "@dopejs/deckle-security";
 
 const store = new SceneStore();
 const handle = store.transact((tx) =>
@@ -175,7 +175,7 @@ render(final.html);
 Inspect the boundary directly when you need to explain what is being withheld:
 
 ```ts
-import { computeSafePrefix } from "@dopejs/canvas-security";
+import { computeSafePrefix } from "@dopejs/deckle-security";
 
 computeSafePrefix('<p>done</p><div class="ca');
 // → { length: 11, pending: "open-tag" }
@@ -196,8 +196,8 @@ Images and video cannot stream: no prefix of the bytes is a smaller picture. The
 or fail. The host decodes and reports; the engine owns the lifecycle.
 
 ```ts
-import { MediaIngestion } from "@dopejs/canvas-core";
-import { compileLoading, compileMedia, compileError } from "@dopejs/canvas-renderer";
+import { MediaIngestion } from "@dopejs/deckle-core";
+import { compileLoading, compileMedia, compileError } from "@dopejs/deckle-renderer";
 
 const media = new MediaIngestion(store, handle, "image"); // artifact is now "loading"
 media.report(bytesSoFar, totalBytes); // determinate progress when a length is known
@@ -232,8 +232,8 @@ optimized tester is differentially validated against a naive oracle, which also 
 a rollback path.
 
 ```ts
-import { createInteractionTree } from "@dopejs/canvas-artifact";
-import { CachedHitTester, resolveClick, NO_SELECTION } from "@dopejs/canvas-editor";
+import { createInteractionTree } from "@dopejs/deckle-artifact";
+import { CachedHitTester, resolveClick, NO_SELECTION } from "@dopejs/deckle-editor";
 
 const tree = createInteractionTree("report-1", 1, 1, [
   { id: "root", bounds: { x: 0, y: 0, width: 640, height: 480 } },
@@ -247,7 +247,7 @@ const selection = resolveClick(tree, NO_SELECTION, hit?.path ?? []); // Figma-st
 ## Retained pictures and the texture budget
 
 ```ts
-import { ReferencePictureBackend, TextureCache, selectLod } from "@dopejs/canvas-renderer";
+import { ReferencePictureBackend, TextureCache, selectLod } from "@dopejs/deckle-renderer";
 
 const cache = new TextureCache(new ReferencePictureBackend(), {
   maxTotalBytes: 64 * 1024 * 1024,

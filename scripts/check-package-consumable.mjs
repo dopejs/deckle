@@ -2,7 +2,7 @@
 /**
  * Prove the library packages are consumable from outside this workspace.
  *
- * The workspace resolves `@dopejs/canvas-*` to TypeScript source, which hides a
+ * The workspace resolves `@dopejs/deckle-*` to TypeScript source, which hides a
  * whole class of packaging defects: a build that emits only declarations, an
  * `exports` map pointing at `src`, a missing `files` entry, or a `workspace:*`
  * dependency that never gets rewritten. None of those fail any in-repo test,
@@ -68,7 +68,7 @@ if (failures.length > 0) {
 }
 
 // 2. Behavioural contract: pack, install elsewhere, import for real.
-const workspace = mkdtempSync(join(tmpdir(), "dope-canvas-consumer-"));
+const workspace = mkdtempSync(join(tmpdir(), "deckle-consumer-"));
 const tarballs = join(workspace, "tarballs");
 try {
   const overrides = {};
@@ -110,14 +110,14 @@ try {
   );
   writeFileSync(
     join(consumer, "smoke.mjs"),
-    `import { SceneStore, createCamera, VisibilityTracker, StreamCoalescer, StreamingIngestion, createSegmentedPort } from "@dopejs/canvas-core";
-import { markdownSegmenter } from "@dopejs/canvas-artifact";
-import { sanitizeHtml } from "@dopejs/canvas-security";
-import { compileMarkdown, layoutBlocks } from "@dopejs/canvas-renderer";
-import { NaiveHitTester } from "@dopejs/canvas-editor";
-import { validateRuntimeMessage } from "@dopejs/canvas-runtime";
-import { GridSpatialIndex } from "@dopejs/canvas-spatial";
-import { PROTOCOL_VERSION } from "@dopejs/canvas-protocol";
+    `import { SceneStore, createCamera, VisibilityTracker, StreamCoalescer, StreamingIngestion, createSegmentedPort } from "@dopejs/deckle-core";
+import { markdownSegmenter } from "@dopejs/deckle-artifact";
+import { sanitizeHtml } from "@dopejs/deckle-security";
+import { compileMarkdown, layoutBlocks } from "@dopejs/deckle-renderer";
+import { NaiveHitTester } from "@dopejs/deckle-editor";
+import { validateRuntimeMessage } from "@dopejs/deckle-runtime";
+import { GridSpatialIndex } from "@dopejs/deckle-spatial";
+import { PROTOCOL_VERSION } from "@dopejs/deckle-protocol";
 
 const store = new SceneStore();
 const handle = store.transact((tx) =>

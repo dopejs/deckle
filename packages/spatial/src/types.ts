@@ -1,4 +1,4 @@
-import type { Rect } from "@dopejs/canvas-protocol";
+import type { Rect } from "@dopejs/deckle-protocol";
 
 /**
  * Backend-neutral spatial index contract. Keys are opaque strings owned by the

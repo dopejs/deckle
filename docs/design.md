@@ -1,4 +1,4 @@
-# dope-canvas technical design
+# Deckle technical design
 
 > Status: pre-development draft v0.1  
 > Date: 2026-08-16  
@@ -16,7 +16,7 @@ DOM/CSS state, script realm, resources, and rendering state per page. Flattening
 an image reduces live cost but loses internal selection, event targeting, accessibility, and
 stateful reactivation.
 
-dope-canvas owns the space between those extremes:
+Deckle owns the space between those extremes:
 
 ```text
 Artifact = source + durable state + interaction tree + paint cache + optional live runtime
@@ -62,8 +62,8 @@ virtualization.
 
 The same pointer gesture has two distinct meanings:
 
-- **Edit mode:** hit testing selects an artifact or an internal interaction node. dope-canvas owns
-  the gesture, handles, hierarchy entry, and transforms.
+- **Edit mode:** hit testing selects an artifact or an internal interaction node. Deckle owns the
+  gesture, handles, hierarchy entry, and transforms.
 - **Run mode:** hit testing routes an event to the artifact runtime. Browser-native semantics are
   only promised for a live tier that provides them.
 
@@ -327,7 +327,7 @@ the source element and may be transferred for worker rendering. Snapshot capture
 After capture, the lifecycle manager may release live DOM/runtime resources if the artifact is not
 pinned.
 
-An immutable snapshot does not retain browser-native events. dope-canvas separately retains an
+An immutable snapshot does not retain browser-native events. Deckle separately retains an
 interaction tree for supported editor selection and virtual-runtime events.
 
 ### 7.3 DOM overlay fallback
@@ -492,23 +492,23 @@ feature flag, origin trial, mocked method, or one browser version.
 
 ## 15. Intended package boundaries
 
-Only `@dopejs/canvas-protocol` exists in the pre-development baseline. The following names describe
+Only `@dopejs/deckle-protocol` exists in the pre-development baseline. The following names describe
 intended boundaries and are not implemented packages:
 
 | Package                        | Responsibility                                           |
 | ------------------------------ | -------------------------------------------------------- |
-| `@dopejs/canvas-core`          | scene store, camera, lifecycle orchestration             |
-| `@dopejs/canvas-spatial`       | spatial indexes and reference implementations            |
-| `@dopejs/canvas-artifact`      | source, revisions, document and interaction model        |
-| `@dopejs/canvas-html-source`   | native HTML-in-Canvas and fallback adapters              |
-| `@dopejs/canvas-runtime`       | controlled runtime and event routing                     |
-| `@dopejs/canvas-security`      | sanitization, policies, capabilities, quotas             |
-| `@dopejs/canvas-renderer`      | backend-neutral retained picture contract                |
-| `@dopejs/canvas-renderer-pixi` | optional PixiJS backend adapter                          |
-| `@dopejs/canvas-editor`        | selection, hierarchy navigation, transforms, overlays    |
-| `@dopejs/canvas-devtools`      | lifecycle, cache, memory, event and fallback diagnostics |
+| `@dopejs/deckle-core`          | scene store, camera, lifecycle orchestration             |
+| `@dopejs/deckle-spatial`       | spatial indexes and reference implementations            |
+| `@dopejs/deckle-artifact`      | source, revisions, document and interaction model        |
+| `@dopejs/deckle-html-source`   | native HTML-in-Canvas and fallback adapters              |
+| `@dopejs/deckle-runtime`       | controlled runtime and event routing                     |
+| `@dopejs/deckle-security`      | sanitization, policies, capabilities, quotas             |
+| `@dopejs/deckle-renderer`      | backend-neutral retained picture contract                |
+| `@dopejs/deckle-renderer-pixi` | optional PixiJS backend adapter                          |
+| `@dopejs/deckle-editor`        | selection, hierarchy navigation, transforms, overlays    |
+| `@dopejs/deckle-devtools`      | lifecycle, cache, memory, event and fallback diagnostics |
 
-Applications and private probes also use the `@dopejs/canvas-*` namespace.
+Applications and private probes also use the `@dopejs/deckle-*` namespace.
 
 ## 16. Optional Rust boundary and disk budget
 

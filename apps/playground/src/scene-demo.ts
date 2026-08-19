@@ -1,6 +1,6 @@
-import type { ArtifactFrame } from "@dopejs/canvas-protocol";
-import { SceneStore } from "@dopejs/canvas-core";
-import { createSeededRandom } from "@dopejs/canvas-spatial";
+import type { ArtifactFrame } from "@dopejs/deckle-protocol";
+import { SceneStore } from "@dopejs/deckle-core";
+import { createSeededRandom } from "@dopejs/deckle-spatial";
 
 /**
  * Deterministic demo scene shared by the playground stories: seeded artifact

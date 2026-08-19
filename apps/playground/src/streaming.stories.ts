@@ -1,5 +1,5 @@
-import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/canvas-core";
-import { StreamingSanitizer } from "@dopejs/canvas-security";
+import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/deckle-core";
+import { StreamingSanitizer } from "@dopejs/deckle-security";
 
 export default {
   title: "Streaming",

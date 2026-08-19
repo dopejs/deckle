@@ -1,5 +1,5 @@
-import { createCamera, panCamera, worldToScreen, type Camera } from "@dopejs/canvas-core";
-import { createSeededRandom } from "@dopejs/canvas-spatial";
+import { createCamera, panCamera, worldToScreen, type Camera } from "@dopejs/deckle-core";
+import { createSeededRandom } from "@dopejs/deckle-spatial";
 
 /**
  * Ambient hero background driven by the real engine camera: pastel artifact

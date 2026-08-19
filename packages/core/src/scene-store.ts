@@ -5,8 +5,8 @@ import {
   type ArtifactLifecycleState,
   type ArtifactMode,
   type Rect,
-} from "@dopejs/canvas-protocol";
-import { GridSpatialIndex, isValidRect, type SpatialIndex } from "@dopejs/canvas-spatial";
+} from "@dopejs/deckle-protocol";
+import { GridSpatialIndex, isValidRect, type SpatialIndex } from "@dopejs/deckle-spatial";
 import {
   InvalidLifecycleTransitionError,
   PinnedEvictionError,

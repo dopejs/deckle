@@ -4,8 +4,8 @@ import {
   matrixScale,
   matrixTranslate,
   type InteractionNodeInit,
-} from "@dopejs/canvas-artifact";
-import { createSeededRandom } from "@dopejs/canvas-spatial";
+} from "@dopejs/deckle-artifact";
+import { createSeededRandom } from "@dopejs/deckle-spatial";
 import { describe, expect, it } from "vitest";
 import {
   CachedHitTester,

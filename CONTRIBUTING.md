@@ -1,8 +1,8 @@
 # Contributing
 
-dope-canvas is in pre-development. Early contributions should strengthen probes, contracts,
-fixtures, measurements, and design evidence rather than add broad compatibility code without a
-validated milestone need.
+Deckle is in pre-development. Early contributions should strengthen probes, contracts, fixtures,
+measurements, and design evidence rather than add broad compatibility code without a validated
+milestone need.
 
 ## Setup
 
@@ -40,7 +40,7 @@ browser run. Browser and device evidence must follow the
 
 ## Package names
 
-All workspace package names must start with `@dopejs/canvas-`. Run `pnpm packages:check` before
+All workspace package names must start with `@dopejs/deckle-`. Run `pnpm packages:check` before
 submitting a new package.
 
 ## Decisions

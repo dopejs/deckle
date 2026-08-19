@@ -1,9 +1,9 @@
-# dope-canvas
+# Deckle
 
-dope-canvas is a planned infinite-canvas runtime for large collections of AI-generated Web
-artifacts. An artifact may originate as HTML, CSS, and controlled JavaScript, while the canvas owns
-camera movement, spatial virtualization, live/snapshot lifecycle, interaction metadata, resource
-budgets, and rendering composition.
+Deckle is a planned infinite-canvas runtime for large collections of AI-generated Web artifacts. An
+artifact may originate as HTML, CSS, and controlled JavaScript, while the canvas owns camera
+movement, spatial virtualization, live/snapshot lifecycle, interaction metadata, resource budgets,
+and rendering composition.
 
 The backend-independent engine contracts are implemented and tested: scene transactions, camera and
 spatial virtualization, lifecycle and budgets, artifact revisions, sanitization, the controlled
@@ -18,8 +18,8 @@ until M0 measurements exist.
 
 Keeping hundreds of generated pages alive as iframes scales poorly because every iframe retains a
 browsing context, DOM/CSS state, script realm, resources, and rendering state. Flattening every page
-to an image saves resources but loses internal selection and event targeting. dope-canvas is
-designed around a retained artifact model:
+to an image saves resources but loses internal selection and event targeting. Deckle is designed
+around a retained artifact model:
 
 ```text
 Artifact = source + durable state + interaction tree + paint cache + optional live runtime
@@ -61,31 +61,42 @@ pnpm build
 ```
 
 All JavaScript/TypeScript workspace packages, including private applications, use the
-`@dopejs/canvas-*` namespace. CI enforces the rule.
+`@dopejs/deckle-*` namespace. CI enforces the rule.
 
 ## Package status
 
-The libraries are versioned `0.3.0` and published under `@dopejs/canvas-*`; the applications stay
-private. Nothing is a stable public contract yet — the surface may change before the first stable
-release.
+The applications stay private. Nothing is a stable public contract yet — the surface may change
+before the first stable release.
+
+Through `0.3.0` the libraries were published as `@dopejs/canvas-*`. They are being renamed to
+`@dopejs/deckle-*`, first published under the new names at `0.4.0`; the `canvas-*` packages stop at
+`0.3.0` and are deprecated with a pointer to their replacement. Nothing about the code changes in
+that move — only the name.
 
 | Package                         | Responsibility                                                    |
 | ------------------------------- | ----------------------------------------------------------------- |
-| `@dopejs/canvas-protocol`       | shared pre-release vocabulary                                     |
-| `@dopejs/canvas-spatial`        | spatial indexes plus the naive differential oracle                |
-| `@dopejs/canvas-core`           | camera, Scene Store transactions, lifecycle, visibility, budgets  |
-| `@dopejs/canvas-artifact`       | revisions, interaction tree, canonical serialization              |
-| `@dopejs/canvas-security`       | sanitizer, URL policy, quotas, capabilities                       |
-| `@dopejs/canvas-runtime`        | runtime message protocol, epochs, capability-guarded host bridge  |
-| `@dopejs/canvas-renderer`       | retained pictures, canvas-native content rendering, LOD, budget   |
-| `@dopejs/canvas-editor`         | internal hit testing, selection model, virtual event paths        |
-| `@dopejs/canvas-platform-probe` | M0 capability probes and evidence manifests (private application) |
-| `@dopejs/canvas-playground`     | Storybook demos of every engine capability (private application)  |
-| `@dopejs/canvas-website`        | the project site and its localized routes (private application)   |
+| `@dopejs/deckle-protocol`       | shared pre-release vocabulary                                     |
+| `@dopejs/deckle-spatial`        | spatial indexes plus the naive differential oracle                |
+| `@dopejs/deckle-core`           | camera, Scene Store transactions, lifecycle, visibility, budgets  |
+| `@dopejs/deckle-artifact`       | revisions, interaction tree, canonical serialization              |
+| `@dopejs/deckle-security`       | sanitizer, URL policy, quotas, capabilities                       |
+| `@dopejs/deckle-runtime`        | runtime message protocol, epochs, capability-guarded host bridge  |
+| `@dopejs/deckle-renderer`       | retained pictures, canvas-native content rendering, LOD, budget   |
+| `@dopejs/deckle-editor`         | internal hit testing, selection model, virtual event paths        |
+| `@dopejs/deckle-platform-probe` | M0 capability probes and evidence manifests (private application) |
+| `@dopejs/deckle-playground`     | Storybook demos of every engine capability (private application)  |
+| `@dopejs/deckle-website`        | the project site and its localized routes (private application)   |
 
 Implementation status against the delivery plan is tracked in [the plan](docs/plan.md).
 Browser-evidence gates (M0) are not exited; support for the experimental HTML-in-Canvas APIs remains
 a capability, not a claim.
+
+## The name
+
+A deckle is the frame that bounds a sheet of handmade paper while the pulp is still settling, and
+the ragged untrimmed edge it leaves is called a deckle edge. That is what this engine does: it fixes
+a frame around content that has not finished arriving, and leaves the boundary visible rather than
+pretending the sheet is done.
 
 ## License
 

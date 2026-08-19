@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-security",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-security",
+  "version": "0.4.0",
   "private": false,
-  "description": "Sanitization, resource policies, capabilities, and quotas for untrusted dope-canvas artifacts.",
+  "description": "Sanitization, resource policies, capabilities, and quotas for untrusted Deckle artifacts.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "packages/security"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "exports": {
@@ -49,6 +49,6 @@
     "vitest": "^4.0.18"
   },
   "dependencies": {
-    "@dopejs/canvas-protocol": "workspace:*"
+    "@dopejs/deckle-protocol": "workspace:*"
   }
 }

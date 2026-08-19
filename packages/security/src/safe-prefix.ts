@@ -1,4 +1,4 @@
-import type { StreamSlice } from "@dopejs/canvas-protocol";
+import type { StreamSlice } from "@dopejs/deckle-protocol";
 import { DROP_WITH_CONTENT } from "./sanitizer.js";
 
 /**

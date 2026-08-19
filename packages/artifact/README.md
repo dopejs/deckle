@@ -1,12 +1,12 @@
-# @dopejs/canvas-artifact
+# @dopejs/deckle-artifact
 
-Artifact source, revisions, interaction tree, and deterministic serialization for dope-canvas.
+Artifact source, revisions, interaction tree, and deterministic serialization for Deckle.
 
-Part of [dope-canvas](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
+Part of [Deckle](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
 artifacts.
 
 ```bash
-pnpm add @dopejs/canvas-artifact
+pnpm add @dopejs/deckle-artifact
 ```
 
 - [Usage guide](https://canvas.dopejs.com/docs/usage/)

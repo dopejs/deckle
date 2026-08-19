@@ -1,4 +1,4 @@
-import type { ArtifactKind, MediaMetadata } from "@dopejs/canvas-protocol";
+import type { ArtifactKind, MediaMetadata } from "@dopejs/deckle-protocol";
 import type { ArtifactHandle, SceneStore } from "./scene-store.js";
 
 /**

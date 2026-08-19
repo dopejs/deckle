@@ -1,6 +1,6 @@
 # Compatibility strategy
 
-dope-canvas reports compatibility by artifact profile and platform capability tier. “HTML support”
+Deckle reports compatibility by artifact profile and platform capability tier. “HTML support”
 without both qualifiers is not a valid claim.
 
 ## 1. Artifact profiles

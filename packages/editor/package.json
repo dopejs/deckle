@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-editor",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-editor",
+  "version": "0.4.0",
   "private": false,
-  "description": "Internal hit testing, edit-mode selection, hierarchy navigation, and event paths for dope-canvas.",
+  "description": "Internal hit testing, edit-mode selection, hierarchy navigation, and event paths for Deckle.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "packages/editor"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "exports": {
@@ -45,9 +45,9 @@
     "prepack": "node ../../scripts/prepare-package.mjs"
   },
   "dependencies": {
-    "@dopejs/canvas-artifact": "workspace:*",
-    "@dopejs/canvas-protocol": "workspace:*",
-    "@dopejs/canvas-spatial": "workspace:*"
+    "@dopejs/deckle-artifact": "workspace:*",
+    "@dopejs/deckle-protocol": "workspace:*",
+    "@dopejs/deckle-spatial": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

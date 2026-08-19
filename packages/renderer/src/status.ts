@@ -1,4 +1,4 @@
-import type { ArtifactKind, MediaMetadata } from "@dopejs/canvas-protocol";
+import type { ArtifactKind, MediaMetadata } from "@dopejs/deckle-protocol";
 import { DEFAULT_THEME, type ContentTheme } from "./content.js";
 import type { Block, InlineRun, TextStyle } from "./display-list.js";
 

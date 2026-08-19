@@ -1,16 +1,16 @@
 {
-  "name": "dope-canvas-workspace",
-  "version": "0.3.0",
+  "name": "deckle-workspace",
+  "version": "0.4.0",
   "private": true,
   "description": "Infinite canvas runtime for AI-generated Web artifacts.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git"
+    "url": "git+https://github.com/dopejs/deckle.git"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "packageManager": "pnpm@10.33.2",

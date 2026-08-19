@@ -14,7 +14,7 @@ afterEach(async () => {
 });
 
 async function workspaceWithPackage(workspace, directoryName, name) {
-  const root = await mkdtemp(path.join(os.tmpdir(), "dope-canvas-package-check-"));
+  const root = await mkdtemp(path.join(os.tmpdir(), "deckle-package-check-"));
   temporaryDirectories.push(root);
   const packageDirectory = path.join(root, workspace, directoryName);
   await mkdir(packageDirectory, { recursive: true });
@@ -24,7 +24,7 @@ async function workspaceWithPackage(workspace, directoryName, name) {
 
 describe("findInvalidPackageNames", () => {
   it("accepts the required namespace", async () => {
-    const root = await workspaceWithPackage("packages", "core", "@dopejs/canvas-core");
+    const root = await workspaceWithPackage("packages", "core", "@dopejs/deckle-core");
     await expect(findInvalidPackageNames(root)).resolves.toEqual([]);
   });
 

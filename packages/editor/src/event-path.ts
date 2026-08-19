@@ -1,4 +1,4 @@
-import { nodeById, pathToRoot, type InteractionTree } from "@dopejs/canvas-artifact";
+import { nodeById, pathToRoot, type InteractionTree } from "@dopejs/deckle-artifact";
 
 /**
  * Run-mode virtual event path (design §9): capture from the artifact root to

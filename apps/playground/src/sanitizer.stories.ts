@@ -1,4 +1,4 @@
-import { sanitizeHtml } from "@dopejs/canvas-security";
+import { sanitizeHtml } from "@dopejs/deckle-security";
 
 export default {
   title: "Sanitizer",

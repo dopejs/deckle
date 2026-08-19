@@ -1,10 +1,10 @@
-import { canonicalStringify, SerializationError } from "@dopejs/canvas-artifact";
+import { canonicalStringify, SerializationError } from "@dopejs/deckle-artifact";
 import {
   MessageRateLimiter,
   utf8ByteLength,
   type CapabilitySet,
   type QuotaLimits,
-} from "@dopejs/canvas-security";
+} from "@dopejs/deckle-security";
 import { validateRuntimeMessage, type RuntimeToHostMessage } from "./messages.js";
 
 /**

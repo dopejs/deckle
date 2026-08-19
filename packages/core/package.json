@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-core",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-core",
+  "version": "0.4.0",
   "private": false,
-  "description": "Scene store, camera, lifecycle orchestration, visibility sets, and resource budgets for dope-canvas.",
+  "description": "Scene store, camera, lifecycle orchestration, visibility sets, and resource budgets for Deckle.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "packages/core"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "exports": {
@@ -45,8 +45,8 @@
     "prepack": "node ../../scripts/prepare-package.mjs"
   },
   "dependencies": {
-    "@dopejs/canvas-protocol": "workspace:*",
-    "@dopejs/canvas-spatial": "workspace:*"
+    "@dopejs/deckle-protocol": "workspace:*",
+    "@dopejs/deckle-spatial": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

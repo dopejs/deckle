@@ -1,4 +1,4 @@
-import { CapabilitySet, DEFAULT_QUOTAS } from "@dopejs/canvas-security";
+import { CapabilitySet, DEFAULT_QUOTAS } from "@dopejs/deckle-security";
 import { describe, expect, it } from "vitest";
 import { RUNTIME_PROTOCOL_VERSION, RuntimeHostBridge, validateRuntimeMessage } from "./index.js";
 

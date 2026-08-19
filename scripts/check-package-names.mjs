@@ -2,7 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const PACKAGE_PREFIX = "@dopejs/canvas-";
+const PACKAGE_PREFIX = "@dopejs/deckle-";
 
 export async function findInvalidPackageNames(rootDirectory) {
   const invalid = [];

@@ -3,7 +3,7 @@ import {
   selectLod,
   selectSnapshotScale,
   TextureCache,
-} from "@dopejs/canvas-renderer";
+} from "@dopejs/deckle-renderer";
 
 export default {
   title: "LOD & Texture Cache",

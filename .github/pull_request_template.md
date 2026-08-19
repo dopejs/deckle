@@ -17,7 +17,7 @@
 ## Checklist
 
 - [ ] I did not describe planned behavior as implemented.
-- [ ] New packages use the `@dopejs/canvas-*` namespace.
+- [ ] New packages use the `@dopejs/deckle-*` namespace.
 - [ ] Experimental browser behavior has capability detection and an explicit fallback.
 - [ ] New DOM/runtime/worker/GPU resources have ownership, metrics, and cleanup.
 - [ ] Rust commands, if applicable, ran through the repository pnpm wrappers.

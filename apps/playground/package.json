@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-playground",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-playground",
+  "version": "0.4.0",
   "private": true,
-  "description": "Interactive Storybook playground for the dope-canvas engine packages. Demo code only; not a production API.",
+  "description": "Interactive Storybook playground for the Deckle engine packages. Demo code only; not a production API.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "apps/playground"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "scripts": {
@@ -21,13 +21,13 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@dopejs/canvas-artifact": "workspace:*",
-    "@dopejs/canvas-core": "workspace:*",
-    "@dopejs/canvas-editor": "workspace:*",
-    "@dopejs/canvas-protocol": "workspace:*",
-    "@dopejs/canvas-renderer": "workspace:*",
-    "@dopejs/canvas-security": "workspace:*",
-    "@dopejs/canvas-spatial": "workspace:*"
+    "@dopejs/deckle-artifact": "workspace:*",
+    "@dopejs/deckle-core": "workspace:*",
+    "@dopejs/deckle-editor": "workspace:*",
+    "@dopejs/deckle-protocol": "workspace:*",
+    "@dopejs/deckle-renderer": "workspace:*",
+    "@dopejs/deckle-security": "workspace:*",
+    "@dopejs/deckle-spatial": "workspace:*"
   },
   "devDependencies": {
     "@storybook/html-vite": "^10.5.8",

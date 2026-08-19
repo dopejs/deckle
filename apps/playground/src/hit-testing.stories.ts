@@ -7,7 +7,7 @@ import {
   type InteractionNode,
   type InteractionTree,
   type Mat2D,
-} from "@dopejs/canvas-artifact";
+} from "@dopejs/deckle-artifact";
 import {
   CachedHitTester,
   escapeToParent,
@@ -15,7 +15,7 @@ import {
   NO_SELECTION,
   resolveClick,
   type EditorSelection,
-} from "@dopejs/canvas-editor";
+} from "@dopejs/deckle-editor";
 import { createHiDpiCanvas } from "./hidpi.js";
 
 export default {

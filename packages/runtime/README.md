@@ -1,13 +1,12 @@
-# @dopejs/canvas-runtime
+# @dopejs/deckle-runtime
 
-Controlled runtime message protocol, epochs, quotas, and capability-guarded host bridge for
-dope-canvas.
+Controlled runtime message protocol, epochs, quotas, and capability-guarded host bridge for Deckle.
 
-Part of [dope-canvas](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
+Part of [Deckle](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
 artifacts.
 
 ```bash
-pnpm add @dopejs/canvas-runtime
+pnpm add @dopejs/deckle-runtime
 ```
 
 - [Usage guide](https://canvas.dopejs.com/docs/usage/)

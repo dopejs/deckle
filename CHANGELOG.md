@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.4.0 — 2026-08-19
+
+The project is renamed from `dope-canvas` to **Deckle**, and the libraries move from
+`@dopejs/canvas-*` to `@dopejs/deckle-*`. A deckle is the frame that holds a sheet of handmade paper
+while the pulp is still settling, and the ragged edge it leaves is a deckle edge — which is what
+this engine does to content that has not finished arriving. The reasoning and the migration terms
+are in [ADR 0005](docs/adr/0005-rename-to-deckle.md).
+
+**This release contains no code changes.** `@dopejs/deckle-*@0.4.0` is byte-for-byte the behaviour
+of `@dopejs/canvas-*@0.3.0`, so migrating is a find-and-replace of the package name:
+
+```sh
+# every import of @dopejs/canvas-<name> becomes @dopejs/deckle-<name>
+pnpm remove @dopejs/canvas-core && pnpm add @dopejs/deckle-core
+```
+
+`0.3.0` is the last release under the old names. Those packages are deprecated on npm with a pointer
+to their replacement, not unpublished, so existing installs keep resolving indefinitely.
+
 ## v0.3.0 — 2026-08-18
 
 Every artifact now has three presentations instead of one, and media joins the kinds. The additions

@@ -1,12 +1,12 @@
-# @dopejs/canvas-protocol
+# @dopejs/deckle-protocol
 
-Pre-release shared contracts for dope-canvas probes and architecture validation.
+Pre-release shared contracts for Deckle probes and architecture validation.
 
-Part of [dope-canvas](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
+Part of [Deckle](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
 artifacts.
 
 ```bash
-pnpm add @dopejs/canvas-protocol
+pnpm add @dopejs/deckle-protocol
 ```
 
 - [Usage guide](https://canvas.dopejs.com/docs/usage/)

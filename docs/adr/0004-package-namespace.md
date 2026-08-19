@@ -1,6 +1,6 @@
 # ADR 0004: Require the @dopejs/canvas-* package namespace
 
-- Status: accepted
+- Status: superseded by [ADR 0005](0005-rename-to-deckle.md)
 - Date: 2026-08-16
 - Owners: repository owners
 

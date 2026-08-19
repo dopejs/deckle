@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-website",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-website",
+  "version": "0.4.0",
   "private": true,
-  "description": "Project website for dope-canvas, deployed to GitHub Pages with the Storybook playground as a sub-route.",
+  "description": "Project website for Deckle, deployed to GitHub Pages with the Storybook playground as a sub-route.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "apps/website"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "scripts": {
@@ -20,9 +20,9 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@dopejs/canvas-core": "workspace:*",
-    "@dopejs/canvas-protocol": "workspace:*",
-    "@dopejs/canvas-spatial": "workspace:*"
+    "@dopejs/deckle-core": "workspace:*",
+    "@dopejs/deckle-protocol": "workspace:*",
+    "@dopejs/deckle-spatial": "workspace:*"
   },
   "devDependencies": {
     "marked": "^18.0.9",

@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-platform-probe",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-platform-probe",
+  "version": "0.4.0",
   "private": true,
   "description": "M0 feasibility probe: HTML-in-Canvas capability detection and signed evidence manifests. Probe code is disposable and is not a production API.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "apps/platform-probe"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "exports": {
@@ -26,7 +26,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@dopejs/canvas-artifact": "workspace:*"
+    "@dopejs/deckle-artifact": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

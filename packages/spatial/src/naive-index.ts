@@ -1,4 +1,4 @@
-import type { Rect } from "@dopejs/canvas-protocol";
+import type { Rect } from "@dopejs/deckle-protocol";
 import { isValidRect, rectContainsPoint, rectsIntersect } from "./rect.js";
 import { InvalidRectError, type SpatialIndex } from "./types.js";
 

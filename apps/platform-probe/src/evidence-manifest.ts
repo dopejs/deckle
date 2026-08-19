@@ -1,4 +1,4 @@
-import { canonicalStringify, SerializationError } from "@dopejs/canvas-artifact";
+import { canonicalStringify, SerializationError } from "@dopejs/deckle-artifact";
 import type { CapabilityReport } from "./capability-report.js";
 
 /**

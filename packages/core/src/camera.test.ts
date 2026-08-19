@@ -1,4 +1,4 @@
-import { createSeededRandom } from "@dopejs/canvas-spatial";
+import { createSeededRandom } from "@dopejs/deckle-spatial";
 import { describe, expect, it } from "vitest";
 import {
   createCamera,

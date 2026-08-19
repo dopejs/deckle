@@ -1,4 +1,4 @@
-import type { ArtifactLifecycleState } from "@dopejs/canvas-protocol";
+import type { ArtifactLifecycleState } from "@dopejs/deckle-protocol";
 
 export class UnknownArtifactError extends Error {
   constructor(id: string) {

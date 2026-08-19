@@ -1,4 +1,4 @@
-import { nodeById, pathToRoot, type InteractionTree } from "@dopejs/canvas-artifact";
+import { nodeById, pathToRoot, type InteractionTree } from "@dopejs/deckle-artifact";
 
 /**
  * Edit-mode selection (design §2.2, plan §7): either a whole artifact or one

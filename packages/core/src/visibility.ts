@@ -1,5 +1,5 @@
-import type { ArtifactId, Rect } from "@dopejs/canvas-protocol";
-import { inflateRect } from "@dopejs/canvas-spatial";
+import type { ArtifactId, Rect } from "@dopejs/deckle-protocol";
+import { inflateRect } from "@dopejs/deckle-spatial";
 import { worldViewport, type Camera } from "./camera.js";
 import type { SceneStore } from "./scene-store.js";
 

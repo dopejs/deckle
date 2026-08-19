@@ -1,4 +1,4 @@
-import type { Rect } from "@dopejs/canvas-protocol";
+import type { Rect } from "@dopejs/deckle-protocol";
 import { IDENTITY_MATRIX, isValidMatrix, type Mat2D } from "./geometry.js";
 
 export const INTERACTION_TREE_FORMAT_VERSION = 1 as const;

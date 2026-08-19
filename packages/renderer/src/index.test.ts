@@ -1,4 +1,4 @@
-import { createCamera, panCamera, zoomCameraAt } from "@dopejs/canvas-core";
+import { createCamera, panCamera, zoomCameraAt } from "@dopejs/deckle-core";
 import { describe, expect, it } from "vitest";
 import {
   composeFrame,

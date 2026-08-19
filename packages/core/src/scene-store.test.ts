@@ -1,4 +1,4 @@
-import type { ArtifactFrame } from "@dopejs/canvas-protocol";
+import type { ArtifactFrame } from "@dopejs/deckle-protocol";
 import { describe, expect, it } from "vitest";
 import {
   InvalidLifecycleTransitionError,

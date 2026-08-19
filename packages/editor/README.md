@@ -1,12 +1,12 @@
-# @dopejs/canvas-editor
+# @dopejs/deckle-editor
 
-Internal hit testing, edit-mode selection, hierarchy navigation, and event paths for dope-canvas.
+Internal hit testing, edit-mode selection, hierarchy navigation, and event paths for Deckle.
 
-Part of [dope-canvas](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
+Part of [Deckle](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
 artifacts.
 
 ```bash
-pnpm add @dopejs/canvas-editor
+pnpm add @dopejs/deckle-editor
 ```
 
 - [Usage guide](https://canvas.dopejs.com/docs/usage/)

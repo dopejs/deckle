@@ -35,10 +35,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build website
-        run: pnpm --filter @dopejs/canvas-website build
+        run: pnpm --filter @dopejs/deckle-website build
 
       - name: Build Storybook playground
-        run: pnpm --filter @dopejs/canvas-playground build
+        run: pnpm --filter @dopejs/deckle-playground build
 
       - name: Assemble site with Storybook under /storybook/
         run: cp -R apps/playground/dist apps/website/dist/storybook

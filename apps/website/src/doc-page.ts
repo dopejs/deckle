@@ -16,7 +16,7 @@ const DOC_ROUTES: Record<string, string> = {
   "design.md": "docs/design/",
 };
 
-const GITHUB_DOCS = "https://github.com/dopejs/dope-canvas/blob/main/docs/";
+const GITHUB_DOCS = "https://github.com/dopejs/deckle/blob/main/docs/";
 
 export async function renderDocPage(markdown: string): Promise<void> {
   const context = readPageI18n();

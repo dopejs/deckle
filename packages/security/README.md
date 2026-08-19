@@ -1,12 +1,12 @@
-# @dopejs/canvas-security
+# @dopejs/deckle-security
 
-Sanitization, resource policies, capabilities, and quotas for untrusted dope-canvas artifacts.
+Sanitization, resource policies, capabilities, and quotas for untrusted Deckle artifacts.
 
-Part of [dope-canvas](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
+Part of [Deckle](https://canvas.dopejs.com), an infinite-canvas runtime for AI-generated web
 artifacts.
 
 ```bash
-pnpm add @dopejs/canvas-security
+pnpm add @dopejs/deckle-security
 ```
 
 - [Usage guide](https://canvas.dopejs.com/docs/usage/)

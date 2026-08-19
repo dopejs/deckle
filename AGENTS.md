@@ -1,4 +1,4 @@
-# dope-canvas Engineering Guide
+# Deckle Engineering Guide
 
 Read [`docs/design.md`](docs/design.md) before changing architecture or behavior and use
 [`docs/plan.md`](docs/plan.md) for milestone order and gates. Planned capabilities must not be
@@ -6,8 +6,8 @@ described as implemented.
 
 ## Product boundary
 
-dope-canvas is an infinite artifact compositor and runtime, not a general browser engine. HTML, CSS,
-and controlled JavaScript are possible artifact inputs. Full Web-platform or arbitrary ReactDOM
+Deckle is an infinite artifact compositor and runtime, not a general browser engine. HTML, CSS, and
+controlled JavaScript are possible artifact inputs. Full Web-platform or arbitrary ReactDOM
 compatibility is not assumed. New compatibility claims require fixtures and evidence.
 
 The project must preserve these distinctions:
@@ -45,7 +45,7 @@ The project must preserve these distinctions:
 
 ## Package and dependency rules
 
-- Every package under `packages/` or `apps/` must be named `@dopejs/canvas-*`.
+- Every package under `packages/` or `apps/` must be named `@dopejs/deckle-*`.
 - Extensionless relative TypeScript imports are required.
 - Public contracts live in a designated contract package or generated schema; do not duplicate
   string enums, protocol numbers, or lifecycle states across packages.

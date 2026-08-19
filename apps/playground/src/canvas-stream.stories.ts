@@ -5,7 +5,7 @@ import {
   rowsSegmenter,
   textSegmenter,
   completeJsonPrefix,
-} from "@dopejs/canvas-artifact";
+} from "@dopejs/deckle-artifact";
 import {
   createCamera,
   createSegmentedPort,
@@ -20,10 +20,10 @@ import {
   type ArtifactHandle,
   type Camera,
   type SegmentedPort,
-} from "@dopejs/canvas-core";
-import type { ArtifactFrame, ArtifactKind, StreamSegmenter } from "@dopejs/canvas-protocol";
-import { MediaIngestion } from "@dopejs/canvas-core";
-import { htmlSegmenter, sanitizeHtml } from "@dopejs/canvas-security";
+} from "@dopejs/deckle-core";
+import type { ArtifactFrame, ArtifactKind, StreamSegmenter } from "@dopejs/deckle-protocol";
+import { MediaIngestion } from "@dopejs/deckle-core";
+import { htmlSegmenter, sanitizeHtml } from "@dopejs/deckle-security";
 import {
   compileCode,
   compileHtmlProfile,
@@ -38,7 +38,7 @@ import {
   type Block,
   type DisplayList,
   type TextStyle,
-} from "@dopejs/canvas-renderer";
+} from "@dopejs/deckle-renderer";
 import { createHiDpiCanvas } from "./hidpi.js";
 
 export default {

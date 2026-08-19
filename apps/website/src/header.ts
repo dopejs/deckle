@@ -35,19 +35,21 @@ export function renderHeader(target: HTMLElement, context: PageI18n): void {
   target.innerHTML = `
     <header class="site-header">
       <a class="site-brand" href="${escapeAttribute(localeHref(context, context.locale, ""))}">
-        <svg class="site-brand__glyph" viewBox="0 0 20 20" aria-hidden="true">
-          <rect x="1.5" y="1.5" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5"/>
-          <rect x="0" y="0" width="3" height="3" fill="currentColor"/>
-          <rect x="17" y="0" width="3" height="3" fill="currentColor"/>
-          <rect x="0" y="17" width="3" height="3" fill="currentColor"/>
-          <rect x="17" y="17" width="3" height="3" fill="currentColor"/>
+        <!-- Frames on an unbounded surface: no outer border, because the canvas
+             has no edge. Two have settled; the third is still arriving, so it
+             carries a deckle edge — the ragged untrimmed boundary of a sheet
+             that has not been cut yet. -->
+        <svg class="site-brand__glyph" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2.6" y="3.6" width="7.4" height="17.6" rx="1.1" fill="currentColor"/>
+          <rect x="13.2" y="3.6" width="8.2" height="6.2" rx="1.1" fill="currentColor"/>
+          <path d="M13.2 12.6 H21.2 L20.2 14.4 L21.4 16.2 L20.1 18 L21.3 19.8 L20.6 21.2 H13.2 Z" fill="currentColor" opacity="0.4"/>
         </svg>
-        <span class="site-brand__name" dir="ltr">dope-canvas</span>
+        <span class="site-brand__name" dir="ltr">Deckle</span>
         <span class="site-brand__stage">${escapeText(stageLabel(context))}</span>
       </a>
       <nav class="site-nav" aria-label="${escapeAttribute(navLabel(context, "overview"))}">
         ${navLinks}
-        <a class="site-nav__link" href="https://github.com/dopejs/dope-canvas" target="_blank" rel="noreferrer">${escapeText(navLabel(context, "github"))}</a>
+        <a class="site-nav__link" href="https://github.com/dopejs/deckle" target="_blank" rel="noreferrer">${escapeText(navLabel(context, "github"))}</a>
         <details class="lang">
           <summary class="lang__summary" title="${escapeAttribute(navLabel(context, "language"))}">
             <svg class="lang__glyph" viewBox="0 0 16 16" aria-hidden="true">

@@ -1,4 +1,4 @@
-import type { DurableState } from "@dopejs/canvas-artifact";
+import type { DurableState } from "@dopejs/deckle-artifact";
 
 /**
  * Versioned message vocabulary between a controlled artifact runtime and the

@@ -1,4 +1,4 @@
-import type { StreamSegmenter, StreamSlice } from "@dopejs/canvas-protocol";
+import type { StreamSegmenter, StreamSlice } from "@dopejs/deckle-protocol";
 import type { ArtifactHandle, SceneStore } from "./scene-store.js";
 
 /**
@@ -17,7 +17,7 @@ export interface StreamingSourceUpdate {
   readonly detail?: string;
 }
 
-/** Structural port satisfied by `@dopejs/canvas-security`'s StreamingSanitizer. */
+/** Structural port satisfied by `@dopejs/deckle-security`'s StreamingSanitizer. */
 export interface StreamingSourcePort {
   append(chunk: string): StreamingSourceUpdate;
   complete(): StreamingSourceUpdate;

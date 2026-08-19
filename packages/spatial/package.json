@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-spatial",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-spatial",
+  "version": "0.4.0",
   "private": false,
-  "description": "Spatial indexes and the naive differential oracle for dope-canvas visibility queries.",
+  "description": "Spatial indexes and the naive differential oracle for Deckle visibility queries.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "packages/spatial"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "exports": {
@@ -45,7 +45,7 @@
     "prepack": "node ../../scripts/prepare-package.mjs"
   },
   "dependencies": {
-    "@dopejs/canvas-protocol": "workspace:*"
+    "@dopejs/deckle-protocol": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

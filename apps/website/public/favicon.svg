@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Deckle">
+  <!-- Frames placed on an unbounded surface: no outer border, because the
+       canvas has no edge. Two have settled; the third is still arriving, so it
+       carries a deckle edge — the ragged, untrimmed boundary of a sheet of
+       handmade paper that has not been cut yet. -->
+  <rect x="2.6" y="3.6" width="7.4" height="17.6" rx="1.1" fill="#1e66f5" />
+  <rect x="13.2" y="3.6" width="8.2" height="6.2" rx="1.1" fill="#1e66f5" />
+  <path
+    d="M13.2 12.6 H21.2 L20.2 14.4 L21.4 16.2 L20.1 18 L21.3 19.8 L20.6 21.2 H13.2 Z"
+    fill="#1e66f5"
+    opacity="0.4"
+  />
+</svg>

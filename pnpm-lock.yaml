@@ -32,7 +32,7 @@ importers:
 
   apps/platform-probe:
     dependencies:
-      '@dopejs/canvas-artifact':
+      '@dopejs/deckle-artifact':
         specifier: workspace:*
         version: link:../../packages/artifact
     devDependencies:
@@ -45,25 +45,25 @@ importers:
 
   apps/playground:
     dependencies:
-      '@dopejs/canvas-artifact':
+      '@dopejs/deckle-artifact':
         specifier: workspace:*
         version: link:../../packages/artifact
-      '@dopejs/canvas-core':
+      '@dopejs/deckle-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@dopejs/canvas-editor':
+      '@dopejs/deckle-editor':
         specifier: workspace:*
         version: link:../../packages/editor
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
-      '@dopejs/canvas-renderer':
+      '@dopejs/deckle-renderer':
         specifier: workspace:*
         version: link:../../packages/renderer
-      '@dopejs/canvas-security':
+      '@dopejs/deckle-security':
         specifier: workspace:*
         version: link:../../packages/security
-      '@dopejs/canvas-spatial':
+      '@dopejs/deckle-spatial':
         specifier: workspace:*
         version: link:../../packages/spatial
     devDependencies:
@@ -88,13 +88,13 @@ importers:
 
   apps/website:
     dependencies:
-      '@dopejs/canvas-core':
+      '@dopejs/deckle-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
-      '@dopejs/canvas-spatial':
+      '@dopejs/deckle-spatial':
         specifier: workspace:*
         version: link:../../packages/spatial
     devDependencies:
@@ -110,7 +110,7 @@ importers:
 
   packages/artifact:
     dependencies:
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../protocol
     devDependencies:
@@ -123,10 +123,10 @@ importers:
 
   packages/core:
     dependencies:
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../protocol
-      '@dopejs/canvas-spatial':
+      '@dopejs/deckle-spatial':
         specifier: workspace:*
         version: link:../spatial
     devDependencies:
@@ -139,13 +139,13 @@ importers:
 
   packages/editor:
     dependencies:
-      '@dopejs/canvas-artifact':
+      '@dopejs/deckle-artifact':
         specifier: workspace:*
         version: link:../artifact
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../protocol
-      '@dopejs/canvas-spatial':
+      '@dopejs/deckle-spatial':
         specifier: workspace:*
         version: link:../spatial
     devDependencies:
@@ -167,10 +167,10 @@ importers:
 
   packages/renderer:
     dependencies:
-      '@dopejs/canvas-core':
+      '@dopejs/deckle-core':
         specifier: workspace:*
         version: link:../core
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../protocol
     devDependencies:
@@ -183,13 +183,13 @@ importers:
 
   packages/runtime:
     dependencies:
-      '@dopejs/canvas-artifact':
+      '@dopejs/deckle-artifact':
         specifier: workspace:*
         version: link:../artifact
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../protocol
-      '@dopejs/canvas-security':
+      '@dopejs/deckle-security':
         specifier: workspace:*
         version: link:../security
     devDependencies:
@@ -202,7 +202,7 @@ importers:
 
   packages/security:
     dependencies:
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../protocol
     devDependencies:
@@ -215,7 +215,7 @@ importers:
 
   packages/spatial:
     dependencies:
-      '@dopejs/canvas-protocol':
+      '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../protocol
     devDependencies:

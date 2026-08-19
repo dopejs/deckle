@@ -1,17 +1,17 @@
 {
-  "name": "@dopejs/canvas-protocol",
-  "version": "0.3.0",
+  "name": "@dopejs/deckle-protocol",
+  "version": "0.4.0",
   "private": false,
-  "description": "Pre-release shared contracts for dope-canvas probes and architecture validation.",
+  "description": "Pre-release shared contracts for Deckle probes and architecture validation.",
   "license": "Apache-2.0",
   "homepage": "https://canvas.dopejs.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dopejs/dope-canvas.git",
+    "url": "git+https://github.com/dopejs/deckle.git",
     "directory": "packages/protocol"
   },
   "bugs": {
-    "url": "https://github.com/dopejs/dope-canvas/issues"
+    "url": "https://github.com/dopejs/deckle/issues"
   },
   "type": "module",
   "exports": {
