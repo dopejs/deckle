@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/deckle-security",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": false,
   "description": "Sanitization, resource policies, capabilities, and quotas for untrusted Deckle artifacts.",
   "license": "Apache-2.0",

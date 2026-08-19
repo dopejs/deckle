@@ -1,5 +1,5 @@
 import type { ArtifactFrame } from "@dopejs/deckle-protocol";
-import { worldToScreen, type Camera } from "@dopejs/deckle-core";
+import { worldToScreen, type Camera } from "@dopejs/deckle";
 import type { RetainedPicture } from "./picture.js";
 
 /**

@@ -1,5 +1,5 @@
 import type { ArtifactFrame } from "@dopejs/deckle-protocol";
-import { SceneStore } from "@dopejs/deckle-core";
+import { SceneStore } from "@dopejs/deckle";
 import { createSeededRandom } from "@dopejs/deckle-spatial";
 
 /**

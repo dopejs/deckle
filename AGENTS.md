@@ -45,7 +45,8 @@ The project must preserve these distinctions:
 
 ## Package and dependency rules
 
-- Every package under `packages/` or `apps/` must be named `@dopejs/deckle-*`.
+- The public entry package is named `@dopejs/deckle`; every other package under `packages/` or
+  `apps/` uses the `@dopejs/deckle-*` namespace.
 - Extensionless relative TypeScript imports are required.
 - Public contracts live in a designated contract package or generated schema; do not duplicate
   string enums, protocol numbers, or lifecycle states across packages.

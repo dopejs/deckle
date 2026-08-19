@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/deckle-renderer",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": false,
   "description": "Backend-neutral retained picture contract, reference compositor, LOD policy, and texture budget for Deckle.",
   "license": "Apache-2.0",
@@ -45,7 +45,7 @@
     "prepack": "node ../../scripts/prepare-package.mjs"
   },
   "dependencies": {
-    "@dopejs/deckle-core": "workspace:*",
+    "@dopejs/deckle": "workspace:*",
     "@dopejs/deckle-protocol": "workspace:*"
   },
   "devDependencies": {

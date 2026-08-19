@@ -1,4 +1,4 @@
-import { createCamera, panCamera, worldToScreen, type Camera } from "@dopejs/deckle-core";
+import { createCamera, panCamera, worldToScreen, type Camera } from "@dopejs/deckle";
 import { createSeededRandom } from "@dopejs/deckle-spatial";
 
 /**

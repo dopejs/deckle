@@ -2,7 +2,12 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+const ENTRY_PACKAGE = "@dopejs/deckle";
 const PACKAGE_PREFIX = "@dopejs/deckle-";
+
+function isValidPackageName(name) {
+  return name === ENTRY_PACKAGE || name.startsWith(PACKAGE_PREFIX);
+}
 
 export async function findInvalidPackageNames(rootDirectory) {
   const invalid = [];
@@ -32,7 +37,7 @@ export async function findInvalidPackageNames(rootDirectory) {
         throw new Error(`Cannot parse ${manifestPath}`, { cause: error });
       }
 
-      if (typeof manifest.name !== "string" || !manifest.name.startsWith(PACKAGE_PREFIX)) {
+      if (typeof manifest.name !== "string" || !isValidPackageName(manifest.name)) {
         invalid.push({ manifestPath, name: manifest.name });
       }
     }
@@ -45,7 +50,7 @@ async function main() {
   const rootDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
   const invalid = await findInvalidPackageNames(rootDirectory);
   if (invalid.length === 0) {
-    console.log(`All workspace packages use ${PACKAGE_PREFIX}* names.`);
+    console.log(`All workspace packages use ${ENTRY_PACKAGE} or ${PACKAGE_PREFIX}* names.`);
     return;
   }
 

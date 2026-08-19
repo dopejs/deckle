@@ -45,12 +45,12 @@ importers:
 
   apps/playground:
     dependencies:
+      '@dopejs/deckle':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@dopejs/deckle-artifact':
         specifier: workspace:*
         version: link:../../packages/artifact
-      '@dopejs/deckle-core':
-        specifier: workspace:*
-        version: link:../../packages/core
       '@dopejs/deckle-editor':
         specifier: workspace:*
         version: link:../../packages/editor
@@ -88,7 +88,7 @@ importers:
 
   apps/website:
     dependencies:
-      '@dopejs/deckle-core':
+      '@dopejs/deckle':
         specifier: workspace:*
         version: link:../../packages/core
       '@dopejs/deckle-protocol':
@@ -167,7 +167,7 @@ importers:
 
   packages/renderer:
     dependencies:
-      '@dopejs/deckle-core':
+      '@dopejs/deckle':
         specifier: workspace:*
         version: link:../core
       '@dopejs/deckle-protocol':

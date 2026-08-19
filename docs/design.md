@@ -497,7 +497,7 @@ intended boundaries and are not implemented packages:
 
 | Package                        | Responsibility                                           |
 | ------------------------------ | -------------------------------------------------------- |
-| `@dopejs/deckle-core`          | scene store, camera, lifecycle orchestration             |
+| `@dopejs/deckle`               | scene store, camera, lifecycle orchestration             |
 | `@dopejs/deckle-spatial`       | spatial indexes and reference implementations            |
 | `@dopejs/deckle-artifact`      | source, revisions, document and interaction model        |
 | `@dopejs/deckle-html-source`   | native HTML-in-Canvas and fallback adapters              |

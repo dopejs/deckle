@@ -1,11 +1,11 @@
 # Using Deckle
 
-> Pre-release (`0.4.0`). Nothing here is a stable public contract yet.
+> Pre-release (`0.5.0`). Nothing here is a stable public contract yet.
 
 ## Install
 
 ```bash
-pnpm add @dopejs/deckle-core
+pnpm add @dopejs/deckle
 ```
 
 Add whichever packages you need — they are independent and depend only on each other:
@@ -25,7 +25,7 @@ thrown error discards the draft and the previously committed scene — including
 stays untouched.
 
 ```ts
-import { SceneStore, createCamera, panCamera, zoomCameraAt } from "@dopejs/deckle-core";
+import { SceneStore, createCamera, panCamera, zoomCameraAt } from "@dopejs/deckle";
 
 const store = new SceneStore();
 const handle = store.transact((tx) =>
@@ -46,7 +46,7 @@ Resources follow the viewport. `VisibilityTracker` classifies artifacts into `vi
 `warm`, `cold`, and `pinned`; `BudgetLedger` is the admission gate in front of any allocation.
 
 ```ts
-import { BudgetLedger, VisibilityTracker } from "@dopejs/deckle-core";
+import { BudgetLedger, VisibilityTracker } from "@dopejs/deckle";
 
 const sets = new VisibilityTracker().compute(store, camera);
 // sets.visible → mount or keep live; sets.cold → release resources
@@ -107,7 +107,7 @@ segmenter answers that question per kind; one engine drives them all.
 
 ```ts
 import { jsonSegmenter, completeJsonPrefix, markdownSegmenter } from "@dopejs/deckle-artifact";
-import { createSegmentedPort, StreamingIngestion } from "@dopejs/deckle-core";
+import { createSegmentedPort, StreamingIngestion } from "@dopejs/deckle";
 
 // JSON commits at value boundaries; closing the open structures keeps the
 // partial result parseable while the rest is still arriving.
@@ -146,7 +146,7 @@ renderer; `StreamingIngestion` moves the artifact through the `streaming` lifecy
 so it cannot be evicted mid-generation, and commits exactly one source revision at the end.
 
 ```ts
-import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/deckle-core";
+import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/deckle";
 import { StreamingSanitizer } from "@dopejs/deckle-security";
 
 const store = new SceneStore();
@@ -196,7 +196,7 @@ Images and video cannot stream: no prefix of the bytes is a smaller picture. The
 or fail. The host decodes and reports; the engine owns the lifecycle.
 
 ```ts
-import { MediaIngestion } from "@dopejs/deckle-core";
+import { MediaIngestion } from "@dopejs/deckle";
 import { compileLoading, compileMedia, compileError } from "@dopejs/deckle-renderer";
 
 const media = new MediaIngestion(store, handle, "image"); // artifact is now "loading"

@@ -7,7 +7,7 @@ import {
   VisibilityTracker,
   zoomCameraAt,
   type Camera,
-} from "@dopejs/deckle-core";
+} from "@dopejs/deckle";
 import { selectLod } from "@dopejs/deckle-renderer";
 import { createHiDpiCanvas } from "./hidpi.js";
 import { artifactFillStyle, artifactStrokeStyle, buildDemoScene } from "./scene-demo.js";

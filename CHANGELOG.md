@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.5.0 — 2026-08-19
+
+The primary scene, camera, lifecycle, visibility, and budget package is now `@dopejs/deckle`. All
+other packages retain their `@dopejs/deckle-*` names. This changes only the package and import
+specifier for the former core package; its exported API remains unchanged.
+
+```sh
+pnpm remove @dopejs/deckle-core
+pnpm add @dopejs/deckle
+```
+
+```ts
+import { SceneStore, createCamera } from "@dopejs/deckle";
+```
+
+The package-name CI check now accepts the exact entry name or the `@dopejs/deckle-*` namespace, and
+the outside-workspace packaging smoke test installs and imports the new entry package.
+
 ## v0.4.0 — 2026-08-19
 
 The project is renamed from `dope-canvas` to **Deckle**, and the libraries move from

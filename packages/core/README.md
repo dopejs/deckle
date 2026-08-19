@@ -1,4 +1,4 @@
-# @dopejs/deckle-core
+# @dopejs/deckle
 
 Scene store, camera, lifecycle orchestration, visibility sets, and resource budgets for Deckle.
 
@@ -6,7 +6,7 @@ Part of [Deckle](https://deckle.dopejs.com), an infinite-canvas runtime for AI-g
 artifacts.
 
 ```bash
-pnpm add @dopejs/deckle-core
+pnpm add @dopejs/deckle
 ```
 
 - [Usage guide](https://deckle.dopejs.com/docs/usage/)

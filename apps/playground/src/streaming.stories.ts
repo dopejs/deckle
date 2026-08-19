@@ -1,4 +1,4 @@
-import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/deckle-core";
+import { SceneStore, StreamCoalescer, StreamingIngestion } from "@dopejs/deckle";
 import { StreamingSanitizer } from "@dopejs/deckle-security";
 
 export default {

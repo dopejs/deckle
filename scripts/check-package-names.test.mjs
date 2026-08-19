@@ -23,9 +23,20 @@ async function workspaceWithPackage(workspace, directoryName, name) {
 }
 
 describe("findInvalidPackageNames", () => {
-  it("accepts the required namespace", async () => {
-    const root = await workspaceWithPackage("packages", "core", "@dopejs/deckle-core");
+  it("accepts the entry package", async () => {
+    const root = await workspaceWithPackage("packages", "core", "@dopejs/deckle");
     await expect(findInvalidPackageNames(root)).resolves.toEqual([]);
+  });
+
+  it("accepts namespaced packages", async () => {
+    const root = await workspaceWithPackage("packages", "spatial", "@dopejs/deckle-spatial");
+    await expect(findInvalidPackageNames(root)).resolves.toEqual([]);
+  });
+
+  it("rejects a near match for the entry package", async () => {
+    const root = await workspaceWithPackage("packages", "bad", "@dopejs/decklex");
+    const invalid = await findInvalidPackageNames(root);
+    expect(invalid).toHaveLength(1);
   });
 
   it("rejects package names outside the required namespace", async () => {

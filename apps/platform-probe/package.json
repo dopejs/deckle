@@ -1,6 +1,6 @@
 {
   "name": "@dopejs/deckle-platform-probe",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "M0 feasibility probe: HTML-in-Canvas capability detection and signed evidence manifests. Probe code is disposable and is not a production API.",
   "license": "Apache-2.0",

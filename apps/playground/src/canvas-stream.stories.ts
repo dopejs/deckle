@@ -20,9 +20,9 @@ import {
   type ArtifactHandle,
   type Camera,
   type SegmentedPort,
-} from "@dopejs/deckle-core";
+} from "@dopejs/deckle";
 import type { ArtifactFrame, ArtifactKind, StreamSegmenter } from "@dopejs/deckle-protocol";
-import { MediaIngestion } from "@dopejs/deckle-core";
+import { MediaIngestion } from "@dopejs/deckle";
 import { htmlSegmenter, sanitizeHtml } from "@dopejs/deckle-security";
 import {
   compileCode,

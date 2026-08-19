@@ -110,7 +110,7 @@ try {
   );
   writeFileSync(
     join(consumer, "smoke.mjs"),
-    `import { SceneStore, createCamera, VisibilityTracker, StreamCoalescer, StreamingIngestion, createSegmentedPort } from "@dopejs/deckle-core";
+    `import { SceneStore, createCamera, VisibilityTracker, StreamCoalescer, StreamingIngestion, createSegmentedPort } from "@dopejs/deckle";
 import { markdownSegmenter } from "@dopejs/deckle-artifact";
 import { sanitizeHtml } from "@dopejs/deckle-security";
 import { compileMarkdown, layoutBlocks } from "@dopejs/deckle-renderer";

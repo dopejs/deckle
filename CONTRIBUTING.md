@@ -40,8 +40,8 @@ browser run. Browser and device evidence must follow the
 
 ## Package names
 
-All workspace package names must start with `@dopejs/deckle-`. Run `pnpm packages:check` before
-submitting a new package.
+The public entry package is `@dopejs/deckle`; all other workspace package names must start with
+`@dopejs/deckle-`. Run `pnpm packages:check` before submitting a new package.
 
 ## Decisions
 

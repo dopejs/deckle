@@ -60,24 +60,24 @@ pnpm check
 pnpm build
 ```
 
-All JavaScript/TypeScript workspace packages, including private applications, use the
-`@dopejs/deckle-*` namespace. CI enforces the rule.
+The public entry package is `@dopejs/deckle`; all other JavaScript/TypeScript workspace packages,
+including private applications, use the `@dopejs/deckle-*` namespace. CI enforces the rule.
 
 ## Package status
 
 The applications stay private. Nothing is a stable public contract yet — the surface may change
 before the first stable release.
 
-Through `0.3.0` the libraries were published as `@dopejs/canvas-*`. They are being renamed to
-`@dopejs/deckle-*`, first published under the new names at `0.4.0`; the `canvas-*` packages stop at
-`0.3.0` and are deprecated with a pointer to their replacement. Nothing about the code changes in
-that move — only the name.
+Through `0.3.0` the libraries were published as `@dopejs/canvas-*`. The Deckle names were first
+introduced at `0.4.0`; in `0.5.0`, the core entry package is consolidated as `@dopejs/deckle` and
+the remaining libraries retain the `@dopejs/deckle-*` namespace. `@dopejs/deckle-core` is no longer
+the entry package.
 
 | Package                         | Responsibility                                                    |
 | ------------------------------- | ----------------------------------------------------------------- |
 | `@dopejs/deckle-protocol`       | shared pre-release vocabulary                                     |
 | `@dopejs/deckle-spatial`        | spatial indexes plus the naive differential oracle                |
-| `@dopejs/deckle-core`           | camera, Scene Store transactions, lifecycle, visibility, budgets  |
+| `@dopejs/deckle`                | camera, Scene Store transactions, lifecycle, visibility, budgets  |
 | `@dopejs/deckle-artifact`       | revisions, interaction tree, canonical serialization              |
 | `@dopejs/deckle-security`       | sanitizer, URL policy, quotas, capabilities                       |
 | `@dopejs/deckle-runtime`        | runtime message protocol, epochs, capability-guarded host bridge  |

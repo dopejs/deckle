@@ -14,7 +14,7 @@ browser/device run, and the two owner-controlled P0 items remain open.
 | Package                         | Implements                                                                                              | Evidence                                              |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
 | `@dopejs/deckle-spatial`        | naive oracle, grid index (M1)                                                                           | differential + property tests, seeded replayable PRNG |
-| `@dopejs/deckle-core`           | camera/rebase, Scene Store transactions, lifecycle, visibility sets, budgets, metrics, input trace (M1) | unit + property tests incl. fault rollback            |
+| `@dopejs/deckle`                | camera/rebase, Scene Store transactions, lifecycle, visibility sets, budgets, metrics, input trace (M1) | unit + property tests incl. fault rollback            |
 | `@dopejs/deckle-artifact`       | revisions, versioned interaction tree, canonical serialization, hibernation records (M2/M3)             | deterministic round-trip tests                        |
 | `@dopejs/deckle-security`       | static-profile sanitizer, URL policy, quotas, capabilities (W5)                                         | hostile-input corpus tests                            |
 | `@dopejs/deckle-runtime`        | versioned message protocol, epochs, rate limits, capability bridge (M4)                                 | fault/flood/stale-epoch tests                         |

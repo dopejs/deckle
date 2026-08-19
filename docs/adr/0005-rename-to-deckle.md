@@ -1,6 +1,6 @@
-# ADR 0005: Rename the project to Deckle and move to the @dopejs/deckle-\* namespace
+# ADR 0005: Rename the project to Deckle and move to the @dopejs/deckle-* namespace
 
-- Status: accepted
+- Status: accepted (entry-package naming superseded by [ADR 0006](0006-entry-package-name.md))
 - Date: 2026-08-19
 - Owners: repository owners
 - Supersedes: [ADR 0004](0004-package-namespace.md)
