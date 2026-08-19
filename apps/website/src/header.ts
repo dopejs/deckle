@@ -35,14 +35,11 @@ export function renderHeader(target: HTMLElement, context: PageI18n): void {
   target.innerHTML = `
     <header class="site-header">
       <a class="site-brand" href="${escapeAttribute(localeHref(context, context.locale, ""))}">
-        <!-- Frames on an unbounded surface: no outer border, because the canvas
-             has no edge. Two have settled; the third is still arriving, so it
-             carries a deckle edge — the ragged untrimmed boundary of a sheet
-             that has not been cut yet. -->
+        <!-- Three artifact panels; the stepped lower panel marks a boundary still arriving. -->
         <svg class="site-brand__glyph" viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="2.6" y="3.6" width="7.4" height="17.6" rx="1.1" fill="currentColor"/>
-          <rect x="13.2" y="3.6" width="8.2" height="6.2" rx="1.1" fill="currentColor"/>
-          <path d="M13.2 12.6 H21.2 L20.2 14.4 L21.4 16.2 L20.1 18 L21.3 19.8 L20.6 21.2 H13.2 Z" fill="currentColor" opacity="0.4"/>
+          <rect x="2" y="2" width="7" height="20" rx="1" fill="currentColor"/>
+          <rect x="12" y="2" width="10" height="8.5" rx="1" fill="var(--ink)" opacity="0.72"/>
+          <path d="M12 12h10v2.5h-2.5V17H22v2.5h-2.5V22H12z" fill="currentColor"/>
         </svg>
         <span class="site-brand__name" dir="ltr">Deckle</span>
         <span class="site-brand__stage">${escapeText(stageLabel(context))}</span>

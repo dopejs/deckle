@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224 56" role="img" aria-labelledby="title desc">
+  <title id="title">Deckle</title>
+  <desc id="desc">Deckle logo for dark surfaces.</desc>
+  <rect x="4" y="4" width="48" height="48" rx="6" fill="#1C2025"/>
+  <rect x="12" y="12" width="13" height="32" rx="1.5" fill="#6EA1FF"/>
+  <rect x="31" y="12" width="13" height="13" rx="1.5" fill="#FAFAF8"/>
+  <path d="M31 29h13v4h-4v4h4v4h-4v3H31z" fill="#6EA1FF"/>
+  <text x="68" y="38" fill="#FAFAF8" font-family="Space Grotesk, Avenir Next, Segoe UI, sans-serif" font-size="30" font-weight="600">Deckle</text>
+</svg>

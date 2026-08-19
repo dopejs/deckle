@@ -73,6 +73,7 @@ button:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  flex: none;
   text-decoration: none;
   color: var(--ink);
 }
@@ -84,10 +85,10 @@ button:focus-visible {
 }
 
 .site-brand__name {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 15px;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.03em;
 }
 
 .site-brand__stage {
@@ -105,6 +106,13 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: clamp(8px, 2vw, 24px);
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.site-nav::-webkit-scrollbar {
+  display: none;
 }
 
 /* ---------- language switcher ---------- */
@@ -225,6 +233,27 @@ button:focus-visible {
   position: relative;
   width: min(1080px, calc(100% - clamp(32px, 8vw, 80px)));
   margin: clamp(48px, 8vh, 96px) auto;
+}
+
+.hero__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  color: var(--select);
+}
+
+.hero__brand-mark {
+  width: 36px;
+  height: 36px;
+}
+
+.hero__brand-wordmark {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
 }
 
 /* The headline panel is drawn as a selected artifact: selection border,
@@ -545,6 +574,9 @@ h2 {
 /* ---------- footer ---------- */
 
 .site-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   border-top: 1px solid var(--card-border);
   padding: 24px clamp(16px, 4vw, 40px);
   font-family: var(--font-mono);
@@ -555,6 +587,11 @@ h2 {
 
 .site-footer p {
   margin: 0;
+}
+
+.site-footer__mark {
+  display: block;
+  flex: none;
 }
 
 /* ---------- doc pages ---------- */
@@ -682,6 +719,19 @@ h2 {
 /* ---------- responsive / motion ---------- */
 
 @media (max-width: 640px) {
+  .site-header {
+    gap: 12px;
+  }
+
+  .site-nav {
+    justify-content: flex-end;
+    overflow: visible;
+  }
+
+  .site-nav__link:not([aria-current="page"]) {
+    display: none;
+  }
+
   .site-brand__stage {
     display: none;
   }
