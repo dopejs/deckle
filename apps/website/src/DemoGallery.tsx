@@ -47,16 +47,16 @@ export function DemoGallery({ messages }: { readonly messages: SiteMessages }): 
     {
       id: "streaming" as const,
       number: "03",
-      title: copy(messages, "demos.streaming.title", "Safe output while generation is incomplete"),
+      title: copy(messages, "demos.streaming.title", "Cards arrive before their content"),
       description: copy(
         messages,
         "demos.streaming.description",
-        "Watch unsafe HTML arrive in uneven token chunks. Only a decided, sanitized prefix is rendered while lifecycle pins and correlated revisions advance.",
+        "Watch the agent announce new frames into the scene, then load each card through an independent safe stream. Every frame is indexed while loading and pinned until its content commits.",
       ),
       hint: copy(
         messages,
         "demos.streaming.hint",
-        "Amber text is withheld · scripts and event handlers never reach the rendered output",
+        "Cards appear first, then fill independently · drag or zoom while streams continue",
       ),
     },
   ] as const;
