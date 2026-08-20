@@ -1,8 +1,10 @@
 import { useState, type ReactNode } from "react";
 
+import { CodeExample } from "./CodeExample";
 import { InfiniteCanvasDemo } from "./demos/InfiniteCanvasDemo";
 import { InteractionDemo } from "./demos/InteractionDemo";
 import { StreamingDemo } from "./demos/StreamingDemo";
+import { CANVAS_DEMO_CODE, INTERACTION_DEMO_CODE, STREAMING_DEMO_CODE } from "./demos/demo-code";
 import type { SiteMessages } from "./types";
 
 type DemoId = "canvas" | "interaction" | "streaming";
@@ -28,6 +30,7 @@ export function DemoGallery({ messages }: { readonly messages: SiteMessages }): 
         "demos.canvas.hint",
         "Drag to pan · click to select · trackpad or wheel to move · Ctrl/⌘ + wheel to zoom",
       ),
+      code: CANVAS_DEMO_CODE,
     },
     {
       id: "interaction" as const,
@@ -43,6 +46,7 @@ export function DemoGallery({ messages }: { readonly messages: SiteMessages }): 
         "demos.interaction.hint",
         "Repeated clicks enter the hierarchy · Escape moves back to the parent",
       ),
+      code: INTERACTION_DEMO_CODE,
     },
     {
       id: "streaming" as const,
@@ -58,6 +62,7 @@ export function DemoGallery({ messages }: { readonly messages: SiteMessages }): 
         "demos.streaming.hint",
         "Cards appear first, then fill independently · drag or zoom while streams continue",
       ),
+      code: STREAMING_DEMO_CODE,
     },
   ] as const;
   const current = demos.find((demo) => demo.id === active) ?? demos[0];
@@ -135,6 +140,16 @@ export function DemoGallery({ messages }: { readonly messages: SiteMessages }): 
         )}
 
         <p className="demo-panel__hint">{current.hint}</p>
+        <CodeExample
+          key={current.id}
+          code={current.code}
+          labels={{
+            collapse: copy(messages, "demos.code.collapse", "Collapse"),
+            copied: copy(messages, "demos.code.copied", "Copied"),
+            copy: copy(messages, "demos.code.copy", "Copy"),
+            expand: copy(messages, "demos.code.expand", "Show full example"),
+          }}
+        />
       </article>
     </main>
   );
