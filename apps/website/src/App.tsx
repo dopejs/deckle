@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
+import { DemoGallery } from "./DemoGallery";
 import { mountHeroCanvas } from "./hero-canvas";
 import { writeLanguagePreference } from "./language-preference";
 import { SITE_LOCALES, localeForPath, pageHref } from "./locales";
@@ -30,7 +31,7 @@ function navItems(messages: SiteMessages): readonly NavItem[] {
     { text: message(messages, "nav.overview", "Overview"), route: "/" },
     { text: message(messages, "nav.usage", "Usage"), route: "/docs/usage" },
     { text: message(messages, "nav.design", "Design"), route: "/docs/design" },
-    { text: message(messages, "nav.playground", "Playground"), route: "/playground" },
+    { text: message(messages, "nav.playground", "Demos"), route: "/playground" },
   ];
 }
 
@@ -267,34 +268,6 @@ function HomePage({ page }: { readonly page: SitePage }): ReactNode {
   );
 }
 
-function PlaygroundFrame({ title }: { readonly title: string }): ReactNode {
-  const frame = useRef<HTMLIFrameElement>(null);
-  const [source] = useState(() =>
-    typeof location === "undefined" ? "/storybook/" : `/storybook/${location.search}`,
-  );
-  useEffect(() => {
-    let mirrored = location.search;
-    const interval = window.setInterval(() => {
-      try {
-        const search = frame.current?.contentWindow?.location.search ?? "";
-        if (search === mirrored) return;
-        mirrored = search;
-        history.replaceState(null, "", `${location.pathname}${search}`);
-      } catch {
-        // A misconfigured cross-origin frame must not break the site shell.
-      }
-    }, 250);
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, []);
-  return (
-    <main className="playground-shell">
-      <iframe ref={frame} className="playground-shell__frame" src={source} title={title} />
-    </main>
-  );
-}
-
 function SiteFooter({ page }: { readonly page: SitePage }): ReactNode {
   return (
     <footer className="site-footer">
@@ -334,7 +307,7 @@ export function App({ siteDocument, initialLocalePath }: AppProps): ReactNode {
   if (page.layout === "home") {
     content = <HomePage page={page} />;
   } else if (page.layout === "playground") {
-    content = <PlaygroundFrame title={page.title} />;
+    content = <DemoGallery messages={page.messages} />;
   } else {
     content = (
       <div className="docs-grid">
@@ -358,12 +331,11 @@ export function App({ siteDocument, initialLocalePath }: AppProps): ReactNode {
     );
   }
 
-  const special = page.layout === "playground";
   return (
-    <div className={special ? "site site--full" : "site"} dir={localeForPath(localePath).dir}>
+    <div className="site" dir={localeForPath(localePath).dir}>
       <SiteHeader page={page} onLocaleChange={changeLocale} />
       {content}
-      {!special && <SiteFooter page={page} />}
+      <SiteFooter page={page} />
     </div>
   );
 }

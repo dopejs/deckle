@@ -20,6 +20,10 @@ describe("website content", () => {
     const home = content.documentForRoute("/");
     expect(Object.keys(home.translations)).toHaveLength(11);
     expect(home.translations["zh-CN"]!.page.html).toContain("面向 AI 生成网页制品");
+
+    const demos = content.documentForRoute("/playground");
+    expect(demos.translations["zh-CN"]!.page.title).toBe("场景 Demo — Deckle");
+    expect(demos.translations.en!.page.description).not.toContain("Storybook");
   });
 
   it("resolves old localized paths to their canonical document during development", async () => {

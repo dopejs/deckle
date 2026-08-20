@@ -2,7 +2,7 @@
   "name": "@dopejs/deckle-website",
   "version": "0.5.0",
   "private": true,
-  "description": "Project website for Deckle, deployed to GitHub Pages with the Storybook playground as a sub-route.",
+  "description": "Project website for Deckle with focused, production-facing engine demos.",
   "license": "Apache-2.0",
   "homepage": "https://deckle.dopejs.com",
   "repository": {
@@ -21,7 +21,11 @@
   },
   "dependencies": {
     "@dopejs/deckle": "workspace:*",
+    "@dopejs/deckle-artifact": "workspace:*",
+    "@dopejs/deckle-editor": "workspace:*",
     "@dopejs/deckle-protocol": "workspace:*",
+    "@dopejs/deckle-renderer": "workspace:*",
+    "@dopejs/deckle-security": "workspace:*",
     "@dopejs/deckle-spatial": "workspace:*",
     "react": "19.2.8",
     "react-dom": "19.2.8"

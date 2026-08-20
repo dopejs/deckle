@@ -34,14 +34,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build website
+      - name: Build website and demos
         run: pnpm --filter @dopejs/deckle-website build
-
-      - name: Build Storybook playground
-        run: pnpm --filter @dopejs/deckle-playground build
-
-      - name: Assemble site with Storybook under /storybook/
-        run: cp -R apps/playground/dist apps/website/dist/storybook
 
       - uses: actions/upload-pages-artifact@v3
         with:

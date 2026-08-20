@@ -91,9 +91,21 @@ importers:
       '@dopejs/deckle':
         specifier: workspace:*
         version: link:../../packages/core
+      '@dopejs/deckle-artifact':
+        specifier: workspace:*
+        version: link:../../packages/artifact
+      '@dopejs/deckle-editor':
+        specifier: workspace:*
+        version: link:../../packages/editor
       '@dopejs/deckle-protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
+      '@dopejs/deckle-renderer':
+        specifier: workspace:*
+        version: link:../../packages/renderer
+      '@dopejs/deckle-security':
+        specifier: workspace:*
+        version: link:../../packages/security
       '@dopejs/deckle-spatial':
         specifier: workspace:*
         version: link:../../packages/spatial
