@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
 
-import { CodeExample, tokenizeTypeScriptLine } from "./CodeExample";
+import { CodeExample } from "./CodeExample";
+import { tokenizeTypeScriptLine } from "./typescript-highlighter";
 
 describe("TypeScript example highlighting", () => {
   it("separates keywords, classes, strings, and comments without changing source", () => {
