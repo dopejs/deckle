@@ -35,7 +35,7 @@ function cookiePreference(): string | undefined {
   return undefined;
 }
 
-/** Matches Pingo: explicit local choice, shared cookie, then browser languages. */
+/** Matches dopejs-page: explicit local choice, shared cookie, then browser languages. */
 export function readLanguagePreference(): string {
   try {
     const local = matchSupportedLanguage(localStorage.getItem(STORAGE_KEY));

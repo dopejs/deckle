@@ -162,79 +162,6 @@ button:focus-visible {
   display: none;
 }
 
-/* ---------- language switcher ---------- */
-
-.lang {
-  position: relative;
-}
-
-.lang__summary {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border: 1px solid var(--card-border);
-  border-radius: 6px;
-  font-size: 13px;
-  color: var(--muted);
-  cursor: pointer;
-  list-style: none;
-  user-select: none;
-}
-
-.lang__summary::-webkit-details-marker {
-  display: none;
-}
-
-.lang__summary:hover {
-  color: var(--ink);
-  border-color: var(--ink);
-}
-
-.lang[open] .lang__summary {
-  color: var(--select);
-  border-color: var(--select);
-}
-
-.lang__glyph {
-  width: 14px;
-  height: 14px;
-  flex: none;
-}
-
-.lang__menu {
-  position: absolute;
-  inset-inline-end: 0;
-  top: calc(100% + 6px);
-  z-index: 30;
-  min-width: 168px;
-  margin: 0;
-  padding: 6px;
-  list-style: none;
-  background: #fff;
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(28, 32, 37, 0.14);
-}
-
-.lang__option {
-  display: block;
-  padding: 6px 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  text-decoration: none;
-  color: var(--ink);
-}
-
-.lang__option:hover {
-  background: var(--select-soft);
-}
-
-.lang__option[aria-current="true"] {
-  color: var(--select);
-  font-weight: 600;
-}
-
 .site-nav__link {
   font-size: 14px;
   font-weight: 500;
@@ -261,8 +188,7 @@ button:focus-visible {
 
 .search-trigger,
 .icon-button,
-.mobile-menu-button,
-.locale-select {
+.mobile-menu-button {
   height: 34px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -287,12 +213,6 @@ button:focus-visible {
   color: var(--text-faint);
   font-family: inherit;
   font-size: 10px;
-}
-
-.locale-select {
-  max-width: 112px;
-  padding: 0 8px;
-  font-size: 12px;
 }
 
 .icon-button,
@@ -1533,8 +1453,7 @@ h2 {
 
   .search-trigger span:nth-child(2),
   .search-trigger kbd,
-  .github-link,
-  .locale-select {
+  .github-link {
     display: none;
   }
 
@@ -1608,7 +1527,6 @@ html[data-theme="dark"] {
 }
 
 .search-trigger,
-.locale-select,
 .icon-button,
 .mobile-menu-button {
   min-height: 34px;
@@ -1632,11 +1550,82 @@ html[data-theme="dark"] {
   color: var(--muted);
 }
 
-.locale-select {
-  max-width: 128px;
-  padding: 0 28px 0 10px;
+.language-menu {
+  position: relative;
+}
+
+.language-menu__trigger {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--paper) 84%, transparent);
+  border: 1px solid var(--card-border);
+  border-radius: 7px;
   font: inherit;
-  font-size: 13px;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.language-menu__trigger:hover,
+.language-menu__trigger[aria-expanded="true"] {
+  color: var(--select);
+  border-color: color-mix(in srgb, var(--select) 60%, var(--card-border));
+}
+
+.language-menu__glyph {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+.language-menu__list {
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-end: 0;
+  z-index: 50;
+  width: 176px;
+  max-height: 70vh;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--bg-elevated);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  box-shadow: 0 16px 36px rgba(8, 12, 18, 0.24);
+}
+
+.language-menu__option {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  font: inherit;
+  font-size: 14px;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+.language-menu__option:hover {
+  color: var(--ink);
+  background: var(--select-soft);
+}
+
+.language-menu__option[aria-current="true"] {
+  color: var(--select);
 }
 
 .icon-button,
@@ -2019,8 +2008,7 @@ html[data-theme="dark"] .doc-content pre {
   .search-trigger span:nth-child(2),
   .search-trigger kbd,
   .github-link,
-  .site-brand__stage,
-  .locale-select {
+  .site-brand__stage {
     display: none;
   }
 

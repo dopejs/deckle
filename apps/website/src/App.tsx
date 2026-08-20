@@ -3,7 +3,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { DemoGallery } from "./DemoGallery";
 import { mountHeroCanvas } from "./hero-canvas";
 import { writeLanguagePreference } from "./language-preference";
-import { SITE_LOCALES, localeForPath, pageHref } from "./locales";
+import { LanguageMenu } from "./LanguageMenu";
+import { localeForPath, pageHref } from "./locales";
 import { SearchDialog } from "./SearchDialog";
 import type { PageLink, SiteDocumentPayload, SiteMessages, SitePage, SitePayload } from "./types";
 
@@ -139,20 +140,11 @@ function SiteHeader({
             <span>{message(messages, "ui.search", "Search")}</span>
             <kbd>⌘ K</kbd>
           </button>
-          <select
-            className="locale-select"
-            aria-label={message(messages, "nav.language", "Language")}
-            value={page.localePath}
-            onChange={(event) => {
-              onLocaleChange(event.currentTarget.value);
-            }}
-          >
-            {SITE_LOCALES.map((locale) => (
-              <option key={locale.path} value={locale.path}>
-                {locale.label}
-              </option>
-            ))}
-          </select>
+          <LanguageMenu
+            locale={localeForPath(page.localePath)}
+            label={message(messages, "nav.language", "Language")}
+            onChange={onLocaleChange}
+          />
           <button
             className="icon-button"
             type="button"
