@@ -60,7 +60,18 @@ function sidebarSections(messages: SiteMessages): readonly NavSection[] {
 }
 
 function DeckleMark({ className }: { readonly className: string }): ReactNode {
-  return <img className={className} src="/mark.svg" alt="" aria-hidden="true" />;
+  return (
+    <svg
+      className={`deckle-mark ${className}`}
+      viewBox="0 0 48 48"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect className="deckle-mark__accent" x="4" y="4" width="13" height="40" rx="1.5" />
+      <rect className="deckle-mark__ink" x="23" y="4" width="21" height="17" rx="1.5" />
+      <path className="deckle-mark__accent" d="M23 25h21v5h-5v5h5v5h-5v4H23z" />
+    </svg>
+  );
 }
 
 function SiteHeader({

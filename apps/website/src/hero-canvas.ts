@@ -51,6 +51,7 @@ export function mountHeroCanvas(
   };
 
   const draw = (): void => {
+    const dark = document.documentElement.dataset.theme === "dark";
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
     context.clearRect(0, 0, camera.viewportWidth, camera.viewportHeight);
     for (const card of cards) {
@@ -68,8 +69,8 @@ export function mountHeroCanvas(
       ) {
         continue;
       }
-      context.fillStyle = `hsl(${card.hue} 55% 91%)`;
-      context.strokeStyle = `hsl(${card.hue} 30% 78%)`;
+      context.fillStyle = dark ? `hsl(${card.hue} 24% 18%)` : `hsl(${card.hue} 55% 91%)`;
+      context.strokeStyle = dark ? `hsl(${card.hue} 22% 32%)` : `hsl(${card.hue} 30% 78%)`;
       context.lineWidth = 1;
       context.beginPath();
       context.roundRect(screen.x, screen.y, width, height, 8);
@@ -88,10 +89,16 @@ export function mountHeroCanvas(
     draw();
   };
   globalThis.addEventListener("resize", onResize);
+  const themeObserver = new MutationObserver(draw);
+  themeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
 
   if (globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     return () => {
       globalThis.removeEventListener("resize", onResize);
+      themeObserver.disconnect();
     };
   }
 
@@ -107,6 +114,7 @@ export function mountHeroCanvas(
   animationFrame = requestAnimationFrame(tick);
   return () => {
     globalThis.removeEventListener("resize", onResize);
+    themeObserver.disconnect();
     cancelAnimationFrame(animationFrame);
   };
 }
