@@ -1216,7 +1216,7 @@ h2 {
 }
 
 .demo-stage--streaming {
-  padding: 14px;
+  background: var(--paper);
 }
 
 .demo-controls {
@@ -1225,6 +1225,12 @@ h2 {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
+}
+
+.demo-controls--streaming {
+  margin: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--card-border);
 }
 
 .demo-controls label {
@@ -1247,87 +1253,51 @@ h2 {
 }
 
 .demo-hud--streaming {
-  margin-bottom: 12px;
-  box-shadow: none;
+  position: absolute;
+  inset-inline: 12px;
+  bottom: 12px;
 }
 
-.stream-panes {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+.stream-canvas-shell {
+  position: relative;
 }
 
-.stream-panes section {
-  min-width: 0;
+.stream-canvas {
+  aspect-ratio: 12 / 7;
+  cursor: grab;
+  touch-action: none;
 }
 
-.stream-panes h3 {
+.stream-canvas.is-dragging {
+  cursor: grabbing;
+}
+
+.stream-canvas__status {
+  position: absolute;
+  inset-inline-start: 12px;
+  top: 12px;
   display: flex;
-  justify-content: space-between;
-  margin: 0 0 6px;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.stream-canvas__status span {
+  padding: 4px 7px;
   color: var(--muted);
+  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  border: 1px solid var(--card-border);
+  border-radius: 5px;
   font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 9px;
+  backdrop-filter: blur(10px);
 }
 
-.stream-panes h3 span {
-  color: var(--select);
+.stream-canvas__status span:nth-child(2) {
+  color: #dd6b62;
 }
 
-.stream-source,
-.stream-output {
-  height: 310px;
-  margin: 0;
-  padding: 14px;
-  border: 1px solid var(--card-border);
-  border-radius: 7px;
-  overflow: auto;
-}
-
-.stream-source {
-  color: #77d79b;
-  background: #0a0f17;
-  font-size: 11px;
-  line-height: 1.55;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.stream-source mark {
-  color: #ffb86a;
-  background: rgba(255, 150, 64, 0.16);
-}
-
-.stream-output {
-  background: var(--bg-elevated);
-  color: var(--ink);
-  font-size: 13px;
-}
-
-.stream-output h2 {
-  margin: 0 0 12px;
-  font-size: 21px;
-}
-
-.stream-output p,
-.stream-output ul {
-  margin: 0 0 12px;
-}
-
-.stream-output table {
-  width: 100%;
-  margin-bottom: 12px;
-  border-collapse: collapse;
-}
-
-.stream-output th,
-.stream-output td {
-  padding: 5px 7px;
-  border: 1px solid var(--card-border);
-  text-align: start;
+.stream-canvas__status span:nth-child(3) {
+  color: #d8902f;
 }
 
 .demo-panel__hint {
@@ -2090,13 +2060,9 @@ html[data-theme="dark"] .doc-content pre {
     margin-inline-start: 0;
   }
 
-  .stream-panes {
-    grid-template-columns: 1fr;
-  }
-
-  .stream-source,
-  .stream-output {
-    height: 240px;
+  .stream-canvas__status {
+    max-width: calc(100% - 24px);
+    flex-wrap: wrap;
   }
 }
 

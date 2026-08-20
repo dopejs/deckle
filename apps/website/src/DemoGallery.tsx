@@ -130,8 +130,6 @@ export function DemoGallery({ messages }: { readonly messages: SiteMessages }): 
               step: copy(messages, "demos.step", "Step"),
               reset: copy(messages, "demos.reset", "Reset"),
               speed: copy(messages, "demos.speed", "Delay"),
-              source: copy(messages, "demos.source", "Incoming source"),
-              output: copy(messages, "demos.output", "Sanitized output"),
             }}
           />
         )}
