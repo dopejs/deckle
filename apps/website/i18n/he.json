@@ -67,5 +67,20 @@
   "status.cta.plan": "תוכנית האספקה והשערים",
   "status.cta.security": "מודל האבטחה",
   "footer.text": "Deckle · טרום-שחרור ·",
-  "docs.englishOnly": "מסמך טכני זה זמין באנגלית בלבד."
+  "docs.englishOnly": "מסמך טכני זה זמין באנגלית בלבד.",
+  "ui.search": "חיפוש",
+  "ui.searchPlaceholder": "חיפוש בדפים ובכותרות",
+  "ui.searchNoResults": "לא נמצאו דפים תואמים",
+  "ui.appearance": "מראה",
+  "ui.menu": "תפריט",
+  "ui.sectionStart": "התחלה",
+  "ui.sectionEngineering": "הנדסה",
+  "ui.plan": "תוכנית מסירה",
+  "ui.security": "אבטחה",
+  "ui.compatibility": "תאימות",
+  "ui.benchmarks": "מדדי ביצועים",
+  "ui.outline": "בעמוד זה",
+  "ui.lastUpdated": "עודכן לאחרונה",
+  "ui.previous": "העמוד הקודם",
+  "ui.next": "העמוד הבא"
 }

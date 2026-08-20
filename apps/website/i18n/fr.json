@@ -67,5 +67,20 @@
   "status.cta.plan": "Plan de livraison et jalons",
   "status.cta.security": "Modèle de sécurité",
   "footer.text": "Deckle · préversion ·",
-  "docs.englishOnly": "Ce document technique n'est disponible qu'en anglais."
+  "docs.englishOnly": "Ce document technique n'est disponible qu'en anglais.",
+  "ui.search": "Rechercher",
+  "ui.searchPlaceholder": "Rechercher des pages et des titres",
+  "ui.searchNoResults": "Aucune page correspondante",
+  "ui.appearance": "Apparence",
+  "ui.menu": "Menu",
+  "ui.sectionStart": "Démarrer",
+  "ui.sectionEngineering": "Ingénierie",
+  "ui.plan": "Plan de livraison",
+  "ui.security": "Sécurité",
+  "ui.compatibility": "Compatibilité",
+  "ui.benchmarks": "Benchmarks",
+  "ui.outline": "Sur cette page",
+  "ui.lastUpdated": "Dernière mise à jour",
+  "ui.previous": "Page précédente",
+  "ui.next": "Page suivante"
 }

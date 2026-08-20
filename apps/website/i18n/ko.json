@@ -67,5 +67,20 @@
   "status.cta.plan": "배포 계획과 게이트",
   "status.cta.security": "보안 모델",
   "footer.text": "Deckle · 사전 릴리스 ·",
-  "docs.englishOnly": "이 기술 문서는 영어로만 제공됩니다."
+  "docs.englishOnly": "이 기술 문서는 영어로만 제공됩니다.",
+  "ui.search": "검색",
+  "ui.searchPlaceholder": "페이지와 제목 검색",
+  "ui.searchNoResults": "일치하는 페이지가 없습니다",
+  "ui.appearance": "화면 설정",
+  "ui.menu": "메뉴",
+  "ui.sectionStart": "시작",
+  "ui.sectionEngineering": "엔지니어링",
+  "ui.plan": "제공 계획",
+  "ui.security": "보안",
+  "ui.compatibility": "호환성",
+  "ui.benchmarks": "벤치마크",
+  "ui.outline": "이 페이지에서",
+  "ui.lastUpdated": "마지막 업데이트",
+  "ui.previous": "이전 페이지",
+  "ui.next": "다음 페이지"
 }

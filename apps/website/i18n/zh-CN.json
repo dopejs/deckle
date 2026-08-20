@@ -67,5 +67,20 @@
   "status.cta.plan": "交付计划与门禁",
   "status.cta.security": "安全模型",
   "footer.text": "Deckle · 预发布 ·",
-  "docs.englishOnly": "本技术文档目前仅提供英文版本。"
+  "docs.englishOnly": "本技术文档目前仅提供英文版本。",
+  "ui.search": "搜索",
+  "ui.searchPlaceholder": "搜索页面和标题",
+  "ui.searchNoResults": "没有匹配的页面",
+  "ui.appearance": "外观",
+  "ui.menu": "菜单",
+  "ui.sectionStart": "开始",
+  "ui.sectionEngineering": "工程",
+  "ui.plan": "交付计划",
+  "ui.security": "安全",
+  "ui.compatibility": "兼容性",
+  "ui.benchmarks": "基准测试",
+  "ui.outline": "本页内容",
+  "ui.lastUpdated": "最后更新",
+  "ui.previous": "上一页",
+  "ui.next": "下一页"
 }

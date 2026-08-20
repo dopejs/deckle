@@ -67,5 +67,20 @@
   "status.cta.plan": "План поставки и шлюзы",
   "status.cta.security": "Модель безопасности",
   "footer.text": "Deckle · предрелиз ·",
-  "docs.englishOnly": "Этот технический документ доступен только на английском языке."
+  "docs.englishOnly": "Этот технический документ доступен только на английском языке.",
+  "ui.search": "Поиск",
+  "ui.searchPlaceholder": "Поиск по страницам и заголовкам",
+  "ui.searchNoResults": "Совпадающих страниц нет",
+  "ui.appearance": "Оформление",
+  "ui.menu": "Меню",
+  "ui.sectionStart": "Начало",
+  "ui.sectionEngineering": "Разработка",
+  "ui.plan": "План поставки",
+  "ui.security": "Безопасность",
+  "ui.compatibility": "Совместимость",
+  "ui.benchmarks": "Бенчмарки",
+  "ui.outline": "На этой странице",
+  "ui.lastUpdated": "Последнее обновление",
+  "ui.previous": "Предыдущая страница",
+  "ui.next": "Следующая страница"
 }

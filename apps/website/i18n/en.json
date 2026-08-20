@@ -67,5 +67,20 @@
   "status.cta.plan": "Delivery plan and gates",
   "status.cta.security": "Security model",
   "footer.text": "Deckle · pre-release ·",
-  "docs.englishOnly": "This technical document is available in English only."
+  "docs.englishOnly": "This technical document is available in English only.",
+  "ui.search": "Search",
+  "ui.searchPlaceholder": "Search pages and headings",
+  "ui.searchNoResults": "No matching pages",
+  "ui.appearance": "Appearance",
+  "ui.menu": "Menu",
+  "ui.sectionStart": "Start",
+  "ui.sectionEngineering": "Engineering",
+  "ui.plan": "Delivery plan",
+  "ui.security": "Security",
+  "ui.compatibility": "Compatibility",
+  "ui.benchmarks": "Benchmarks",
+  "ui.outline": "On this page",
+  "ui.lastUpdated": "Last updated",
+  "ui.previous": "Previous page",
+  "ui.next": "Next page"
 }

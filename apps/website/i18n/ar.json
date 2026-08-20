@@ -67,5 +67,20 @@
   "status.cta.plan": "خطة التسليم والبوابات",
   "status.cta.security": "نموذج الأمان",
   "footer.text": "Deckle · إصدار أولي ·",
-  "docs.englishOnly": "هذا المستند التقني متاح باللغة الإنجليزية فقط."
+  "docs.englishOnly": "هذا المستند التقني متاح باللغة الإنجليزية فقط.",
+  "ui.search": "بحث",
+  "ui.searchPlaceholder": "البحث في الصفحات والعناوين",
+  "ui.searchNoResults": "لا توجد صفحات مطابقة",
+  "ui.appearance": "المظهر",
+  "ui.menu": "القائمة",
+  "ui.sectionStart": "البدء",
+  "ui.sectionEngineering": "الهندسة",
+  "ui.plan": "خطة التسليم",
+  "ui.security": "الأمان",
+  "ui.compatibility": "التوافق",
+  "ui.benchmarks": "اختبارات الأداء",
+  "ui.outline": "في هذه الصفحة",
+  "ui.lastUpdated": "آخر تحديث",
+  "ui.previous": "الصفحة السابقة",
+  "ui.next": "الصفحة التالية"
 }

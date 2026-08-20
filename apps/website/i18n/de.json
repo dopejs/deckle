@@ -67,5 +67,20 @@
   "status.cta.plan": "Lieferplan und Gates",
   "status.cta.security": "Sicherheitsmodell",
   "footer.text": "Deckle · Vorabversion ·",
-  "docs.englishOnly": "Dieses technische Dokument ist nur auf Englisch verfügbar."
+  "docs.englishOnly": "Dieses technische Dokument ist nur auf Englisch verfügbar.",
+  "ui.search": "Suchen",
+  "ui.searchPlaceholder": "Seiten und Überschriften durchsuchen",
+  "ui.searchNoResults": "Keine passenden Seiten",
+  "ui.appearance": "Darstellung",
+  "ui.menu": "Menü",
+  "ui.sectionStart": "Start",
+  "ui.sectionEngineering": "Engineering",
+  "ui.plan": "Auslieferungsplan",
+  "ui.security": "Sicherheit",
+  "ui.compatibility": "Kompatibilität",
+  "ui.benchmarks": "Benchmarks",
+  "ui.outline": "Auf dieser Seite",
+  "ui.lastUpdated": "Zuletzt aktualisiert",
+  "ui.previous": "Vorherige Seite",
+  "ui.next": "Nächste Seite"
 }

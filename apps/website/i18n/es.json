@@ -67,5 +67,20 @@
   "status.cta.plan": "Plan de entrega y puertas",
   "status.cta.security": "Modelo de seguridad",
   "footer.text": "Deckle · versión previa ·",
-  "docs.englishOnly": "Este documento técnico solo está disponible en inglés."
+  "docs.englishOnly": "Este documento técnico solo está disponible en inglés.",
+  "ui.search": "Buscar",
+  "ui.searchPlaceholder": "Buscar páginas y títulos",
+  "ui.searchNoResults": "No hay páginas coincidentes",
+  "ui.appearance": "Apariencia",
+  "ui.menu": "Menú",
+  "ui.sectionStart": "Inicio",
+  "ui.sectionEngineering": "Ingeniería",
+  "ui.plan": "Plan de entrega",
+  "ui.security": "Seguridad",
+  "ui.compatibility": "Compatibilidad",
+  "ui.benchmarks": "Pruebas de rendimiento",
+  "ui.outline": "En esta página",
+  "ui.lastUpdated": "Última actualización",
+  "ui.previous": "Página anterior",
+  "ui.next": "Página siguiente"
 }

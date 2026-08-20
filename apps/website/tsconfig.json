@@ -1,9 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
+    "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo"
+    "target": "ES2022",
+    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo",
+    "types": ["vite/client"]
   },
-  "include": ["src/**/*.ts", "vite.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "*.d.mts", "vite.config.ts"]
 }

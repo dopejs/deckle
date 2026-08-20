@@ -15,17 +15,24 @@
   },
   "type": "module",
   "scripts": {
-    "build": "vite build && node scripts/emit-locales.mjs",
-    "dev": "vite",
-    "typecheck": "tsc -p tsconfig.json"
+    "build": "node ../../scripts/build-website.mjs",
+    "dev": "vite --port 5173",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
     "@dopejs/deckle": "workspace:*",
     "@dopejs/deckle-protocol": "workspace:*",
-    "@dopejs/deckle-spatial": "workspace:*"
+    "@dopejs/deckle-spatial": "workspace:*",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "marked": "^18.0.9",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "6.1.0",
+    "gray-matter": "4.0.3",
+    "markdown-it": "15.0.0",
+    "markdown-it-anchor": "9.2.1",
     "typescript": "^5.9.3",
     "vite": "^8.2.1"
   }

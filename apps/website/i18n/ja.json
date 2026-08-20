@@ -67,5 +67,20 @@
   "status.cta.plan": "デリバリー計画とゲート",
   "status.cta.security": "セキュリティモデル",
   "footer.text": "Deckle · プレリリース ·",
-  "docs.englishOnly": "この技術ドキュメントは英語版のみ提供しています。"
+  "docs.englishOnly": "この技術ドキュメントは英語版のみ提供しています。",
+  "ui.search": "検索",
+  "ui.searchPlaceholder": "ページと見出しを検索",
+  "ui.searchNoResults": "一致するページはありません",
+  "ui.appearance": "外観",
+  "ui.menu": "メニュー",
+  "ui.sectionStart": "はじめに",
+  "ui.sectionEngineering": "エンジニアリング",
+  "ui.plan": "デリバリープラン",
+  "ui.security": "セキュリティ",
+  "ui.compatibility": "互換性",
+  "ui.benchmarks": "ベンチマーク",
+  "ui.outline": "このページの内容",
+  "ui.lastUpdated": "最終更新",
+  "ui.previous": "前のページ",
+  "ui.next": "次のページ"
 }

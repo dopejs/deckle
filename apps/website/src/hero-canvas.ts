@@ -27,7 +27,10 @@ function buildCards(seed: number, count: number): HeroCard[] {
   }));
 }
 
-export function mountHeroCanvas(canvas: HTMLCanvasElement, coordReadout: HTMLElement | null): void {
+export function mountHeroCanvas(
+  canvas: HTMLCanvasElement,
+  coordReadout: HTMLElement | null,
+): (() => void) | undefined {
   const context = canvas.getContext("2d");
   if (!context) return;
   const cards = buildCards(2026, 42);
@@ -80,20 +83,30 @@ export function mountHeroCanvas(canvas: HTMLCanvasElement, coordReadout: HTMLEle
 
   resize();
   draw();
-  globalThis.addEventListener("resize", () => {
+  const onResize = (): void => {
     resize();
     draw();
-  });
+  };
+  globalThis.addEventListener("resize", onResize);
 
-  if (globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (globalThis.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return () => {
+      globalThis.removeEventListener("resize", onResize);
+    };
+  }
 
   let last = performance.now();
+  let animationFrame = 0;
   const tick = (now: number): void => {
     const dt = Math.min(now - last, 100) / 1000;
     last = now;
     camera = panCamera(camera, 14 * dt, 9 * dt);
     draw();
-    requestAnimationFrame(tick);
+    animationFrame = requestAnimationFrame(tick);
   };
-  requestAnimationFrame(tick);
+  animationFrame = requestAnimationFrame(tick);
+  return () => {
+    globalThis.removeEventListener("resize", onResize);
+    cancelAnimationFrame(animationFrame);
+  };
 }
