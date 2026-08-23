@@ -37,7 +37,7 @@ jobs:
       - name: Build website and demos
         run: pnpm --filter @dopejs/deckle-website build
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: apps/website/dist
 
