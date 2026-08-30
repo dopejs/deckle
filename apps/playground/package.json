@@ -30,11 +30,11 @@
     "@dopejs/deckle-spatial": "workspace:*"
   },
   "devDependencies": {
-    "@storybook/html-vite": "^10.5.8",
-    "@types/node": "^22.20.1",
-    "storybook": "^10.5.8",
+    "@storybook/html-vite": "^10.5.10",
+    "@types/node": "^26.4.0",
+    "storybook": "^10.5.10",
     "typescript": "^5.9.3",
-    "vite": "^8.2.1",
-    "vitest": "^4.0.18"
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   }
 }
