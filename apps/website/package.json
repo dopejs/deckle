@@ -28,11 +28,11 @@
     "@dopejs/deckle-security": "workspace:*",
     "@dopejs/deckle-spatial": "workspace:*",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
     "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.4",
+    "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.1.0",
     "gray-matter": "4.0.3",
     "markdown-it": "15.0.0",
